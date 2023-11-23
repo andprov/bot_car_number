@@ -1,10 +1,10 @@
 # auto bot
-[![License MIT](https://img.shields.io/badge/licence-MIT-green?style=flat-square)](https://opensource.org/license/mit/)
-[![Code style black](https://img.shields.io/badge/code%20style-black-black?style=flat-square)](https://github.com/psf/black)
-[![Python versions](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C3.11-blue?style=flat-square)](#)
-[![Telegram API](https://img.shields.io/badge/Telegram%20Bot%20API-6.9-blue?logo=telegram&style=flat-square)](https://core.telegram.org/bots/api)
-[![Aiogram version](https://img.shields.io/badge/Aiogram-3.1.1-blue?style=flat-square)](https://aiogram.dev/)
-[![Main auto_bot workflow](https://github.com/andprov/auto_bot/actions/workflows/main.yml/badge.svg?style=flat-square)](https://github.com/andprov/auto_bot/actions/workflows/main.yml)
+[![License MIT](https://img.shields.io/badge/licence-MIT-green)](https://opensource.org/license/mit/)
+[![Code style black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
+[![Python versions](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C3.11-blue)](#)
+[![Telegram API](https://img.shields.io/badge/Telegram%20Bot%20API-6.9-blue?logo=telegram)](https://core.telegram.org/bots/api)
+[![Aiogram version](https://img.shields.io/badge/Aiogram-3.1.1-blue)](https://aiogram.dev/)
+[![Main auto_bot workflow](https://github.com/andprov/auto_bot/actions/workflows/main.yml/badge.svg)](https://github.com/andprov/auto_bot/actions/workflows/main.yml)
 
 
 # Описание
