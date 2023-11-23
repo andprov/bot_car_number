@@ -115,23 +115,23 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 
 # Docker images
-BOT_IMAGE=<user_name/image_name>
+BOT_IMAGE=<username>/<image_name>
 DB_IMAGE=postgres:14
 ```
 
 Подготовить docker images образ:
 ```shell
-sudo docker build -t <username>/auto_bot .
+sudo docker build -t <username>/<image_name> .
 ```
 
 Загрузить образ на Docker Hub:
 ```shell
-sudo docker push <username>/auto_bot
+sudo docker push <username>/<image_name>
 ```
 
 Скопировать на удаленный сервер файлы `.env` `docker-compose.production.yml`
 ```shell
-scp .env docker-compose.prod.yml <user@server-address>:/home/<user name>/
+scp .env docker-compose.prod.yml <user@server-address>:/home/<username>/
 ```
 
 Подключиться к серверу:
