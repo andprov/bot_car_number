@@ -131,12 +131,12 @@ sudo docker push <username>/<image_name>
 
 Скопировать на удаленный сервер файлы `.env` `docker-compose.production.yml`
 ```shell
-scp .env docker-compose.prod.yml <user@server-address>:/home/<username>/
+scp .env docker-compose.prod.yml <username>@<server_address>:/home/<username>/
 ```
 
 Подключиться к серверу:
 ```shell
-ssh user@server-address
+ssh <username>@<server_address>
 ```
 
 Выполнить сборку и запуск:
