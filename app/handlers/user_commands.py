@@ -28,9 +28,7 @@ USER_MENU_KEYBOARD = add_del_back_kb(cmd.USER_ADD, cmd.USER_DEL, cmd.MAIN)
 @router.callback_query(F.data == cmd.USER)
 async def user_menu(call: CallbackQuery) -> None:
     """Обработчик вызова меню управления данными пользователя."""
-    await call.message.edit_text(
-        msg.USER_MSG, reply_markup=USER_MENU_KEYBOARD
-    )
+    await call.message.edit_text(msg.USER_MSG, reply_markup=USER_MENU_KEYBOARD)
 
 
 @router.callback_query(F.data == cmd.USER_ADD)
