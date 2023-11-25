@@ -43,6 +43,6 @@ async def enter_search_number(message: Message, state: FSMContext) -> None:
         await state.clear()
         return
     await message.answer(
-        msg.OWNER_MSG.format(auto.owner.first_name, auto.owner.phone)
+        msg.OWNER_MSG.format(auto.owner.phone)
     )
     await state.clear()

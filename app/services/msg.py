@@ -94,7 +94,7 @@ AUTO_NOT_YOURS_MSG = (
 
 # SEARCH
 OWNER_YOUR_MSG = "Этот автомобильный номер принадлежит вам."
-OWNER_MSG = "Владелец автомобиля:\nИмя в телеграм {}\nТелефон {}"
+OWNER_MSG = "Телефон владельца:\n{}"
 
 
 def start_msg(first_name: str) -> str:
