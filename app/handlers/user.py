@@ -6,6 +6,7 @@ from aiogram.types import (
     ReplyKeyboardRemove,
 )
 
+from app.db.dao import UserDAO
 from app.handlers.states import AddUser
 from app.keyboards.inline_keyboard import (
     confirm_del_kb,
@@ -14,11 +15,6 @@ from app.keyboards.inline_keyboard import (
 )
 from app.keyboards.reply_keyboard import contact_kb
 from app.services import cmd, msg
-from app.services.query import (
-    get_user_query,
-    add_user_query,
-    delete_query,
-)
 
 router = Router(name="user_commands-router")
 
@@ -34,7 +30,7 @@ async def user_menu(call: CallbackQuery) -> None:
 @router.callback_query(F.data == cmd.USER_ADD)
 async def add_user(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик нажатия кнопки добавления пользователя."""
-    user = await get_user_query(call.from_user.id)
+    user = await UserDAO.find_one_or_none(tg_id=call.from_user.id)
     if user:
         await call.answer(msg.USER_EXIST_MSG, True)
         return
@@ -49,7 +45,11 @@ async def add_user_contact(message: Message, state: FSMContext) -> None:
     if message.contact.user_id != message.from_user.id:
         await message.answer(msg.USER_WRONG_MSG)
         return
-    await add_user_query(message.contact)
+    await UserDAO.add(
+        tg_id=message.contact.user_id,
+        first_name=message.contact.first_name,
+        phone=message.contact.phone_number,
+    )
     await message.answer(msg.USER_ADD_MSG, reply_markup=ReplyKeyboardRemove())
     await message.answer(msg.MAIN_MSG, reply_markup=main_kb())
     await state.clear()
@@ -58,7 +58,7 @@ async def add_user_contact(message: Message, state: FSMContext) -> None:
 @router.callback_query(F.data == cmd.USER_DEL)
 async def del_user(call: CallbackQuery) -> None:
     """Обработчик нажатия кнопки удаления пользователя."""
-    user = await get_user_query(call.from_user.id)
+    user = await UserDAO.find_one_or_none(tg_id=call.from_user.id)
     if user:
         await call.message.edit_text(
             msg.USER_DEL_CONFIRM_MSG,
@@ -71,7 +71,5 @@ async def del_user(call: CallbackQuery) -> None:
 @router.callback_query(F.data == cmd.USER_DEL_CONFIRM)
 async def del_user_confirm(call: CallbackQuery) -> None:
     """Обработчик подтверждения удаления пользователя и автомобилей из БД."""
-    user = await get_user_query(call.from_user.id)
-    if user:
-        await delete_query(user)
-        await call.message.edit_text(msg.USER_DELETE_MSG)
+    await UserDAO.delete(tg_id=call.from_user.id)
+    await call.message.edit_text(msg.USER_DELETE_MSG)
