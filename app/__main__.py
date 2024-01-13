@@ -8,7 +8,7 @@ from aiogram.utils.callback_answer import CallbackAnswerMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 from app.middlewares.access import PrivateMiddleware
-from app.middlewares.database import DbSessionMiddleware
+from app.middlewares.db_session import DbSessionMiddleware
 from app.config import BOT_TOKEN, LOG_FORMAT, DB_URL
 from app.handlers import user, menu, auto, search
 from app.services.ui_commands import set_ui_commands
