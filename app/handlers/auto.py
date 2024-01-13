@@ -4,6 +4,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from app.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
+from app.dao.auto import AutoDAO
+from app.dao.user import UserDAO
 from app.handlers.states import AddAuto, DeleteAuto
 from app.keyboards.inline_keyboard import (
     save_kb,
@@ -11,7 +13,6 @@ from app.keyboards.inline_keyboard import (
     back_kb,
     add_del_back_kb,
 )
-from app.db.dao import AutoDAO, UserDAO
 from app.services import cmd, msg
 from app.services.msg import autos_msg
 from app.services.validators import validate_number

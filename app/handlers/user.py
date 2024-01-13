@@ -6,7 +6,7 @@ from aiogram.types import (
     ReplyKeyboardRemove,
 )
 
-from app.db.dao import UserDAO
+from app.dao.user import UserDAO
 from app.handlers.states import AddUser
 from app.keyboards.inline_keyboard import (
     confirm_del_kb,

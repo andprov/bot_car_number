@@ -3,7 +3,8 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
-from app.db.dao import UserDAO, AutoDAO
+from app.dao.auto import AutoDAO
+from app.dao.user import UserDAO
 from app.handlers.states import SearchAuto
 from app.keyboards.inline_keyboard import back_kb
 from app.services import cmd, msg
