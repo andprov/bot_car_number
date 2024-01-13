@@ -7,8 +7,8 @@ from app.dao.auto import AutoDAO
 from app.dao.user import UserDAO
 from app.handlers.states import SearchAuto
 from app.keyboards.inline_keyboard import back_kb
-from app.services import cmd, msg
-from app.services.validators import validate_number
+from app.utils import cmd, msg
+from app.utils.validators import validate_number
 
 router = Router(name="search_commands-router")
 

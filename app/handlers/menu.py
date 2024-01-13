@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 
 from app.keyboards.inline_keyboard import main_kb
-from app.services import cmd, msg
+from app.utils import cmd, msg
 
 router = Router(name="main_menu-router")
 

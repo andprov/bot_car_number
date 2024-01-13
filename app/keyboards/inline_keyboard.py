@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from app.services import cmd
+from app.utils import cmd
 
 
 BACK_TXT = "<< Назад"

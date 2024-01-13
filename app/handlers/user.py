@@ -14,7 +14,7 @@ from app.keyboards.inline_keyboard import (
     add_del_back_kb,
 )
 from app.keyboards.reply_keyboard import contact_kb
-from app.services import cmd, msg
+from app.utils import cmd, msg
 
 router = Router(name="user_commands-router")
 

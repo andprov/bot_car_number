@@ -7,31 +7,20 @@ from app.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
 from app.dao.auto import AutoDAO
 from app.dao.user import UserDAO
 from app.handlers.states import AddAuto, DeleteAuto
-from app.keyboards.inline_keyboard import (
-    save_kb,
-    confirm_del_kb,
-    back_kb,
-    add_del_back_kb,
-)
-from app.services import cmd, msg
-from app.services.msg import autos_msg
-from app.services.validators import validate_number
+from app.keyboards.inline_keyboard import save_kb, confirm_del_kb, back_kb
+from app.services.services import get_autos_menu
+from app.utils import cmd, msg
+from app.utils.validators import validate_number
 
 router = Router(name="auto_commands-router")
 
-AUTO_KB = add_del_back_kb(cmd.AUTO_ADD, cmd.AUTO_DEL, cmd.MAIN)
 BACK_KB = back_kb(cmd.AUTO_MENU)
 
 
 @router.callback_query(F.data == cmd.AUTO_MENU)
 async def auto_menu(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик вызова меню управления автомобилями пользователя."""
-    user = await UserDAO.find_all_user_autos(tg_id=call.from_user.id)
-    if user is None:
-        await call.answer(msg.NO_DATA_MSG, True)
-        return
-    await state.clear()
-    await call.message.edit_text(autos_msg(user.autos), reply_markup=AUTO_KB)
+    await get_autos_menu(call, state)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_ADD)
@@ -78,15 +67,10 @@ async def add_model(message: Message, state: FSMContext) -> None:
 async def add_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
     data = await state.get_data()
-    if not await AutoDAO.find_one_or_none(number=data["number"]):
-        await AutoDAO.add(
-            number=data["number"],
-            model=data["model"],
-            owner_id=data["user_id"],
-        )
-    user = await UserDAO.find_all_user_autos(tg_id=call.from_user.id)
-    await call.message.edit_text(autos_msg(user.autos), reply_markup=AUTO_KB)
-    await state.clear()
+    number, model, user_id = data["number"], data["model"], data["user_id"]
+    if not await AutoDAO.find_one_or_none(number=number):
+        await AutoDAO.add(number=number, model=model, owner_id=user_id)
+    await get_autos_menu(call, state)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_DEL)
@@ -127,6 +111,4 @@ async def del_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
     auto = data["auto"]
     if auto:
         await AutoDAO.delete(id=auto.id)
-    user = await UserDAO.find_all_user_autos(tg_id=call.from_user.id)
-    await call.message.edit_text(autos_msg(user.autos), reply_markup=AUTO_KB)
-    await state.clear()
+    await get_autos_menu(call, state)

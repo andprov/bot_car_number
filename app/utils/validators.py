@@ -3,7 +3,7 @@ import re
 from aiogram.types import Message
 
 from app.keyboards.inline_keyboard import back_kb
-from app.services import msg
+from app.utils import msg
 
 
 async def validate_number(message: Message, action: str) -> bool:
