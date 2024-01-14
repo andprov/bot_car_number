@@ -8,7 +8,7 @@ class BaseDAO:
 
     @classmethod
     async def find_one_or_none(cls, **data):
-        """Вернуть одну запись из DB или None."""
+        """Получить одну запись из DB или None."""
         async with async_session() as session:
             query = select(cls.model).filter_by(**data)
             res = await session.execute(query)
