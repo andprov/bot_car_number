@@ -1,4 +1,3 @@
-START = "start"
 MAIN = "main"
 CANCEL = "cancel"
 
