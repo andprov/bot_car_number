@@ -43,6 +43,9 @@ cd auto_bot
 
 Создать файл `.env` с переменными окружения, со следующим содержанием:
 ```shell
+# MODE
+DEBUG=True
+
 # BOT
 BOT_TOKEN=<bot_token>
 GROUP_ID=<group_id>
@@ -50,7 +53,7 @@ GROUP_ID=<group_id>
 # DB
 DB_TYPE=postgresql
 DB_CONNECTOR=psycopg
-DB_HOST=localhost
+DB_HOST=db
 DB_PORT=5432
 POSTGRES_DB=bot
 POSTGRES_USER=postgres
@@ -106,6 +109,9 @@ cd auto_bot
 
 Создать файл .env с переменными окружения, со следующим содержанием:
 ```shell
+# MODE
+DEBUG=False
+
 # BOT
 BOT_TOKEN=<bot_token>
 GROUP_ID=<group_id>
