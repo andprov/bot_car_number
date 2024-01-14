@@ -57,4 +57,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: Build and push aito_bot completed successfully!
+          message: Build and push auto_bot completed successfully!
