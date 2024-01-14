@@ -1,5 +1,9 @@
+from aiogram.types import Message
+
+from app.dao.auto import AutoDAO
 from app.dao.user import UserDAO
-from app.keyboards.inline_keyboard import add_del_back_kb
+from app.db.models import Auto
+from app.keyboards.inline_keyboard import add_del_back_kb, back_kb
 from app.utils.msg import autos_msg
 from app.utils import cmd, msg
 
@@ -13,3 +17,12 @@ async def get_autos_menu(call, state):
         return
     await call.message.edit_text(autos_msg(user.autos), reply_markup=AUTO_KB)
     await state.clear()
+
+
+async def get_auto(message: Message, command: str) -> Auto | None:
+    auto = await AutoDAO.find_auto_with_owner(number=message.text.upper())
+    if auto is None:
+        await message.answer(
+            msg.AUTO_NOT_EXIST_MSG, reply_markup=back_kb(command)
+        )
+    return auto

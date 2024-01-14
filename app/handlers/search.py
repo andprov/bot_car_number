@@ -7,6 +7,7 @@ from app.dao.auto import AutoDAO
 from app.dao.user import UserDAO
 from app.handlers.states import SearchAuto
 from app.keyboards.inline_keyboard import back_kb
+from app.services.services import get_auto
 from app.utils import cmd, msg
 from app.utils.validators import validate_number
 
@@ -35,13 +36,9 @@ async def enter_search_number(message: Message, state: FSMContext) -> None:
     """Обработчик ввода номера автомобиля при поиске."""
     if not await validate_number(message, cmd.MAIN):
         return
-    auto = await AutoDAO.find_auto_with_owner(number=message.text.upper())
+    auto = await get_auto(message, cmd.MAIN)
     if auto is None:
-        await message.answer(
-            msg.AUTO_NOT_EXIST_MSG, reply_markup=back_kb(cmd.MAIN)
-        )
         return
-
     if auto.owner.tg_id == message.from_user.id:
         await message.answer(msg.OWNER_YOUR_MSG)
         await state.clear()
