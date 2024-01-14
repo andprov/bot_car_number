@@ -79,6 +79,11 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+Выполнить миграции:
+```shell
+alembic upgrade head
+```
+
 Запустить приложение:
 ```shell
 python -m app
