@@ -6,10 +6,11 @@ __pycache__/
 *.log
 .venv
 .env
+.env.example
 .idea
 .vscode
 .git
 .mypy_cache
 README.md
-LICENSE.md
+LICENSE
 img/

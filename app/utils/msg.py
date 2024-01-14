@@ -7,7 +7,7 @@ from app.keyboards.inline_keyboard import (
     ADD_TXT,
     DELETE_TXT,
 )
-from app.services import cmd
+from app.utils import cmd
 
 
 CANCEL_MSG = "Действие отменено."

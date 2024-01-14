@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from app.services import cmd
+from app.utils import cmd
 
 
 BACK_TXT = "<< Назад"
@@ -30,7 +30,7 @@ def add_btn(action: str) -> InlineKeyboardButton:
     return InlineKeyboardButton(text=ADD_TXT, callback_data=action)
 
 
-def delite_btn(action: str) -> InlineKeyboardButton:
+def delete_btn(action: str) -> InlineKeyboardButton:
     """Кнопка удаления."""
     return InlineKeyboardButton(text=DELETE_TXT, callback_data=action)
 
@@ -79,5 +79,5 @@ def confirm_del_kb(action: str, back: str) -> InlineKeyboardMarkup:
 def add_del_back_kb(add: str, delete: str, back: str) -> InlineKeyboardMarkup:
     """Клавиатура добавления, удаления, возврата."""
     return InlineKeyboardMarkup(
-        inline_keyboard=[[add_btn(add), delite_btn(delete)], [back_btn(back)]]
+        inline_keyboard=[[add_btn(add), delete_btn(delete)], [back_btn(back)]]
     )
