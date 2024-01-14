@@ -18,4 +18,5 @@ services:
     env_file: .env
     depends_on:
       - db
+    command: sh -c "sleep 10 && alembic upgrade head && python -m app"
     restart: always
