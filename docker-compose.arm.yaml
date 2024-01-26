@@ -1,0 +1,24 @@
+version: "3"
+
+volumes:
+  pg_data:
+
+services:
+  db:
+    container_name: auto_db
+    image: ${DB_IMAGE}
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - 5432:5432
+
+  bot:
+    container_name: auto_bot
+    build: .
+    env_file: .env
+    depends_on:
+      - db
+    command: sh -c "sleep 10 && alembic upgrade head && python -m app"
+    restart: always
