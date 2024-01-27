@@ -6,3 +6,4 @@ __pycache__/
 .vscode
 .git
 .mypy_cache
+data/
