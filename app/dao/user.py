@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import selectinload
 
 from app.dao.base import BaseDAO
@@ -21,3 +21,12 @@ class UserDAO(BaseDAO):
 
             res = await session.execute(query)
             return res.scalar_one_or_none()
+
+    @classmethod
+    async def block_user(cls, tg_id):
+        """Заблокировать пользователя."""
+        async with async_session() as session:
+            await session.execute(
+                update(cls.model).filter_by(tg_id=tg_id).values(banned=True)
+            )
+            await session.commit()

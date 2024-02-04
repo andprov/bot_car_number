@@ -5,6 +5,7 @@ from aiogram.types import (
     Message,
     ReplyKeyboardRemove,
 )
+from app.dao.registration import RegistrationsDAO
 
 from app.dao.user import UserDAO
 from app.handlers.states import AddUser
@@ -42,14 +43,24 @@ async def add_user(call: CallbackQuery, state: FSMContext) -> None:
 @router.message(AddUser.add_user_contact, F.contact)
 async def add_user_contact(message: Message, state: FSMContext) -> None:
     """Обработчик ответа пользователя с контактными данными."""
-    if message.contact.user_id != message.from_user.id:
+    tg_id = message.from_user.id
+    if message.contact.user_id != tg_id:
         await message.answer(msg.USER_WRONG_MSG)
         return
     await UserDAO.add(
-        tg_id=message.contact.user_id,
+        tg_id=tg_id,
         first_name=message.contact.first_name,
         phone=message.contact.phone_number,
     )
+    registration_count = await RegistrationsDAO.add_registrations(tg_id=tg_id)
+    if registration_count > 10:
+        await message.answer(
+            msg.USER_MAX_COUNT_REGISTRATIONS_MSG,
+            reply_markup=ReplyKeyboardRemove(),
+        )
+        await state.clear()
+        await UserDAO.block_user(tg_id=tg_id)
+        return
     await message.answer(msg.USER_ADD_MSG, reply_markup=ReplyKeyboardRemove())
     await message.answer(msg.MAIN_MSG, reply_markup=main_kb())
     await state.clear()

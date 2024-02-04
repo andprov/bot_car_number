@@ -30,7 +30,7 @@ async def add_auto(call: CallbackQuery, state: FSMContext) -> None:
     if len(user.autos) >= MAX_AUTO_COUNT:
         await call.answer(msg.AUTO_MAX_COUNT_MSG, True)
         return
-    await call.message.edit_text(msg.ENTER_NUMBER_MSG, reply_markup=BACK_KB)
+    await call.message.edit_text(msg.AUTO_ENTER_NUMBER_MSG, reply_markup=BACK_KB)
     await state.update_data(user_id=user.id)
     await state.set_state(AddAuto.enter_number)
 
@@ -80,7 +80,7 @@ async def del_auto(call: CallbackQuery, state: FSMContext) -> None:
     if not user.autos:
         await call.answer(msg.AUTO_NONE_MSG, True)
         return
-    await call.message.edit_text(msg.ENTER_NUMBER_MSG, reply_markup=BACK_KB)
+    await call.message.edit_text(msg.AUTO_ENTER_NUMBER_MSG, reply_markup=BACK_KB)
     await state.set_state(state=DeleteAuto.enter_number)
 
 

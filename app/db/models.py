@@ -39,3 +39,13 @@ class Auto(Base):
 
     def __repr__(self):
         return f"{self.number} - {self.model}"
+
+
+class Registrations(Base):
+    """Модель количеств регистраций пользователей."""
+
+    __tablename__ = "registrations"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger, index=True)
+    count: Mapped[int] = mapped_column(default=1)
