@@ -22,7 +22,7 @@ async def search(call: CallbackQuery, state: FSMContext) -> None:
     if user:
         if user.autos:
             await call.message.edit_text(
-                msg.ENTER_NUMBER_MSG, reply_markup=BACK_KB
+                msg.AUTO_ENTER_NUMBER_MSG, reply_markup=BACK_KB
             )
             await state.set_state(state=SearchAuto.enter_number)
             return

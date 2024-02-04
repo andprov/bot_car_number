@@ -43,6 +43,10 @@ USER_DEL_CONFIRM_MSG = (
     "всех ваших автомобилей будут удалены из базы данных.\n"
     "Это действие невозможно отменить!"
 )
+USER_MAX_COUNT_REGISTRATIONS_MSG = (
+    "Вы превысили количество регистраций и были заблокированы."
+    "\nДля разблокировки обратитесь к администратору группы."
+)
 
 
 # AUTO_MENU
@@ -51,16 +55,16 @@ AUTO_MAX_COUNT_MSG = (
     "Удалите или отредактируйте существующие."
 )
 AUTO_NONE_MSG = "В базе данных нет ваших автомобилей."
-ENTER_NUMBER_MSG = (
+AUTO_ENTER_NUMBER_MSG = (
     f"Введите номер автомобиля в формате {hbold('Е001КХ199')}. "
     "Буквы русского алфавита, цифры без пробелов."
 )
 AUTO_EXIST_MSG = (
     "Автомобиль с таким номером уже существует в базе данных!"
-    f"\n\n{ENTER_NUMBER_MSG}"
+    f"\n\n{AUTO_ENTER_NUMBER_MSG}"
 )
 AUTO_FORMAT_ERR_MSG = (
-    f"Формат номера не соответствует шаблону!\n\n{ENTER_NUMBER_MSG}"
+    f"Формат номера не соответствует шаблону!\n\n{AUTO_ENTER_NUMBER_MSG}"
 )
 AUTO_ADD_MODEL_MSG = (
     "Введите марку и модель автомобиля в произвольной форме не более "
@@ -84,11 +88,11 @@ AUTO_DEL_CONFIRM_MSG = (
 )
 AUTO_NOT_EXIST_MSG = (
     "Автомобиля с таким номером не существует в базе данных!"
-    f"\n\n{ENTER_NUMBER_MSG}"
+    f"\n\n{AUTO_ENTER_NUMBER_MSG}"
 )
 AUTO_NOT_YOURS_MSG = (
     "Данный номер автомобиля вам не принадлежит и вы не можете его удалить!\n"
-    f"\n{ENTER_NUMBER_MSG}"
+    f"\n{AUTO_ENTER_NUMBER_MSG}"
 )
 
 

@@ -13,6 +13,7 @@ class User(Base):
     tg_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     first_name: Mapped[str]
     phone: Mapped[str]
+    banned: Mapped[bool] = mapped_column(default=False)
 
     autos: Mapped[list["Auto"]] = relationship(
         back_populates="owner", cascade="all, delete"
@@ -38,3 +39,13 @@ class Auto(Base):
 
     def __repr__(self):
         return f"{self.number} - {self.model}"
+
+
+class Registrations(Base):
+    """Модель количеств регистраций пользователей."""
+
+    __tablename__ = "registrations"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger, index=True)
+    count: Mapped[int] = mapped_column(default=1)
