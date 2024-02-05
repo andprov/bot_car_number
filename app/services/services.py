@@ -1,12 +1,12 @@
-from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
+from aiogram.types import CallbackQuery, Message
 
 from app.dao.auto import AutoDAO
 from app.dao.user import UserDAO
 from app.db.models import Auto
 from app.keyboards.inline_keyboard import add_del_back_kb, back_kb
-from app.utils.msg import autos_msg
 from app.utils import cmd, msg
+from app.utils.msg import autos_msg
 
 AUTO_KB = add_del_back_kb(cmd.AUTO_ADD, cmd.AUTO_DEL, cmd.MAIN)
 

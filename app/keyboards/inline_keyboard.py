@@ -2,7 +2,6 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from app.utils import cmd
 
-
 BACK_TXT = "<< Назад"
 DEL_CONFIRM_TXT = "Подтвердить Удаление"
 USER_MENU_TXT = "Мои Данные"

@@ -1,18 +1,15 @@
-from aiogram import Router, F
+from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import (
-    CallbackQuery,
-    Message,
-    ReplyKeyboardRemove,
-)
-from app.dao.registration import RegistrationsDAO
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
+from app.config import MAX_REGISTRATIONS_COUNT
+from app.dao.registration import RegistrationsDAO
 from app.dao.user import UserDAO
 from app.handlers.states import AddUser
 from app.keyboards.inline_keyboard import (
+    add_del_back_kb,
     confirm_del_kb,
     main_kb,
-    add_del_back_kb,
 )
 from app.keyboards.reply_keyboard import contact_kb
 from app.utils import cmd, msg
@@ -53,7 +50,7 @@ async def add_user_contact(message: Message, state: FSMContext) -> None:
         phone=message.contact.phone_number,
     )
     registration_count = await RegistrationsDAO.add_registrations(tg_id=tg_id)
-    if registration_count > 10:
+    if registration_count > MAX_REGISTRATIONS_COUNT:
         await message.answer(
             msg.USER_MAX_COUNT_REGISTRATIONS_MSG,
             reply_markup=ReplyKeyboardRemove(),

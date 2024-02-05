@@ -2,13 +2,12 @@ from aiogram.utils.markdown import hbold
 from sqlalchemy.orm import InstrumentedAttribute
 
 from app.keyboards.inline_keyboard import (
-    USER_MENU_TXT,
-    AUTO_MENU_TXT,
     ADD_TXT,
+    AUTO_MENU_TXT,
     DELETE_TXT,
+    USER_MENU_TXT,
 )
 from app.utils import cmd
-
 
 CANCEL_MSG = "Действие отменено."
 EMPTY_MSG = "-пусто-"
