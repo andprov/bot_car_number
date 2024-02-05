@@ -1,8 +1,8 @@
 from sqlalchemy import insert, update
 
 from app.dao.base import BaseDAO
-from app.db.models import Registrations
 from app.db.database import async_session
+from app.db.models import Registrations
 
 
 class RegistrationsDAO(BaseDAO):

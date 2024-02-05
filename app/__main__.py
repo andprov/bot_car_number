@@ -5,12 +5,12 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.utils.callback_answer import CallbackAnswerMiddleware
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
+from app.config import BOT_TOKEN, DB_URL, LOG_FORMAT
+from app.handlers import auto, menu, search, user
 from app.middlewares.access import PrivateMiddleware
 from app.middlewares.db_session import DbSessionMiddleware
-from app.config import BOT_TOKEN, LOG_FORMAT, DB_URL
-from app.handlers import user, menu, auto, search
 from app.utils.ui_commands import set_ui_commands
 
 

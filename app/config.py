@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MAX_AUTO_COUNT = 10
+MAX_REGISTRATIONS_COUNT = 10
 MAX_AUTO_NAME_LEN = 50
-MAX_AUTO_NUMBER_LEN = 9
 
 # MODE
 DEBUG = os.getenv("DEBUG", False) == "True"
