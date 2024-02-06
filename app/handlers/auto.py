@@ -69,9 +69,8 @@ async def add_model(message: Message, state: FSMContext) -> None:
 async def add_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
     data = await state.get_data()
-    number, model, user_id = data["number"], data["model"], data["user_id"]
-    if not await AutoDAO.find_one_or_none(number=number):
-        await AutoDAO.add(number=number, model=model, owner_id=user_id)
+    if not await AutoDAO.find_one_or_none(number=data["number"]):
+        await AutoDAO.add(**data)
     await get_autos_menu(call, state)
 
 

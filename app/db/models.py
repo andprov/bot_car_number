@@ -31,7 +31,7 @@ class Auto(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     number: Mapped[str] = mapped_column(unique=True, index=True)
     model: Mapped[str]
-    owner_id: Mapped[int] = mapped_column(
+    user_id: Mapped[int] = mapped_column(
         ForeignKey("app_user.id", ondelete="CASCADE")
     )
 
