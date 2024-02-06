@@ -41,8 +41,6 @@ async def cmd_cancel(
     state: FSMContext,
 ) -> None:
     """Обработчик команды отмены."""
-    if await state.get_state() is None:
-        return
     await state.clear()
     if isinstance(call_or_message, Message):
         await call_or_message.answer(

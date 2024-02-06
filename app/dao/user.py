@@ -23,10 +23,10 @@ class UserDAO(BaseDAO):
             return res.scalar_one_or_none()
 
     @classmethod
-    async def block_user(cls, tg_id):
-        """Заблокировать пользователя."""
+    async def set_user_banned_true(cls, **data):
+        """Обновить banned колонку пользователя на True."""
         async with async_session() as session:
             await session.execute(
-                update(cls.model).filter_by(tg_id=tg_id).values(banned=True)
+                update(User).filter_by(**data).values(banned=True)
             )
             await session.commit()

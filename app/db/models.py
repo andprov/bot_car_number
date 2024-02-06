@@ -7,7 +7,7 @@ from app.db.database import Base
 class User(Base):
     """Модель пользователя."""
 
-    __tablename__ = "user"
+    __tablename__ = "app_user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
@@ -26,13 +26,13 @@ class User(Base):
 class Auto(Base):
     """Модель автомобиля."""
 
-    __tablename__ = "auto"
+    __tablename__ = "app_auto"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     number: Mapped[str] = mapped_column(unique=True, index=True)
     model: Mapped[str]
-    owner_id: Mapped[int] = mapped_column(
-        ForeignKey("user.id", ondelete="CASCADE")
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("app_user.id", ondelete="CASCADE")
     )
 
     owner: Mapped[User] = relationship(back_populates="autos")
@@ -41,10 +41,10 @@ class Auto(Base):
         return f"{self.number} - {self.model}"
 
 
-class Registrations(Base):
+class Registration(Base):
     """Модель количеств регистраций пользователей."""
 
-    __tablename__ = "registrations"
+    __tablename__ = "app_registration"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger, index=True)
