@@ -1,7 +1,7 @@
 from aiogram.types import Contact
+
 from app.config import MAX_REGISTRATIONS_COUNT
 from app.dao.registration import RegistrationsDAO
-
 from app.dao.user import UserDAO
 
 
