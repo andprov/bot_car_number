@@ -12,7 +12,6 @@ from app.keyboards.reply_keyboard import contact_kb
 from app.services.user_services import UserService
 from app.utils import cmd, msg
 
-
 router = Router(name="user_commands-router")
 user_service = UserService()
 
