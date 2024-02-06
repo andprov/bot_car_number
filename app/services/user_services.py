@@ -41,7 +41,7 @@ class UserService:
         """Добавить запись о регистрации пользователя или увеличить счетчик
         если регистрация уже была.
         """
-        if not RegistrationsDAO.find_one_or_none(tg_id=tg_id):
+        if not await RegistrationsDAO.find_one_or_none(tg_id=tg_id):
             await RegistrationsDAO.add(tg_id=tg_id)
             return False
         count = await RegistrationsDAO.get_registrations_count(tg_id=tg_id)
