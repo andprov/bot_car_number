@@ -3,10 +3,11 @@ from aiogram.types import Contact
 from app.config import MAX_REGISTRATIONS_COUNT
 from app.dao.registration import RegistrationsDAO
 from app.dao.user import UserDAO
+from app.db.models import User
 
 
 class UserService:
-    """Сервис для работы с пользователями."""
+    """Работа с пользователями."""
 
     @classmethod
     async def check_user(cls, tg_id: int) -> bool:
@@ -30,6 +31,11 @@ class UserService:
             first_name=contact.first_name,
             phone=contact.phone_number,
         )
+
+    @classmethod
+    async def get_user_with_auto(cls, tg_id: int) -> User | None:
+        """Вернуть пользователя и его автомобилями."""
+        return await UserDAO.find_user_with_autos(tg_id=tg_id)
 
     @classmethod
     async def delete_user(cls, tg_id: int) -> None:
