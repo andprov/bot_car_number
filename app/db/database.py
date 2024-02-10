@@ -18,4 +18,4 @@ async_session = async_sessionmaker(
 
 
 class Base(AsyncAttrs, DeclarativeBase):
-    ...
+    pass
