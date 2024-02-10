@@ -104,7 +104,7 @@ async def enter_number(message: Message, state: FSMContext) -> None:
         await message.answer(msg.AUTO_NOT_YOURS_MSG, reply_markup=BACK_KB)
         return
     keyboard = confirm_del_kb(cmd.AUTO_DEL_CONFIRM, cmd.AUTO_MENU)
-    await state.update_data(auto=auto)
+    await state.update_data(auto_id=auto.id)
     await message.answer(msg.AUTO_DEL_CONFIRM_MSG, reply_markup=keyboard)
     await state.set_state(DeleteAuto.confirm)
 
@@ -113,7 +113,7 @@ async def enter_number(message: Message, state: FSMContext) -> None:
 async def del_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик подтверждения удаления автомобиля из БД."""
     data = await state.get_data()
-    auto = data.get("auto")
-    if auto:
-        await AutoService.delete_auto(auto.id)
+    auto_id = data.get("auto_id")
+    if auto_id:
+        await AutoService.delete_auto(auto_id)
     await get_autos_menu(call, state)
