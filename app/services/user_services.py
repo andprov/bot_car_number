@@ -7,7 +7,7 @@ from app.db.models import User
 
 
 class UserService:
-    """Работа с пользователями."""
+    """Сервис для работы с пользователями."""
 
     @classmethod
     async def check_user(cls, tg_id: int) -> bool:

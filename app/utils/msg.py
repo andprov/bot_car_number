@@ -1,6 +1,6 @@
 from aiogram.utils.markdown import hbold
-from sqlalchemy.orm import InstrumentedAttribute
 
+from app.db.models import Auto
 from app.keyboards.inline_keyboard import (
     ADD_TXT,
     AUTO_MENU_TXT,
@@ -107,7 +107,7 @@ def start_msg(first_name: str) -> str:
     )
 
 
-def autos_msg(autos: InstrumentedAttribute | None) -> str:
+def autos_msg(autos: list[Auto] | None) -> str:
     """Вернуть сообщение Мои автомобили."""
     text = EMPTY_MSG
     if autos:
