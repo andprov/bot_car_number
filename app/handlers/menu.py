@@ -6,11 +6,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
 from app.keyboards.inline_keyboard import add_del_back_kb, main_kb
-from app.services.user_services import UserService
+from app.services.user_service import UserService
 from app.utils import cmd, msg
 
 router = Router(name="main_menu-router")
-user_services = UserService()
 
 AUTO_KB = add_del_back_kb(cmd.AUTO_ADD, cmd.AUTO_DEL, cmd.MAIN)
 
@@ -56,7 +55,7 @@ async def cmd_cancel(
 
 async def get_autos_menu(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик вызова меню управления автомобилями."""
-    user = await user_services.get_user_with_auto(call.from_user.id)
+    user = await UserService.get_user_with_auto(call.from_user.id)
     if user is None:
         await call.answer(msg.NO_DATA_MSG, True)
         return

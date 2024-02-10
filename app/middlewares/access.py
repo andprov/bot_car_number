@@ -4,7 +4,7 @@ from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 
 from app.config import GROUP
-from app.dao.user import UserDAO
+from app.services.user_service import UserService
 
 
 class PrivateMiddleware(BaseMiddleware):
@@ -19,7 +19,7 @@ class PrivateMiddleware(BaseMiddleware):
         tg_id = data["event_from_user"].id
         status = ["creator", "administrator", "member"]
         member = await event.bot.get_chat_member(GROUP, tg_id)
-        banned = await self.check_user_banned(tg_id)
+        banned = await UserService.get_user_banned(tg_id)
 
         if (
             data["event_chat"].type == "private"
@@ -27,9 +27,3 @@ class PrivateMiddleware(BaseMiddleware):
             and banned is not True
         ):
             return await handler(event, data)
-
-    async def check_user_banned(self, tg_id: int) -> bool:
-        """Вернуть статус блокировки пользователя."""
-        user = await UserDAO.find_one_or_none(tg_id=tg_id)
-        if user:
-            return user.banned

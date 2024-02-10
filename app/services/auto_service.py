@@ -5,7 +5,7 @@ from app.db.models import Auto
 
 
 class AutoService:
-    """Работа с автомобилями"""
+    """Сервис для работы с автомобилями."""
 
     @classmethod
     def validate_number(cls, number: str) -> bool:
