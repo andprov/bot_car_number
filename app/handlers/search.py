@@ -36,12 +36,10 @@ async def enter_search_number(message: Message, state: FSMContext) -> None:
     if not AutoService.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-
     auto = await AutoService.get_auto_with_owner(number)
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return
-
     if auto.owner.tg_id == message.from_user.id:
         await message.answer(msg.OWNER_YOUR_MSG)
         await state.clear()
