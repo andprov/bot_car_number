@@ -59,3 +59,10 @@ class UserService:
     async def block_user(cls, tg_id: int) -> None:
         """Заблокировать пользователя."""
         await UserDAO.set_user_banned_true(tg_id=tg_id)
+
+    @classmethod
+    async def get_user_banned(cls, tg_id: int) -> bool | None:
+        """Вернуть статус блокировки пользователя."""
+        user = await UserDAO.find_one_or_none(tg_id=tg_id)
+        if user:
+            return user.banned
