@@ -40,11 +40,9 @@ async def add_user_contact(message: Message, state: FSMContext) -> None:
     """Обработчик ответа пользователя с контактными данными."""
     tg_id = message.from_user.id
     contact = message.contact
-
     if not await user_service.validate_contact(contact, tg_id):
         await message.answer(msg.USER_WRONG_MSG)
         return
-
     await user_service.add_user(contact)
     if await user_service.check_registration_limit(tg_id):
         await state.clear()
@@ -54,7 +52,6 @@ async def add_user_contact(message: Message, state: FSMContext) -> None:
         )
         await user_service.block_user(tg_id)
         return
-
     await message.answer(msg.USER_ADD_MSG, reply_markup=ReplyKeyboardRemove())
     await message.answer(msg.MAIN_MSG, reply_markup=main_kb())
     await state.clear()
