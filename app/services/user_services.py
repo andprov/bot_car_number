@@ -7,19 +7,19 @@ from app.db.models import User
 
 
 class UserService:
-    """Работа с пользователями."""
-
-    @classmethod
-    async def validate_contact(cls, contact: Contact, tg_id: int) -> bool:
-        """Проверить, что переданный контакт совпадает с пользователем."""
-        if contact.user_id == tg_id:
-            return True
-        return False
+    """Сервис для работы с пользователями."""
 
     @classmethod
     async def check_user(cls, tg_id: int) -> bool:
         """Проверить наличие пользователя в базе."""
         if await UserDAO.find_one_or_none(tg_id=tg_id):
+            return True
+        return False
+
+    @classmethod
+    async def validate_contact(cls, contact: Contact, tg_id: int) -> bool:
+        """Проверить, что переданный контакт совпадает с пользователем."""
+        if contact.user_id == tg_id:
             return True
         return False
 
