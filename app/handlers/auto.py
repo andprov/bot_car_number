@@ -4,11 +4,11 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from app.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
-from app.dao.auto import AutoDAO
-from app.dao.user import UserDAO
+from app.handlers.menu import get_autos_menu
 from app.handlers.states import AddAuto, DeleteAuto
 from app.keyboards.inline_keyboard import back_kb, confirm_del_kb, save_kb
-from app.services.services import get_auto, get_autos_menu
+from app.services.auto_services import AutoService
+from app.services.user_services import UserService
 from app.utils import cmd, msg
 
 router = Router(name="auto_commands-router")
