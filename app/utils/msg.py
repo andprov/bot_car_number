@@ -1,6 +1,6 @@
 from aiogram.utils.markdown import hbold
-from app.db.models import Auto
 
+from app.db.models import Auto
 from app.keyboards.inline_keyboard import (
     ADD_TXT,
     AUTO_MENU_TXT,
