@@ -10,7 +10,12 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
-    restart: always
+    restart: on-failure
+  
+  redis:
+    container_name: auto_redis
+    image: ${REDIS_IMAGE}
+    restart: on-failure
 
   bot:
     container_name: auto_bot
@@ -18,5 +23,6 @@ services:
     env_file: .env
     depends_on:
       - db
+      - redis
     command: sh -c "sleep 10 && alembic upgrade head && python -m app"
-    restart: always
+    restart: on-failure
