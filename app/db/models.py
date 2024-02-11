@@ -35,7 +35,7 @@ class Auto(Base):
         ForeignKey("app_user.id", ondelete="CASCADE")
     )
 
-    owner: Mapped[User] = relationship(back_populates="autos")
+    owner: Mapped["User"] = relationship(back_populates="autos")
 
     def __repr__(self):
         return f"{self.number} - {self.model}"
