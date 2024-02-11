@@ -57,7 +57,7 @@ async def add_user_contact(message: Message, state: FSMContext) -> None:
 
 
 @router.callback_query(F.data == cmd.USER_DEL)
-async def del_user(call: CallbackQuery) -> None:
+async def delete_user(call: CallbackQuery) -> None:
     """Обработчик нажатия кнопки удаления пользователя."""
     if await UserService.check_user(call.from_user.id):
         await call.message.edit_text(
@@ -69,7 +69,7 @@ async def del_user(call: CallbackQuery) -> None:
 
 
 @router.callback_query(F.data == cmd.USER_DEL_CONFIRM)
-async def del_user_confirm(call: CallbackQuery) -> None:
+async def delete_user_confirm(call: CallbackQuery) -> None:
     """Обработчик подтверждения удаления пользователя и автомобилей из БД."""
     await UserService.delete_user(call.from_user.id)
     await call.message.edit_text(msg.USER_DELETE_MSG)

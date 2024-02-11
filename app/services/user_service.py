@@ -34,7 +34,7 @@ class UserService:
 
     @classmethod
     async def get_user_with_auto(cls, tg_id: int) -> User | None:
-        """Вернуть пользователя и его автомобилями."""
+        """Вернуть пользователя и его автомобили."""
         return await UserDAO.find_user_with_autos(tg_id=tg_id)
 
     @classmethod

@@ -23,7 +23,7 @@ class UserDAO(BaseDAO):
 
     @classmethod
     async def set_user_banned_true(cls, **data) -> None:
-        """Обновить banned колонку пользователя на True."""
+        """Обновить значение banned пользователя на True."""
         async with async_session() as session:
             await session.execute(
                 update(User).filter_by(**data).values(banned=True)
