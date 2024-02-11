@@ -9,7 +9,7 @@ class RegistrationsDAO(BaseDAO):
     model = Registration
 
     @classmethod
-    async def get_registrations_count(cls, tg_id) -> int:
+    async def get_registrations_count(cls, tg_id: int) -> int:
         """Увеличить и вернуть счетчик регистраций пользователя."""
         async with async_session() as session:
             query = (

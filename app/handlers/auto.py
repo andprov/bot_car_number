@@ -77,7 +77,7 @@ async def add_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_DEL)
-async def del_auto(call: CallbackQuery, state: FSMContext) -> None:
+async def delete_auto(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик нажатия кнопки удаления автомобиля."""
     user = await UserService.get_user_with_auto(call.from_user.id)
     if user:
@@ -110,7 +110,7 @@ async def enter_number(message: Message, state: FSMContext) -> None:
 
 
 @router.callback_query(DeleteAuto.confirm, F.data == cmd.AUTO_DEL_CONFIRM)
-async def del_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
+async def delete_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
     """Обработчик подтверждения удаления автомобиля из БД."""
     data = await state.get_data()
     auto_id = data.get("auto_id")
