@@ -58,6 +58,10 @@ DB_PORT=5432
 POSTGRES_DB=bot
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
+
+# REDIS
+REDIS_HOST=redis
+REDIS_PORT=6379
 ```
 
 Создать базу данных PostgreSQL с именем `bot`.
@@ -125,9 +129,14 @@ POSTGRES_DB=bot
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 
+# REDIS
+REDIS_HOST=redis
+REDIS_PORT=6379
+
 # Docker images
-BOT_IMAGE=<username>/<image_name>
 DB_IMAGE=postgres:14
+REDIS_IMAGE=redis:7
+BOT_IMAGE=<user_name/image_name>
 ```
 
 Подготовить docker images образ:
