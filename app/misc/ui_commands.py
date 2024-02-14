@@ -1,7 +1,7 @@
 from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeAllPrivateChats
 
-from app.utils import cmd
+from app.misc import cmd
 
 
 async def set_ui_commands(bot: Bot):
