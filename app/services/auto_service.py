@@ -17,7 +17,7 @@ class AutoService:
 
     @classmethod
     async def check_auto(cls, number: str) -> bool:
-        """Проверить наличие пользователя в базе."""
+        """Проверить наличие автомобиля в базе."""
         if await AutoDAO.find_one_or_none(number=number.upper()):
             return True
         return False
@@ -36,3 +36,6 @@ class AutoService:
     async def delete_auto(cls, id: int) -> None:
         """Удалить автомобиль из базы."""
         await AutoDAO.delete(id=id)
+
+
+auto_service: AutoService = AutoService()

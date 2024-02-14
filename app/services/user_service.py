@@ -66,3 +66,6 @@ class UserService:
         user = await UserDAO.find_one_or_none(tg_id=tg_id)
         if user:
             return user.banned
+
+
+user_service: UserService = UserService()

@@ -12,7 +12,7 @@ from app import config
 from app.handlers import auto, menu, search, user
 from app.middlewares.access import PrivateMiddleware
 from app.middlewares.db_session import DbSessionMiddleware
-from app.utils.ui_commands import set_ui_commands
+from app.misc.ui_commands import set_ui_commands
 
 
 async def main():
