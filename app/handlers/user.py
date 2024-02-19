@@ -39,7 +39,7 @@ async def add_user_contact(message: Message, state: FSMContext) -> None:
     """Обработчик ответа пользователя с контактными данными."""
     tg_id = message.from_user.id
     contact = message.contact
-    if not await user_service.validate_contact(contact, tg_id):
+    if contact.user_id != tg_id:
         await message.answer(msg.USER_WRONG_MSG)
         return
     await user_service.add_user(contact)

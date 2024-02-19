@@ -17,13 +17,6 @@ class UserService:
         return False
 
     @classmethod
-    async def validate_contact(cls, contact: Contact, tg_id: int) -> bool:
-        """Проверить, что переданный контакт совпадает с пользователем."""
-        if contact.user_id == tg_id:
-            return True
-        return False
-
-    @classmethod
     async def add_user(cls, contact: Contact) -> None:
         """Добавить пользователя в базу."""
         await UserDAO.add(
