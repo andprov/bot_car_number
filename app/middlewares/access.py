@@ -2,7 +2,8 @@ from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
-from services.user_service import UserService
+
+from app.services.user_service import UserService
 
 
 class PrivateMiddleware(BaseMiddleware):
