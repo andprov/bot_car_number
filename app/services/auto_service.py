@@ -1,5 +1,7 @@
 import re
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.dao.auto import AutoDAO
 from app.db.models import Auto
 
@@ -16,26 +18,28 @@ class AutoService:
         return False
 
     @classmethod
-    async def check_auto(cls, number: str) -> bool:
+    async def check_auto(cls, session: AsyncSession, number: str) -> bool:
         """Проверить наличие автомобиля в базе."""
-        if await AutoDAO.find_one_or_none(number=number.upper()):
+        if await AutoDAO.find_one_or_none(session, number=number.upper()):
             return True
         return False
 
     @classmethod
-    async def add_auto(cls, **data) -> None:
+    async def add_auto(cls, session: AsyncSession, **data) -> None:
         """Добавить автомобиль в базу."""
-        await AutoDAO.add(**data)
+        await AutoDAO.add(session, **data)
 
     @classmethod
-    async def get_auto_with_owner(cls, number: str) -> Auto | None:
+    async def get_auto_with_owner(
+        cls, session: AsyncSession, number: str
+    ) -> Auto | None:
         """Вернуть автомобиль и его владельца по номеру."""
-        return await AutoDAO.find_auto_with_owner(number=number)
+        return await AutoDAO.find_auto_with_owner(session, number=number)
 
     @classmethod
-    async def delete_auto(cls, id: int) -> None:
+    async def delete_auto(cls, session: AsyncSession, id: int) -> None:
         """Удалить автомобиль из базы."""
-        await AutoDAO.delete(id=id)
+        await AutoDAO.delete(session, id=id)
 
 
 auto_service: AutoService = AutoService()
