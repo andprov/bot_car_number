@@ -4,7 +4,6 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.redis import RedisStorage
-from aiogram.utils.callback_answer import CallbackAnswerMiddleware
 from middlewares.access import PrivateMiddleware
 from redis.asyncio import Redis
 from services.user_service import user_service
