@@ -5,7 +5,6 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.redis import RedisStorage
 from redis.asyncio import Redis
-
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from app import config
