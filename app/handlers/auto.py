@@ -2,6 +2,7 @@ from aiogram import F, Router
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
 from app.handlers.menu import get_autos_menu
@@ -17,15 +18,19 @@ BACK_KB = back_kb(cmd.AUTO_MENU)
 
 
 @router.callback_query(F.data == cmd.AUTO_MENU)
-async def auto_menu(call: CallbackQuery, state: FSMContext) -> None:
+async def auto_menu(
+    call: CallbackQuery, session: AsyncSession, state: FSMContext
+) -> None:
     """Обработчик вызова меню управления автомобилями пользователя."""
-    await get_autos_menu(call, state)
+    await get_autos_menu(call, session, state)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_ADD)
-async def add_auto(call: CallbackQuery, state: FSMContext) -> None:
+async def add_auto(
+    call: CallbackQuery, session: AsyncSession, state: FSMContext
+) -> None:
     """Обработчик перехода к добавлению автомобиля."""
-    user = await user_service.get_user_with_auto(call.from_user.id)
+    user = await user_service.get_user_with_auto(session, call.from_user.id)
     if user:
         if len(user.autos) >= MAX_AUTO_COUNT:
             await call.answer(msg.AUTO_MAX_COUNT_MSG, True)
@@ -38,13 +43,15 @@ async def add_auto(call: CallbackQuery, state: FSMContext) -> None:
 
 
 @router.message(AddAuto.enter_number)
-async def add_number(message: Message, state: FSMContext) -> None:
+async def add_number(
+    message: Message, session: AsyncSession, state: FSMContext
+) -> None:
     """Обработчик ввода номера автомобиля при добавлении."""
     number = message.text.upper()
     if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    if await auto_service.check_auto(number):
+    if await auto_service.check_auto(session, number):
         await message.answer(msg.AUTO_EXIST_MSG, reply_markup=BACK_KB)
         return
     await message.answer(msg.AUTO_ADD_MODEL_MSG, reply_markup=BACK_KB)
@@ -69,18 +76,22 @@ async def add_model(message: Message, state: FSMContext) -> None:
 
 
 @router.callback_query(AddAuto.confirm, F.data == cmd.AUTO_SAVE)
-async def add_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
+async def add_auto_confirm(
+    call: CallbackQuery, session: AsyncSession, state: FSMContext
+) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
     data = await state.get_data()
-    if not await auto_service.check_auto(data["number"]):
-        await auto_service.add_auto(**data)
-    await get_autos_menu(call, state)
+    if not await auto_service.check_auto(session, data["number"]):
+        await auto_service.add_auto(session, **data)
+    await get_autos_menu(call, session, state)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_DEL)
-async def delete_auto(call: CallbackQuery, state: FSMContext) -> None:
+async def delete_auto(
+    call: CallbackQuery, session: AsyncSession, state: FSMContext
+) -> None:
     """Обработчик нажатия кнопки удаления автомобиля."""
-    user = await user_service.get_user_with_auto(call.from_user.id)
+    user = await user_service.get_user_with_auto(session, call.from_user.id)
     if user:
         if not user.autos:
             await call.answer(msg.AUTO_NONE_MSG, True)
@@ -92,13 +103,15 @@ async def delete_auto(call: CallbackQuery, state: FSMContext) -> None:
 
 
 @router.message(DeleteAuto.enter_number)
-async def enter_number(message: Message, state: FSMContext) -> None:
+async def enter_number(
+    message: Message, session: AsyncSession, state: FSMContext
+) -> None:
     """Обработчик ввода номера автомобиля при удалении."""
     number = message.text.upper()
     if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    auto = await auto_service.get_auto_with_owner(number)
+    auto = await auto_service.get_auto_with_owner(session, number)
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return
@@ -112,10 +125,12 @@ async def enter_number(message: Message, state: FSMContext) -> None:
 
 
 @router.callback_query(DeleteAuto.confirm, F.data == cmd.AUTO_DEL_CONFIRM)
-async def delete_auto_confirm(call: CallbackQuery, state: FSMContext) -> None:
+async def delete_auto_confirm(
+    call: CallbackQuery, session: AsyncSession, state: FSMContext
+) -> None:
     """Обработчик подтверждения удаления автомобиля из БД."""
     data = await state.get_data()
     auto_id = data.get("auto_id")
     if auto_id:
-        await auto_service.delete_auto(auto_id)
-    await get_autos_menu(call, state)
+        await auto_service.delete_auto(session, auto_id)
+    await get_autos_menu(call, session, state)

@@ -1,4 +1,5 @@
 from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.dao.base import BaseDAO
@@ -9,7 +10,7 @@ class UserDAO(BaseDAO):
     model = User
 
     @classmethod
-    async def find_user_with_autos(cls, session, **data) -> User | None:
+    async def find_user_with_autos(cls, session: AsyncSession, **data) -> User | None:
         """Получить пользователя и его автомобили."""
         query = (
             select(User).options(selectinload(User.autos)).filter_by(**data)
@@ -18,7 +19,7 @@ class UserDAO(BaseDAO):
         return res.scalar_one_or_none()
 
     @classmethod
-    async def set_user_banned_true(cls, session, **data) -> None:
+    async def set_user_banned_true(cls, session: AsyncSession, **data) -> None:
         """Обновить значение banned пользователя на True."""
         query = update(User).filter_by(**data).values(banned=True)
         await session.execute(query)
