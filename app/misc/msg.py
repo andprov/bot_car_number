@@ -10,6 +10,7 @@ from app.keyboards.inline_keyboard import (
 from app.misc import cmd
 
 CANCEL_MSG = "Действие отменено."
+STATE_CLEAR = "Нет активных команд для отмены."
 EMPTY_MSG = "-пусто-"
 
 
