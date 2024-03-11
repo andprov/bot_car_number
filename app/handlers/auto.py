@@ -8,7 +8,8 @@ from app.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
 from app.handlers.menu import get_autos_menu
 from app.handlers.states import AddAuto, DeleteAuto
 from app.keyboards.inline_keyboard import back_kb, confirm_del_kb, save_kb
-from app.misc import cmd, msg
+from app.misc import msg
+from app.misc.cmd import Command as cmd
 from app.services.auto_service import auto_service
 from app.services.user_service import user_service
 
