@@ -10,7 +10,8 @@ from app.keyboards.inline_keyboard import (
     main_kb,
 )
 from app.keyboards.reply_keyboard import contact_kb
-from app.misc import cmd, msg
+from app.misc import msg
+from app.misc.cmd import Command as cmd
 from app.services.user_service import user_service
 
 router = Router(name="user_commands-router")

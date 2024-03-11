@@ -6,7 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.handlers.states import SearchAuto
 from app.keyboards.inline_keyboard import back_kb
-from app.misc import cmd, msg
+from app.misc import msg
+from app.misc.cmd import Command as cmd
 from app.services.auto_service import auto_service
 from app.services.user_service import user_service
 

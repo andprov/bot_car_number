@@ -7,7 +7,9 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.keyboards.inline_keyboard import add_del_back_kb, main_kb
-from app.misc import cmd, msg
+from app.misc import msg
+from app.misc.cmd import Button as btn
+from app.misc.cmd import Command as cmd
 from app.services.user_service import user_service
 
 router = Router(name="main_menu-router")
@@ -38,7 +40,7 @@ async def cmd_menu(
 
 
 @router.message(Command(cmd.CANCEL))
-@router.message(F.text.lower() == cmd.CANCEL_TXT)
+@router.message(F.text == btn.CANCEL_TXT)
 @router.callback_query(F.data == cmd.CANCEL)
 async def cmd_cancel(
     call_or_message: Union[CallbackQuery, Message],
