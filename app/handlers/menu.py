@@ -38,7 +38,7 @@ async def cmd_menu(
 
 
 @router.message(Command(cmd.CANCEL))
-@router.message(F.text.lower() == cmd.CANSEL_TXT)
+@router.message(F.text.lower() == cmd.CANCEL_TXT)
 @router.callback_query(F.data == cmd.CANCEL)
 async def cmd_cancel(
     call_or_message: Union[CallbackQuery, Message],

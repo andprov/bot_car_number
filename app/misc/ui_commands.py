@@ -8,11 +8,11 @@ async def set_ui_commands(bot: Bot):
     commands = [
         BotCommand(
             command=cmd.MAIN,
-            description="Главное меню",
+            description=cmd.MAIN_MENU,
         ),
         BotCommand(
             command=cmd.CANCEL,
-            description="Отмена",
+            description=cmd.CANCEL_TXT,
         ),
     ]
     await bot.set_my_commands(
