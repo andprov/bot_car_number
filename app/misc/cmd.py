@@ -14,6 +14,8 @@ AUTO_DEL_CONFIRM = "auto_delete_confirm"
 
 SEARCH = "search"
 
+MAIN_MENU = "Главное меню"
+
 BACK_TXT = "<< Назад"
 DEL_CONFIRM_TXT = "Подтвердить Удаление"
 USER_MENU_TXT = "Мои Данные"
@@ -22,5 +24,5 @@ SEARCH_TXT = "Поиск"
 ADD_TXT = "Добавить"
 DELETE_TXT = "Удалить"
 SAVE_TXT = "Сохранить"
-CANSEL_TXT = "Отмена"
+CANCEL_TXT = "Отмена"
 SEND_TXT = "Отправить"
