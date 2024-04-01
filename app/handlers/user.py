@@ -1,8 +1,9 @@
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
-from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.dao.registration import RegDAO
+from app.dao.user import UserDAO
 from app.handlers.states import AddUser
 from app.keyboards.inline_keyboard import (
     add_del_back_kb,
@@ -12,7 +13,7 @@ from app.keyboards.inline_keyboard import (
 from app.keyboards.reply_keyboard import contact_kb
 from app.misc import msg
 from app.misc.cmd import Command as cmd
-from app.services.user_service import user_service
+from app.services.user_service import UserService
 
 router = Router(name="user_commands-router")
 
@@ -27,10 +28,12 @@ async def user_menu(call: CallbackQuery) -> None:
 
 @router.callback_query(F.data == cmd.USER_ADD)
 async def add_user(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    state: FSMContext,
+    user_dao: UserDAO,
 ) -> None:
     """Обработчик нажатия кнопки добавления пользователя."""
-    if await user_service.check_user(session, call.from_user.id):
+    if await UserService.check_user(user_dao, call.from_user.id):
         await call.answer(msg.USER_EXIST_MSG, True)
         return
     await call.message.delete()
@@ -40,7 +43,10 @@ async def add_user(
 
 @router.message(AddUser.add_user_contact, F.contact)
 async def add_user_contact(
-    message: Message, session: AsyncSession, state: FSMContext
+    message: Message,
+    state: FSMContext,
+    user_dao: UserDAO,
+    registration_dao: RegDAO,
 ) -> None:
     """Обработчик ответа пользователя с контактными данными."""
     tg_id = message.from_user.id
@@ -48,14 +54,14 @@ async def add_user_contact(
     if contact.user_id != tg_id:
         await message.answer(msg.USER_WRONG_MSG)
         return
-    await user_service.add_user(session, contact)
-    if await user_service.check_registration_limit(session, tg_id):
+    await UserService.add_user(user_dao, contact)
+    if await UserService.check_registration_limit(registration_dao, tg_id):
         await message.answer(
             msg.USER_MAX_COUNT_REGISTRATIONS_MSG,
             reply_markup=ReplyKeyboardRemove(),
         )
         await state.clear()
-        await user_service.block_user(session, tg_id)
+        await UserService.block_user(user_dao, tg_id)
         return
     await message.answer(msg.USER_ADD_MSG, reply_markup=ReplyKeyboardRemove())
     await message.answer(msg.MAIN_MSG, reply_markup=main_kb())
@@ -63,9 +69,12 @@ async def add_user_contact(
 
 
 @router.callback_query(F.data == cmd.USER_DEL)
-async def delete_user(call: CallbackQuery, session: AsyncSession) -> None:
+async def delete_user(
+    call: CallbackQuery,
+    user_dao: UserDAO,
+) -> None:
     """Обработчик нажатия кнопки удаления пользователя."""
-    if await user_service.check_user(session, call.from_user.id):
+    if await UserService.check_user(user_dao, call.from_user.id):
         await call.message.edit_text(
             msg.USER_DEL_CONFIRM_MSG,
             reply_markup=confirm_del_kb(cmd.USER_DEL_CONFIRM, cmd.USER),
@@ -76,8 +85,9 @@ async def delete_user(call: CallbackQuery, session: AsyncSession) -> None:
 
 @router.callback_query(F.data == cmd.USER_DEL_CONFIRM)
 async def delete_user_confirm(
-    call: CallbackQuery, session: AsyncSession
+    call: CallbackQuery,
+    user_dao: UserDAO,
 ) -> None:
     """Обработчик подтверждения удаления пользователя и автомобилей из БД."""
-    await user_service.delete_user(session, call.from_user.id)
+    await UserService.delete_user(user_dao, call.from_user.id)
     await call.message.edit_text(msg.USER_DELETE_MSG)

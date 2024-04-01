@@ -2,14 +2,15 @@ from aiogram import F, Router
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
-from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.dao.auto import AutoDAO
+from app.dao.user import UserDAO
 from app.handlers.states import SearchAuto
 from app.keyboards.inline_keyboard import back_kb
 from app.misc import msg
 from app.misc.cmd import Command as cmd
-from app.services.auto_service import auto_service
-from app.services.user_service import user_service
+from app.services.auto_service import AutoService
+from app.services.user_service import UserService
 
 router = Router(name="search_commands-router")
 
@@ -18,11 +19,13 @@ BACK_KB = back_kb(cmd.MAIN)
 
 @router.callback_query(StateFilter(None), F.data == cmd.SEARCH)
 async def search(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    state: FSMContext,
+    user_dao: UserDAO,
 ) -> None:
     """Обработчик перехода к поиску."""
-    user = await user_service.get_user_with_auto(
-        session, tg_id=call.from_user.id
+    user = await UserService.get_user_with_auto(
+        user_dao, tg_id=call.from_user.id
     )
     if user:
         if user.autos:
@@ -37,14 +40,16 @@ async def search(
 
 @router.message(SearchAuto.enter_number)
 async def enter_search_number(
-    message: Message, session: AsyncSession, state: FSMContext
+    message: Message,
+    state: FSMContext,
+    auto_dao: AutoDAO,
 ) -> None:
     """Обработчик ввода номера автомобиля при поиске."""
     number = message.text.upper()
-    if not auto_service.validate_number(number):
+    if not AutoService.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    auto = await auto_service.get_auto_with_owner(session, number)
+    auto = await AutoService.get_auto(auto_dao, number)
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return

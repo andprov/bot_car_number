@@ -6,23 +6,20 @@ from app.dao.base import BaseDAO
 from app.db.models import User
 
 
-class UserDAO(BaseDAO):
-    model = User
+class UserDAO(BaseDAO[User]):
+    def __init__(self, session: AsyncSession) -> None:
+        super().__init__(User, session)
 
-    @classmethod
-    async def find_user_with_autos(
-        cls, session: AsyncSession, **data
-    ) -> User | None:
+    async def find_user_with_autos(self, **data) -> User | None:
         """Получить пользователя и его автомобили."""
         query = (
             select(User).options(selectinload(User.autos)).filter_by(**data)
         )
-        res = await session.execute(query)
-        return res.scalar_one_or_none()
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()
 
-    @classmethod
-    async def set_user_banned_true(cls, session: AsyncSession, **data) -> None:
-        """Обновить значение banned пользователя на True."""
+    async def set_user_banned_true(self, **data) -> None:
+        """Обновить значение поля banned на True."""
         query = update(User).filter_by(**data).values(banned=True)
-        await session.execute(query)
-        await session.commit()
+        await self.session.execute(query)
+        await self.session.commit()
