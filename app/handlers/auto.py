@@ -10,8 +10,8 @@ from app.handlers.states import AddAuto, DeleteAuto
 from app.keyboards.inline_keyboard import back_kb, confirm_del_kb, save_kb
 from app.misc import msg
 from app.misc.cmd import Command as cmd
-from app.services.auto_service import auto_service
-from app.services.user_service import user_service
+from app.services.auto_service import AutoService
+from app.services.user_service import UserService
 
 router = Router(name="auto_commands-router")
 
@@ -20,15 +20,21 @@ BACK_KB = back_kb(cmd.AUTO_MENU)
 
 @router.callback_query(F.data == cmd.AUTO_MENU)
 async def auto_menu(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    session: AsyncSession,
+    state: FSMContext,
+    user_service: UserService,
 ) -> None:
     """Обработчик вызова меню управления автомобилями пользователя."""
-    await get_autos_menu(call, session, state)
+    await get_autos_menu(call, session, state, user_service)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_ADD)
 async def add_auto(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    session: AsyncSession,
+    state: FSMContext,
+    user_service: UserService,
 ) -> None:
     """Обработчик перехода к добавлению автомобиля."""
     user = await user_service.get_user_with_auto(session, call.from_user.id)
@@ -45,7 +51,10 @@ async def add_auto(
 
 @router.message(AddAuto.enter_number)
 async def add_number(
-    message: Message, session: AsyncSession, state: FSMContext
+    message: Message,
+    session: AsyncSession,
+    state: FSMContext,
+    auto_service: AutoService,
 ) -> None:
     """Обработчик ввода номера автомобиля при добавлении."""
     number = message.text.upper()
@@ -78,18 +87,25 @@ async def add_model(message: Message, state: FSMContext) -> None:
 
 @router.callback_query(AddAuto.confirm, F.data == cmd.AUTO_SAVE)
 async def add_auto_confirm(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    session: AsyncSession,
+    state: FSMContext,
+    auto_service: AutoService,
+    user_service: UserService,
 ) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
     data = await state.get_data()
     if not await auto_service.check_auto(session, data["number"]):
         await auto_service.add_auto(session, **data)
-    await get_autos_menu(call, session, state)
+    await get_autos_menu(call, session, state, user_service)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_DEL)
 async def delete_auto(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    session: AsyncSession,
+    state: FSMContext,
+    user_service: UserService,
 ) -> None:
     """Обработчик нажатия кнопки удаления автомобиля."""
     user = await user_service.get_user_with_auto(session, call.from_user.id)
@@ -105,7 +121,10 @@ async def delete_auto(
 
 @router.message(DeleteAuto.enter_number)
 async def enter_number(
-    message: Message, session: AsyncSession, state: FSMContext
+    message: Message,
+    session: AsyncSession,
+    state: FSMContext,
+    auto_service: AutoService,
 ) -> None:
     """Обработчик ввода номера автомобиля при удалении."""
     number = message.text.upper()
@@ -127,11 +146,15 @@ async def enter_number(
 
 @router.callback_query(DeleteAuto.confirm, F.data == cmd.AUTO_DEL_CONFIRM)
 async def delete_auto_confirm(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    session: AsyncSession,
+    state: FSMContext,
+    auto_service: AutoService,
+    user_service: UserService,
 ) -> None:
     """Обработчик подтверждения удаления автомобиля из БД."""
     data = await state.get_data()
     auto_id = data.get("auto_id")
     if auto_id:
         await auto_service.delete_auto(session, auto_id)
-    await get_autos_menu(call, session, state)
+    await get_autos_menu(call, session, state, user_service)

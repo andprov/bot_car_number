@@ -12,7 +12,7 @@ from app.keyboards.inline_keyboard import (
 from app.keyboards.reply_keyboard import contact_kb
 from app.misc import msg
 from app.misc.cmd import Command as cmd
-from app.services.user_service import user_service
+from app.services.user_service import UserService
 
 router = Router(name="user_commands-router")
 
@@ -27,7 +27,10 @@ async def user_menu(call: CallbackQuery) -> None:
 
 @router.callback_query(F.data == cmd.USER_ADD)
 async def add_user(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    session: AsyncSession,
+    state: FSMContext,
+    user_service: UserService,
 ) -> None:
     """Обработчик нажатия кнопки добавления пользователя."""
     if await user_service.check_user(session, call.from_user.id):
@@ -40,7 +43,10 @@ async def add_user(
 
 @router.message(AddUser.add_user_contact, F.contact)
 async def add_user_contact(
-    message: Message, session: AsyncSession, state: FSMContext
+    message: Message,
+    session: AsyncSession,
+    state: FSMContext,
+    user_service: UserService,
 ) -> None:
     """Обработчик ответа пользователя с контактными данными."""
     tg_id = message.from_user.id
@@ -63,7 +69,11 @@ async def add_user_contact(
 
 
 @router.callback_query(F.data == cmd.USER_DEL)
-async def delete_user(call: CallbackQuery, session: AsyncSession) -> None:
+async def delete_user(
+    call: CallbackQuery,
+    session: AsyncSession,
+    user_service: UserService,
+) -> None:
     """Обработчик нажатия кнопки удаления пользователя."""
     if await user_service.check_user(session, call.from_user.id):
         await call.message.edit_text(
@@ -76,7 +86,9 @@ async def delete_user(call: CallbackQuery, session: AsyncSession) -> None:
 
 @router.callback_query(F.data == cmd.USER_DEL_CONFIRM)
 async def delete_user_confirm(
-    call: CallbackQuery, session: AsyncSession
+    call: CallbackQuery,
+    session: AsyncSession,
+    user_service: UserService,
 ) -> None:
     """Обработчик подтверждения удаления пользователя и автомобилей из БД."""
     await user_service.delete_user(session, call.from_user.id)

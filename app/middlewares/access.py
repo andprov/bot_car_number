@@ -7,8 +7,7 @@ from app.services.user_service import UserService
 
 
 class PrivateMiddleware(BaseMiddleware):
-    def __init__(self, group: str, user_service: UserService):
-        self.user_service = user_service
+    def __init__(self, group: str):
         self.group = group
 
     async def __call__(
@@ -19,9 +18,10 @@ class PrivateMiddleware(BaseMiddleware):
     ) -> Any:
         session = data["session"]
         tg_id = data["event_from_user"].id
+        user_service: UserService = data["user_service"]
         status = ["creator", "administrator", "member"]
         member = await event.bot.get_chat_member(self.group, tg_id)
-        banned = await self.user_service.get_user_banned(session, tg_id)
+        banned = await user_service.get_user_banned(session, tg_id)
 
         if (
             data["event_chat"].type == "private"

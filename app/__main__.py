@@ -12,7 +12,8 @@ from app.handlers import auto, menu, search, user
 from app.middlewares.access import PrivateMiddleware
 from app.middlewares.db_session import DbSessionMiddleware
 from app.misc.ui_commands import set_ui_commands
-from app.services.user_service import user_service
+from app.services.auto_service import AutoService
+from app.services.user_service import UserService
 
 
 async def main():
@@ -22,9 +23,16 @@ async def main():
     engine = create_async_engine(config.DB_URL, echo=True)
     sessionmaker = async_sessionmaker(engine, expire_on_commit=False)
 
+    # TODO: add to self middleware
+    user_service = UserService
+    auto_service = AutoService
+    #
+
     dp = Dispatcher(storage=storage)
-    dp.update.middleware(DbSessionMiddleware(sessionmaker))
-    dp.update.middleware(PrivateMiddleware(config.GROUP, user_service))
+    dp.update.middleware(
+        DbSessionMiddleware(sessionmaker, user_service, auto_service)
+    )
+    dp.update.middleware(PrivateMiddleware(config.GROUP))
     dp.include_routers(menu.router, user.router, auto.router, search.router)
 
     bot = Bot(token=config.BOT_TOKEN, parse_mode=ParseMode.HTML)

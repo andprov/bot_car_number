@@ -40,6 +40,3 @@ class AutoService:
     async def delete_auto(cls, session: AsyncSession, id: int) -> None:
         """Удалить автомобиль из базы."""
         await AutoDAO.delete(session, id=id)
-
-
-auto_service: AutoService = AutoService()

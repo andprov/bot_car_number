@@ -10,7 +10,7 @@ from app.keyboards.inline_keyboard import add_del_back_kb, main_kb
 from app.misc import msg
 from app.misc.cmd import Button as btn
 from app.misc.cmd import Command as cmd
-from app.services.user_service import user_service
+from app.services.user_service import UserService
 
 router = Router(name="main_menu-router")
 
@@ -62,7 +62,10 @@ async def cmd_cancel(
 
 
 async def get_autos_menu(
-    call: CallbackQuery, session: AsyncSession, state: FSMContext
+    call: CallbackQuery,
+    session: AsyncSession,
+    state: FSMContext,
+    user_service: UserService,
 ) -> None:
     """Обработчик вызова меню управления автомобилями."""
     user = await user_service.get_user_with_auto(session, call.from_user.id)
