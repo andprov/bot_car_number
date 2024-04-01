@@ -3,6 +3,7 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 
+from app.dao.user import UserDAO
 from app.services.user_service import UserService
 
 
@@ -16,12 +17,11 @@ class PrivateMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
-        session = data["session"]
         tg_id = data["event_from_user"].id
-        user_service: UserService = data["user_service"]
+        user_dao: UserDAO = data["user_dao"]
         status = ["creator", "administrator", "member"]
         member = await event.bot.get_chat_member(self.group, tg_id)
-        banned = await user_service.get_user_banned(session, tg_id)
+        banned = await UserService.get_user_banned(user_dao, tg_id)
 
         if (
             data["event_chat"].type == "private"

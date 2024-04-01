@@ -1,31 +1,32 @@
-from typing import Any
+from typing import Generic, Type, TypeVar
 
 from sqlalchemy import delete, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.db.models import Base
 
-class BaseDAO:
-    model = None
+Model = TypeVar("Model", Base, Base)
 
-    @classmethod
-    async def find_one_or_none(
-        cls, session: AsyncSession, **data
-    ) -> Any | None:
+
+class BaseDAO(Generic[Model]):
+    def __init__(self, model: Type[Model], session: AsyncSession) -> None:
+        self.model = model
+        self.session = session
+
+    async def find_one_or_none(self, **data) -> Model | None:
         """Получить одну запись из базы или None."""
-        query = select(cls.model).filter_by(**data)
-        res = await session.execute(query)
-        return res.scalar_one_or_none()
+        query = select(self.model).filter_by(**data)
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()
 
-    @classmethod
-    async def add(cls, session: AsyncSession, **data) -> None:
+    async def add(self, **data) -> None:
         """Добавить запись в базу."""
-        query = insert(cls.model).values(**data)
-        await session.execute(query)
-        await session.commit()
+        query = insert(self.model).values(**data)
+        await self.session.execute(query)
+        await self.session.commit()
 
-    @classmethod
-    async def delete(cls, session: AsyncSession, **data) -> None:
+    async def delete(self, **data) -> None:
         """Удалить запись из базы."""
-        query = delete(cls.model).filter_by(**data)
-        await session.execute(query)
-        await session.commit()
+        query = delete(self.model).filter_by(**data)
+        await self.session.execute(query)
+        await self.session.commit()

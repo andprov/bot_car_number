@@ -6,16 +6,14 @@ from app.dao.base import BaseDAO
 from app.db.models import Auto
 
 
-class AutoDAO(BaseDAO):
-    model = Auto
+class AutoDAO(BaseDAO[Auto]):
+    def __init__(self, session: AsyncSession) -> None:
+        super().__init__(Auto, session)
 
-    @classmethod
-    async def find_auto_with_owner(
-        cls, session: AsyncSession, **data
-    ) -> Auto | None:
+    async def find_auto_with_owner(self, **data) -> Auto | None:
         """Получить автомобиль и владельца."""
         query = (
             select(Auto).options(selectinload(Auto.owner)).filter_by(**data)
         )
-        res = await session.execute(query)
-        return res.scalar_one_or_none()
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()
