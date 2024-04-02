@@ -7,8 +7,6 @@ class Base(DeclarativeBase):
 
 
 class User(Base):
-    """Модель пользователя."""
-
     __tablename__ = "app_user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -26,8 +24,6 @@ class User(Base):
 
 
 class Auto(Base):
-    """Модель автомобиля."""
-
     __tablename__ = "app_auto"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -44,10 +40,11 @@ class Auto(Base):
 
 
 class Registration(Base):
-    """Модель количеств регистраций пользователей."""
-
     __tablename__ = "app_registration"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger, index=True)
     count: Mapped[int] = mapped_column(default=1)
+
+    def __repr__(self):
+        return f"{self.tg_id} count={self.count}"
