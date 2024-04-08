@@ -7,6 +7,8 @@ load_dotenv()
 MAX_AUTO_COUNT = 10
 MAX_REGISTRATIONS_COUNT = 10
 MAX_AUTO_NAME_LEN = 50
+SEARCH_COUNT_LIMIT = 3
+TIME_LIMIT = 6
 
 # MODE
 DEBUG = os.getenv("DEBUG", False) == "True"

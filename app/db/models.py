@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, ForeignKey, DateTime, func
+from sqlalchemy import BigInteger, DateTime, ForeignKey, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -54,7 +54,9 @@ class Stats(Base):
     __tablename__ = "app_stats"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("app_user.id"))
-    data: Mapped[str] = mapped_column(
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("app_user.id", ondelete="SET NULL"), nullable=True
+    )
+    data: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
