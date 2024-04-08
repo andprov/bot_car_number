@@ -4,12 +4,14 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from app.dao.auto import AutoDAO
+from app.dao.stats import StatsDAO
 from app.dao.user import UserDAO
 from app.handlers.states import SearchAuto
 from app.keyboards.inline_keyboard import back_kb
 from app.misc import msg
 from app.misc.cmd import Command as cmd
 from app.services.auto_service import AutoService
+from app.services.search_sevrice import SearchService
 from app.services.user_service import UserService
 
 router = Router(name="search_commands-router")
@@ -32,6 +34,7 @@ async def search(
             await call.message.edit_text(
                 msg.AUTO_ENTER_NUMBER_MSG, reply_markup=BACK_KB
             )
+            await state.update_data(user_id=user.id)
             await state.set_state(state=SearchAuto.enter_number)
             return
         await call.answer(msg.NO_AUTO_MSG, True)
@@ -43,6 +46,7 @@ async def enter_search_number(
     message: Message,
     state: FSMContext,
     auto_dao: AutoDAO,
+    stats_dao: StatsDAO,
 ) -> None:
     """Обработчик ввода номера автомобиля при поиске."""
     number = message.text.upper()
@@ -50,6 +54,8 @@ async def enter_search_number(
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
     auto = await AutoService.get_auto(auto_dao, number)
+    data = await state.get_data()
+    await SearchService.add_search_try(stats_dao, data["user_id"])
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return
