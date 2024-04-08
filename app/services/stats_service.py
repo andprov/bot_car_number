@@ -3,7 +3,7 @@ from app.dao.stats import StatsDAO
 
 
 class StatsService:
-    """..."""
+    """Сервис статистики."""
 
     @classmethod
     async def add_search_try(cls, dao: StatsDAO, user_id: int) -> None:

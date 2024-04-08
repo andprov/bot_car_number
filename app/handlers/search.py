@@ -12,7 +12,7 @@ from app.keyboards.inline_keyboard import back_kb
 from app.misc import msg
 from app.misc.cmd import Command as cmd
 from app.services.auto_service import AutoService
-from app.services.search_sevrice import StatsService
+from app.services.stats_service import StatsService
 from app.services.user_service import UserService
 
 router = Router(name="search_commands-router")
