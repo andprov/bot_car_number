@@ -57,6 +57,7 @@ class Stats(Base):
     user_id: Mapped[int] = mapped_column(
         ForeignKey("app_user.id", ondelete="SET NULL"), nullable=True
     )
+    number: Mapped[str]
     data: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

@@ -6,9 +6,11 @@ class StatsService:
     """Сервис статистики."""
 
     @classmethod
-    async def add_search_try(cls, dao: StatsDAO, user_id: int) -> None:
+    async def add_search_try(
+        cls, dao: StatsDAO, user_id: int, number: str
+    ) -> None:
         """Добавить запись о поиске."""
-        await dao.add(user_id=user_id)
+        await dao.add(user_id=user_id, number=number)
 
     @classmethod
     async def check_search_access(cls, dao: StatsDAO, user_id: int) -> bool:

@@ -67,7 +67,7 @@ async def enter_search_number(
         await message.answer(msg.SEARCH_ACCESS_DENIED)
         await state.clear()
         return
-    await StatsService.add_search_try(stats_dao, data["user_id"])
+    await StatsService.add_search_try(stats_dao, data["user_id"], number)
     search_count += 1
     await state.update_data(search_count=search_count)
 
