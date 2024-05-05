@@ -98,20 +98,9 @@ python -m app
 
 ## Установка в Docker на удаленный сервер
 Дальнейшая инструкция предполагает, что удаленный сервер настроен на работу 
-по SSH. На сервере установлен Docker. Зарегистрирован аккаунт на 
-[hub.docker.com](https://hub.docker.com/)
+по SSH. На сервере установлен Docker.
 
-Клонировать репозиторий:
-```shell
-git clone <https or SSH URL>
-```
-
-Перейти в каталог проекта:
-```shell
-cd auto_bot
-```
-
-Создать файл .env с переменными окружения, со следующим содержанием:
+Отредактировать файл `.env` с переменными окружения:
 ```shell
 # MODE
 DEBUG=False
@@ -136,30 +125,11 @@ REDIS_PORT=6379
 # Docker images
 DB_IMAGE=postgres:14
 REDIS_IMAGE=redis:7
-BOT_IMAGE=<user_name/image_name>
-```
-
-Подготовить docker images образ:
-```shell
-sudo docker build -t <username>/<image_name> .
-```
-
-Загрузить образ на Docker Hub:
-```shell
-sudo docker push <username>/<image_name>
+BOT_IMAGE=ghcr.io/andprov/auto_bot:latest
 ```
 
 Скопировать на удаленный сервер файлы `.env` `docker-compose.production.yml`
-```shell
-scp .env docker-compose.prod.yml <username>@<server_address>:/home/<username>/
-```
-
-Подключиться к серверу:
-```shell
-ssh <username>@<server_address>
-```
-
-Выполнить сборку и запуск:
+Выполнить на сервере сборку и запуск:
 ```shell
 sudo docker compose -f docker-compose.prod.yml up -d
 ```
