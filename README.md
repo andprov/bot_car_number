@@ -1,10 +1,10 @@
-# auto bot
+# bot_car_number
 [![License MIT](https://img.shields.io/badge/licence-MIT-green)](https://opensource.org/license/mit/)
 [![Code style black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
 [![Python versions](https://img.shields.io/badge/python-3.11-blue)](#)
 [![Telegram API](https://img.shields.io/badge/Telegram%20Bot%20API-6.9-blue?logo=telegram)](https://core.telegram.org/bots/api)
 [![Aiogram version](https://img.shields.io/badge/Aiogram-3.1.1-blue)](https://aiogram.dev/)
-[![Main auto_bot workflow](https://github.com/andprov/auto_bot/actions/workflows/main.yml/badge.svg)](https://github.com/andprov/auto_bot/actions/workflows/main.yml)
+[![Main bot_car_number workflow](https://github.com/andprov/bot_car_number/actions/workflows/main.yml/badge.svg)](https://github.com/andprov/bot_car_number/actions/workflows/main.yml)
 
 
 # Описание
@@ -19,7 +19,7 @@ ID группы необходимо указать в переменной ок
 отключены в `PrivateMiddleware`.
 
 
-![Pic](https://github.com/andprov/auto_bot/blob/main/img/pic.png?raw=true "Pic")
+![Pic](https://github.com/andprov/bot_car_number/blob/main/img/pic.png?raw=true "Pic")
 
 
 # Установка
@@ -38,7 +38,7 @@ git clone <https or SSH URL>
 
 Перейти в каталог проекта:
 ```shell
-cd auto_bot
+cd bot_car_number
 ```
 
 Создать файл `.env` с переменными окружения, со следующим содержанием:
@@ -55,7 +55,7 @@ DB_TYPE=postgresql
 DB_CONNECTOR=psycopg
 DB_HOST=db
 DB_PORT=5432
-POSTGRES_DB=bot
+POSTGRES_DB=bot_car_number
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 
@@ -125,7 +125,7 @@ REDIS_PORT=6379
 # Docker images
 DB_IMAGE=postgres:14
 REDIS_IMAGE=redis:7
-BOT_IMAGE=ghcr.io/andprov/auto_bot:latest
+BOT_IMAGE=ghcr.io/andprov/bot_car_number:latest
 ```
 
 Скопировать на удаленный сервер файлы `.env` `docker-compose.production.yml`

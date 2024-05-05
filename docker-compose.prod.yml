@@ -3,7 +3,7 @@ volumes:
 
 services:
   db:
-    container_name: auto_db
+    container_name: bot_car_number_db
     image: ${DB_IMAGE}
     env_file: .env
     volumes:
@@ -16,7 +16,7 @@ services:
     restart: on-failure
 
   bot:
-    container_name: auto_bot
+    container_name: bot_car_number
     image: ${BOT_IMAGE}
     env_file: .env
     depends_on:

@@ -3,7 +3,7 @@ name: Main workflow
 on: [push]
 
 env:
-  IMAGE_NAME: auto_bot
+  IMAGE_NAME: bot_car_number
   REGISTRY: ghcr.io
 
 
