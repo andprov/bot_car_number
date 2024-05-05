@@ -64,10 +64,10 @@ REDIS_HOST=redis
 REDIS_PORT=6379
 ```
 
-Создать базу данных PostgreSQL с именем `bot`.
+Создать базу данных PostgreSQL с именем `bot_car_number`.
 
 ```shell
-createdb -U postgres -h localhost -p 5432 bot
+createdb -U postgres -h localhost -p 5432 bot_car_number
 ```
 
 Создать и активировать виртуальное окружение:
@@ -114,7 +114,7 @@ DB_TYPE=postgresql
 DB_CONNECTOR=psycopg
 DB_HOST=db
 DB_PORT=5432
-POSTGRES_DB=bot
+POSTGRES_DB=bot_car_number
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 
