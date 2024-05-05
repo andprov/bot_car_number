@@ -13,7 +13,7 @@ services:
       - 5432:5432
 
   redis:
-    container_name: auto_redis
+    container_name: bot_car_number_redis
     image: ${REDIS_IMAGE}
     restart: on-failure
 
