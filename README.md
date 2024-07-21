@@ -25,11 +25,6 @@ ID группы необходимо указать в переменной ок
 # Установка
 [Создать бота и получить](https://core.telegram.org/bots#how-do-i-create-a-bot) `BOT_TOKEN`
 
-Возможно два сценария установки локально и в [Docker](https://docs.docker.com/engine/install/).
-
-## Локальная установка
-Для локальной установки необходимо наличие [PostgreSQL](https://www.postgresql.org/download/) 
-в системе.
 
 Клонировать репозиторий:
 ```shell
@@ -41,28 +36,7 @@ git clone <https or SSH URL>
 cd bot_car_number
 ```
 
-Создать файл `.env` с переменными окружения, со следующим содержанием:
-```shell
-# MODE
-DEBUG=True
-
-# BOT
-BOT_TOKEN=<bot_token>
-GROUP_ID=<group_id>
-
-# DB
-DB_TYPE=postgresql
-DB_CONNECTOR=psycopg
-DB_HOST=db
-DB_PORT=5432
-POSTGRES_DB=bot_car_number
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-
-# REDIS
-REDIS_HOST=redis
-REDIS_PORT=6379
-```
+В корне проекта создать файл `.env` пример - [.env.example](.env.example)
 
 Создать базу данных PostgreSQL с именем `bot_car_number`.
 
@@ -72,7 +46,7 @@ createdb -U postgres -h localhost -p 5432 bot_car_number
 
 Создать и активировать виртуальное окружение:
 ```shell
-python3 -m venv .venv
+python3.11 -m venv .venv
 source .venv/bin/activate
 ```
 
@@ -83,7 +57,7 @@ pip install --upgrade pip
 
 Установить зависимости:
 ```shell
-pip install -r requirements.txt
+pip install -e .
 ```
 
 Выполнить миграции:
@@ -93,43 +67,5 @@ alembic upgrade head
 
 Запустить приложение:
 ```shell
-python -m app
-```
-
-## Установка в Docker на удаленный сервер
-Дальнейшая инструкция предполагает, что удаленный сервер настроен на работу 
-по SSH. На сервере установлен Docker.
-
-Отредактировать файл `.env` с переменными окружения:
-```shell
-# MODE
-DEBUG=False
-
-# BOT
-BOT_TOKEN=<bot_token>
-GROUP_ID=<group_id>
-
-# DB
-DB_TYPE=postgresql
-DB_CONNECTOR=psycopg
-DB_HOST=db
-DB_PORT=5432
-POSTGRES_DB=bot_car_number
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-
-# REDIS
-REDIS_HOST=redis
-REDIS_PORT=6379
-
-# Docker images
-DB_IMAGE=postgres:14
-REDIS_IMAGE=redis:7
-BOT_IMAGE=ghcr.io/andprov/bot_car_number:latest
-```
-
-Скопировать на удаленный сервер файлы `.env` `docker-compose.production.yml`
-Выполнить на сервере сборку и запуск:
-```shell
-sudo docker compose -f docker-compose.prod.yml up -d
+python -m bot_car_number
 ```

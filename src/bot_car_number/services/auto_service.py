@@ -1,7 +1,7 @@
 import re
 
-from app.dao.auto import AutoDAO
-from app.db.models import Auto
+from bot_car_number.dao.auto import AutoDAO
+from bot_car_number.db.models import Auto
 
 
 class AutoService:

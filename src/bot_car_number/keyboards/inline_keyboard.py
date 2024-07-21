@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from app.misc.cmd import Button as btn
-from app.misc.cmd import Command as cmd
+from bot_car_number.misc.cmd import Button as btn
+from bot_car_number.misc.cmd import Command as cmd
 
 
 def get_btn(text: str, action: str) -> InlineKeyboardButton:

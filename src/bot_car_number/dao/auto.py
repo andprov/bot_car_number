@@ -2,8 +2,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.dao.base import BaseDAO
-from app.db.models import Auto
+from bot_car_number.dao.base import BaseDAO
+from bot_car_number.db.models import Auto
 
 
 class AutoDAO(BaseDAO[Auto]):

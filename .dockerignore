@@ -1,7 +1,8 @@
-__pycache__/
-.mypy_cache/
-.pytest_cache/
 *.log
+**/__pycache__/
+**/mypy_cache/
+**/pytest_cache/
+bot_car_number.egg-info/
 .idea/
 .vscode/
 .venv/

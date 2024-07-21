@@ -7,3 +7,4 @@ __pycache__/
 .git
 .mypy_cache
 data/
+bot_car_number.egg-info/

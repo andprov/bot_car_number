@@ -3,9 +3,9 @@ from datetime import timedelta
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.config import TIME_LIMIT
-from app.dao.base import BaseDAO
-from app.db.models import Stats
+from bot_car_number.config import TIME_LIMIT
+from bot_car_number.dao.base import BaseDAO
+from bot_car_number.db.models import Stats
 
 
 class StatsDAO(BaseDAO[Stats]):

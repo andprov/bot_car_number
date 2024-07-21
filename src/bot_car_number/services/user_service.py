@@ -1,9 +1,9 @@
 from aiogram.types import Contact
 
-from app.config import MAX_REGISTRATIONS_COUNT
-from app.dao.registration import RegDAO
-from app.dao.user import UserDAO
-from app.db.models import User
+from bot_car_number.config import MAX_REGISTRATIONS_COUNT
+from bot_car_number.dao.registration import RegDAO
+from bot_car_number.dao.user import UserDAO
+from bot_car_number.db.models import User
 
 
 class UserService:

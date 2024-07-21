@@ -3,8 +3,8 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 
-from app.dao.user import UserDAO
-from app.services.user_service import UserService
+from bot_car_number.dao.user import UserDAO
+from bot_car_number.services.user_service import UserService
 
 
 class PrivateMiddleware(BaseMiddleware):

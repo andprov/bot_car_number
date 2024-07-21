@@ -1,7 +1,7 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
-from app.misc.cmd import Button as btn
+from bot_car_number.misc.cmd import Button as btn
 
 
 def contact_kb() -> ReplyKeyboardMarkup:

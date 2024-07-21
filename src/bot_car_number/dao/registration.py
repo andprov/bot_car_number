@@ -1,8 +1,8 @@
 from sqlalchemy import update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.dao.base import BaseDAO
-from app.db.models import Registration
+from bot_car_number.dao.base import BaseDAO
+from bot_car_number.db.models import Registration
 
 
 class RegDAO(BaseDAO[Registration]):

@@ -2,18 +2,18 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
-from app.dao.registration import RegDAO
-from app.dao.user import UserDAO
-from app.handlers.states import AddUser
-from app.keyboards.inline_keyboard import (
+from bot_car_number.dao.registration import RegDAO
+from bot_car_number.dao.user import UserDAO
+from bot_car_number.handlers.states import AddUser
+from bot_car_number.keyboards.inline_keyboard import (
     add_del_back_kb,
     confirm_del_kb,
     main_kb,
 )
-from app.keyboards.reply_keyboard import contact_kb
-from app.misc import msg
-from app.misc.cmd import Command as cmd
-from app.services.user_service import UserService
+from bot_car_number.keyboards.reply_keyboard import contact_kb
+from bot_car_number.misc import msg
+from bot_car_number.misc.cmd import Command as cmd
+from bot_car_number.services.user_service import UserService
 
 router = Router(name="user_commands-router")
 

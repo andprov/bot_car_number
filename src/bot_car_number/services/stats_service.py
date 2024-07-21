@@ -1,5 +1,5 @@
-from app.config import SEARCH_COUNT_LIMIT
-from app.dao.stats import StatsDAO
+from bot_car_number.config import SEARCH_COUNT_LIMIT
+from bot_car_number.dao.stats import StatsDAO
 
 
 class StatsService:

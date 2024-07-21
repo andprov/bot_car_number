@@ -8,6 +8,11 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
     restart: on-failure
   
   redis:
@@ -20,7 +25,7 @@ services:
     image: ${BOT_IMAGE}
     env_file: .env
     depends_on:
-      - db
-      - redis
-    command: sh -c "sleep 10 && alembic upgrade head && python -m app"
+      db:
+        condition: service_healthy
+    command: sh -c "alembic upgrade head && python -m bot"
     restart: on-failure

@@ -3,17 +3,17 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
-from app.config import SEARCH_COUNT_LIMIT
-from app.dao.auto import AutoDAO
-from app.dao.stats import StatsDAO
-from app.dao.user import UserDAO
-from app.handlers.states import SearchAuto
-from app.keyboards.inline_keyboard import back_kb
-from app.misc import msg
-from app.misc.cmd import Command as cmd
-from app.services.auto_service import AutoService
-from app.services.stats_service import StatsService
-from app.services.user_service import UserService
+from bot_car_number.config import SEARCH_COUNT_LIMIT
+from bot_car_number.dao.auto import AutoDAO
+from bot_car_number.dao.stats import StatsDAO
+from bot_car_number.dao.user import UserDAO
+from bot_car_number.handlers.states import SearchAuto
+from bot_car_number.keyboards.inline_keyboard import back_kb
+from bot_car_number.misc import msg
+from bot_car_number.misc.cmd import Command as cmd
+from bot_car_number.services.auto_service import AutoService
+from bot_car_number.services.stats_service import StatsService
+from bot_car_number.services.user_service import UserService
 
 router = Router(name="search_commands-router")
 
