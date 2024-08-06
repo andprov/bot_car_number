@@ -2,12 +2,14 @@
 **/__pycache__/
 **/mypy_cache/
 **/pytest_cache/
-bot_car_number.egg-info/
+**.egg-info/
 .idea/
-.vscode/
-.venv/
 .git/
+.devcontainer/
 .github/
+.ruff_cache/
+.venv/
+.vscode/
 .gitignore
 .dockerignore
 Dockerfile
