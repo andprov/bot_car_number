@@ -6,8 +6,9 @@ from bot_car_number.dao.registration import RegDAO
 from bot_car_number.dao.user import UserDAO
 from bot_car_number.handlers.states import AddUser
 from bot_car_number.keyboards.inline_keyboard import (
-    add_del_back_kb,
+    add_back_kb,
     confirm_del_kb,
+    del_back_btn,
     main_kb,
 )
 from bot_car_number.keyboards.reply_keyboard import contact_kb
@@ -17,13 +18,24 @@ from bot_car_number.services.user_service import UserService
 
 router = Router(name="user_commands-router")
 
-USER_MENU_KEYBOARD = add_del_back_kb(cmd.USER_ADD, cmd.USER_DEL, cmd.MAIN)
+USER_MENU_ADD_KEYBOARD = add_back_kb(cmd.USER_ADD, cmd.MAIN)
+USER_MENU_DELETE_KEYBOARD = del_back_btn(cmd.USER_DEL, cmd.MAIN)
 
 
 @router.callback_query(F.data == cmd.USER)
-async def user_menu(call: CallbackQuery) -> None:
+async def user_menu(call: CallbackQuery, user_dao: UserDAO) -> None:
     """Обработчик вызова меню управления данными пользователя."""
-    await call.message.edit_text(msg.USER_MSG, reply_markup=USER_MENU_KEYBOARD)
+    if await UserService.check_user(user_dao, call.from_user.id):
+        user = await UserService.get_user_with_auto(
+            user_dao, call.from_user.id
+        )
+        await call.message.edit_text(
+            msg.user_msg(user), reply_markup=USER_MENU_DELETE_KEYBOARD
+        )
+        return
+    await call.message.edit_text(
+        msg.user_msg(), reply_markup=USER_MENU_ADD_KEYBOARD
+    )
 
 
 @router.callback_query(F.data == cmd.USER_ADD)

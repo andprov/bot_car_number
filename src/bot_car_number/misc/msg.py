@@ -1,6 +1,6 @@
 from aiogram.utils.markdown import hbold
 
-from bot_car_number.db.models import Auto
+from bot_car_number.db.models import Auto, User
 from bot_car_number.misc.cmd import Button as btn
 
 CANCEL_MSG = "Действие отменено."
@@ -25,11 +25,6 @@ NO_AUTO_MSG = (
 
 
 # USER_MENU
-USER_MSG = (
-    "* Мои данные *\n"
-    f"\n{btn.ADD_TXT} свои контактные данные в базу данных бота.\n"
-    f"\n{btn.DELETE_TXT} свои контактные данные и автомобили из базы данных."
-)
 USER_CONTACT_MSG = "Нажмите Отправить или Отмена."
 USER_WRONG_MSG = "Вы отправили данные другого пользователя!"
 USER_ADD_MSG = "Ваши контактные данные добавлены в базу."
@@ -120,3 +115,15 @@ def autos_msg(autos: list[Auto] | None) -> str:
         f"\n{btn.DELETE_TXT} данные автомобиля из базы данных.\n"
         "----------\n" + text
     )
+
+
+def user_msg(user: User | None = None) -> str:
+    """Вернуть сообщение Мои данные."""
+    button = f"\n{btn.ADD_TXT} свои контактные данные в базу данных бота."
+    if user:
+        button = (
+            f"\nПривет, {user.first_name}!"
+            f"\nВ этом меню ты можешь {btn.DELETE_TXT} свои контактные данные "
+            f"и все автомобили."
+        )
+    return f"* Мои данные *\n{button}"

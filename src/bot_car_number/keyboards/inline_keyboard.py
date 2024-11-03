@@ -47,3 +47,17 @@ def add_del_back_kb(add: str, delete: str, back: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[[add_btn, delete_btn], [back_btn]]
     )
+
+
+def add_back_kb(add: str, back: str) -> InlineKeyboardMarkup:
+    """Клавиатура добавления, возврата."""
+    add_btn = get_btn(btn.ADD_TXT, add)
+    back_btn = get_btn(btn.BACK_TXT, back)
+    return InlineKeyboardMarkup(inline_keyboard=[[add_btn], [back_btn]])
+
+
+def del_back_btn(delete: str, back: str) -> InlineKeyboardMarkup:
+    """Клавиатура удаления, возврата."""
+    delete_btn = get_btn(btn.DELETE_TXT, delete)
+    back_btn = get_btn(btn.BACK_TXT, back)
+    return InlineKeyboardMarkup(inline_keyboard=[[delete_btn], [back_btn]])
