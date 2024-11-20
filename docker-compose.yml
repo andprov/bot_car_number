@@ -13,12 +13,12 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
-    restart: on-failure
+    restart: always
   
   redis:
     container_name: bot_car_number_redis
     image: ${REDIS_IMAGE}
-    restart: on-failure
+    restart: always
 
   bot:
     container_name: bot_car_number
@@ -28,4 +28,4 @@ services:
       db:
         condition: service_healthy
     command: sh -c "alembic upgrade head && python -m bot_car_number"
-    restart: on-failure
+    restart: always
