@@ -8,9 +8,12 @@ from bot_car_number.dao.auto import AutoDAO
 from bot_car_number.dao.registration import RegDAO
 from bot_car_number.dao.stats import StatsDAO
 from bot_car_number.dao.user import UserDAO
+from bot_car_number.services.auto_service import AutoService
+from bot_car_number.services.stats_service import StatsService
+from bot_car_number.services.user_service import UserService
 
 
-class DbMiddleware(BaseMiddleware):
+class DiMiddleware(BaseMiddleware):
     def __init__(
         self,
         session_pool: async_sessionmaker,
@@ -24,6 +27,9 @@ class DbMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
+        data["user_service"] = UserService
+        data["auto_service"] = AutoService
+        data["stats_service"] = StatsService
         async with self.session_pool() as session:
             data["user_dao"] = UserDAO(session)
             data["auto_dao"] = AutoDAO(session)

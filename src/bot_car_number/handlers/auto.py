@@ -8,7 +8,11 @@ from bot_car_number.dao.auto import AutoDAO
 from bot_car_number.dao.user import UserDAO
 from bot_car_number.handlers.menu import get_autos_menu
 from bot_car_number.handlers.states import AddAuto, DeleteAuto
-from bot_car_number.keyboards.inline_keyboard import back_kb, confirm_del_kb, save_kb
+from bot_car_number.keyboards.inline_keyboard import (
+    back_kb,
+    confirm_del_kb,
+    save_kb,
+)
 from bot_car_number.misc import msg
 from bot_car_number.misc.cmd import Command as cmd
 from bot_car_number.services.auto_service import AutoService
@@ -23,10 +27,11 @@ BACK_KB = back_kb(cmd.AUTO_MENU)
 async def auto_menu(
     call: CallbackQuery,
     state: FSMContext,
+    user_service: UserService,
     user_dao: UserDAO,
 ) -> None:
     """Обработчик вызова меню управления автомобилями пользователя."""
-    await get_autos_menu(call, state, user_dao)
+    await get_autos_menu(call, state, user_service, user_dao)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_ADD)
@@ -34,9 +39,10 @@ async def add_auto(
     call: CallbackQuery,
     state: FSMContext,
     user_dao: UserDAO,
+    user_service: UserService,
 ) -> None:
     """Обработчик перехода к добавлению автомобиля."""
-    user = await UserService.get_user_with_auto(user_dao, call.from_user.id)
+    user = await user_service.get_user_with_auto(user_dao, call.from_user.id)
     if user:
         if len(user.autos) >= MAX_AUTO_COUNT:
             await call.answer(msg.AUTO_MAX_COUNT_MSG, True)
@@ -53,13 +59,14 @@ async def add_number(
     message: Message,
     state: FSMContext,
     auto_dao: AutoDAO,
+    auto_service: AutoService,
 ) -> None:
     """Обработчик ввода номера автомобиля при добавлении."""
     number = message.text.upper()
-    if not AutoService.validate_number(number):
+    if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    if await AutoService.check_auto(auto_dao, number):
+    if await auto_service.check_auto(auto_dao, number):
         await message.answer(msg.AUTO_EXIST_MSG, reply_markup=BACK_KB)
         return
     await message.answer(msg.AUTO_ADD_MODEL_MSG, reply_markup=BACK_KB)
@@ -90,14 +97,16 @@ async def add_model(
 async def add_auto_confirm(
     call: CallbackQuery,
     state: FSMContext,
+    user_service: UserService,
+    auto_service: AutoService,
     user_dao: UserDAO,
     auto_dao: AutoDAO,
 ) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
     data = await state.get_data()
-    if not await AutoService.check_auto(auto_dao, data["number"]):
-        await AutoService.add_auto(auto_dao, **data)
-    await get_autos_menu(call, state, user_dao)
+    if not await auto_service.check_auto(auto_dao, data["number"]):
+        await auto_service.add_auto(auto_dao, **data)
+    await get_autos_menu(call, state, user_service, user_dao)
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_DEL)
@@ -105,9 +114,10 @@ async def delete_auto(
     call: CallbackQuery,
     state: FSMContext,
     user_dao: UserDAO,
+    user_service: UserService,
 ) -> None:
     """Обработчик нажатия кнопки удаления автомобиля."""
-    user = await UserService.get_user_with_auto(user_dao, call.from_user.id)
+    user = await user_service.get_user_with_auto(user_dao, call.from_user.id)
     if user:
         if not user.autos:
             await call.answer(msg.AUTO_NONE_MSG, True)
@@ -123,13 +133,14 @@ async def enter_number(
     message: Message,
     state: FSMContext,
     auto_dao: AutoDAO,
+    auto_service: AutoService,
 ) -> None:
     """Обработчик ввода номера автомобиля при удалении."""
     number = message.text.upper()
-    if not AutoService.validate_number(number):
+    if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    auto = await AutoService.get_auto(auto_dao, number)
+    auto = await auto_service.get_auto(auto_dao, number)
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return
@@ -146,6 +157,8 @@ async def enter_number(
 async def delete_auto_confirm(
     call: CallbackQuery,
     state: FSMContext,
+    user_service: UserService,
+    auto_service: AutoService,
     user_dao: UserDAO,
     auto_dao: AutoDAO,
 ) -> None:
@@ -153,5 +166,5 @@ async def delete_auto_confirm(
     data = await state.get_data()
     auto_id = data.get("auto_id")
     if auto_id:
-        await AutoService.delete_auto(auto_dao, auto_id)
-    await get_autos_menu(call, state, user_dao)
+        await auto_service.delete_auto(auto_dao, auto_id)
+    await get_autos_menu(call, state, user_service, user_dao)

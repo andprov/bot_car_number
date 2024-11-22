@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from bot_car_number.config import load_config
 from bot_car_number.handlers import auto, menu, search, user
 from bot_car_number.middlewares.access import PrivateMiddleware
-from bot_car_number.middlewares.db_session import DbMiddleware
+from bot_car_number.middlewares.db_session import DiMiddleware
 from bot_car_number.misc.ui_commands import set_ui_commands
 
 logger = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ async def main():
     sessionmaker = async_sessionmaker(engine, expire_on_commit=False)
 
     dp = Dispatcher(storage=storage)
-    dp.update.middleware(DbMiddleware(sessionmaker))
+    dp.update.middleware(DiMiddleware(sessionmaker))
     dp.update.middleware(PrivateMiddleware(config.bot.group))
     dp.include_routers(menu.router, user.router, auto.router, search.router)
 

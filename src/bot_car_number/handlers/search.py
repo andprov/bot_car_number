@@ -24,11 +24,13 @@ BACK_KB = back_kb(cmd.MAIN)
 async def search(
     call: CallbackQuery,
     state: FSMContext,
+    user_service: UserService,
+    stats_service: StatsService,
     user_dao: UserDAO,
     stats_dao: StatsDAO,
 ) -> None:
     """Обработчик перехода к поиску."""
-    user = await UserService.get_user_with_auto(
+    user = await user_service.get_user_with_auto(
         user_dao, tg_id=call.from_user.id
     )
     if not user:
@@ -37,7 +39,7 @@ async def search(
     if not user.autos:
         await call.answer(msg.NO_AUTO_MSG, True)
         return
-    if not await StatsService.check_search_access(stats_dao, user.id):
+    if not await stats_service.check_search_access(stats_dao, user.id):
         await call.answer(msg.SEARCH_ACCESS_DENIED, True)
         return
     await call.message.edit_text(
@@ -53,13 +55,15 @@ async def enter_search_number(
     state: FSMContext,
     auto_dao: AutoDAO,
     stats_dao: StatsDAO,
+    auto_service: AutoService,
+    stats_service: StatsService,
 ) -> None:
     """Обработчик ввода номера автомобиля при поиске."""
     number = message.text.upper()
-    if not AutoService.validate_number(number):
+    if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    auto = await AutoService.get_auto(auto_dao, number)
+    auto = await auto_service.get_auto(auto_dao, number)
 
     data = await state.get_data()
     search_count = data["search_count"]
@@ -67,7 +71,7 @@ async def enter_search_number(
         await message.answer(msg.SEARCH_ACCESS_DENIED)
         await state.clear()
         return
-    await StatsService.add_search_try(stats_dao, data["user_id"], number)
+    await stats_service.add_search_try(stats_dao, data["user_id"], number)
     search_count += 1
     await state.update_data(search_count=search_count)
 

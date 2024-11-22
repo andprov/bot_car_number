@@ -63,10 +63,11 @@ async def cmd_cancel(
 async def get_autos_menu(
     call: CallbackQuery,
     state: FSMContext,
+    user_service: UserService,
     user_dao: UserDAO,
 ) -> None:
     """Обработчик вызова меню управления автомобилями."""
-    user = await UserService.get_user_with_auto(user_dao, call.from_user.id)
+    user = await user_service.get_user_with_auto(user_dao, call.from_user.id)
     if user is None:
         await call.answer(msg.NO_DATA_MSG, True)
         return
