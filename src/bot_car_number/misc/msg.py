@@ -11,8 +11,9 @@ EMPTY_MSG = "-пусто-"
 # MAIN_MENU
 MAIN_MSG = (
     "* Главное меню *\n"
-    f"\n'{btn.USER_MENU_TXT}' - управление данными пользователя.\n"
+    f"\n'{btn.USER_MENU_TXT}' - управление данными пользователя."
     f"\n'{btn.AUTO_MENU_TXT}' - управление данными автомобилей."
+    f"\n'{btn.SEARCH_TXT}' - поиск владельца по номеру автомобиля."
 )
 NO_DATA_MSG = (
     f"Для получения доступа, добавьте свои данные в меню - "
@@ -105,9 +106,7 @@ def autos_msg(autos: list[Auto] | None) -> str:
         text = "\n".join(map(str, autos))
     return (
         "* Мои автомобили *\n"
-        f"\n{btn.ADD_TXT} данные автомобиля.\n"
-        f"\n{btn.DELETE_TXT} данные автомобиля.\n"
-        "----------\n" + text
+        "\n----------\n" + text
     )
 
 
