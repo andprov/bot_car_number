@@ -1,6 +1,6 @@
 from aiogram.utils.markdown import hbold
 
-from bot_car_number.db.models import Auto, User
+from bot_car_number.db.models import Auto
 from bot_car_number.misc.cmd import Button as btn
 
 CANCEL_MSG = "Действие отменено."
@@ -11,19 +11,22 @@ EMPTY_MSG = "-пусто-"
 # MAIN_MENU
 MAIN_MSG = (
     "* Главное меню *\n"
-    f"\n'{btn.USER_MENU_TXT}' - управление данными пользователя."
-    f"\n'{btn.AUTO_MENU_TXT}' - управление данными автомобилей."
-    f"\n'{btn.SEARCH_TXT}' - поиск владельца по номеру автомобиля."
+    f"\n{hbold(btn.USER_MENU_TXT)}: управление данными пользователя."
+    f"\n{hbold(btn.AUTO_MENU_TXT)}: управление данными автомобилей."
+    f"\n{hbold(btn.SEARCH_TXT)}: поиск владельца по номеру автомобиля."
 )
 NO_DATA_MSG = (
     f"Для получения доступа, добавьте свои данные в меню - "
-    f"'{btn.USER_MENU_TXT}'."
+    f"{btn.USER_MENU_TXT}."
 )
 NO_AUTO_MSG = f"Добавьте свой автомобиль в меню - '{btn.AUTO_MENU_TXT}'."
 
 
 # USER_MENU
-USER_CONTACT_MSG = "Нажмите Отправить или Отмена."
+USER_CONTACT_MSG = (
+    "Нажмите 'Отправить', что бы передать боту номер телефона или"
+    " нажмите 'Отмена'."
+)
 USER_WRONG_MSG = "Вы отправили данные другого пользователя!"
 USER_ADD_MSG = "Ваши контактные данные добавлены."
 USER_DELETE_MSG = "Ваши данные удалены."
@@ -41,7 +44,7 @@ USER_MAX_COUNT_REGISTRATIONS_MSG = (
 
 
 # AUTO_MENU
-AUTO_MAX_COUNT_MSG = "Vаксимальное кол-во автомобилей уже добавлено."
+AUTO_MAX_COUNT_MSG = "Максимальное кол-во автомобилей уже добавлено."
 AUTO_NONE_MSG = "Автомобилей не найдено."
 AUTO_ENTER_NUMBER_MSG = (
     f"Введите номер автомобиля в формате {hbold('е001кх199')}. "
@@ -73,11 +76,10 @@ AUTO_DEL_CONFIRM_MSG = (
     "Это действие невозможно отменить!"
 )
 AUTO_NOT_EXIST_MSG = (
-    "Автомобиля с таким номером не существует!" f"\n\n{AUTO_ENTER_NUMBER_MSG}"
+    "Автомобиль с таким номером не найден!" f"\n\n{AUTO_ENTER_NUMBER_MSG}"
 )
 AUTO_NOT_YOURS_MSG = (
-    "Данный номер автомобиля вам не принадлежит и вы не можете его удалить!\n"
-    f"\n{AUTO_ENTER_NUMBER_MSG}"
+    "Невозможно удалить данный номер.\n" f"\n{AUTO_ENTER_NUMBER_MSG}"
 )
 
 
@@ -93,7 +95,7 @@ def start_msg(first_name: str) -> str:
     """Вернуть приветственное сообщение."""
     return (
         f"Привет {hbold(first_name)}! Я могу записать данные твоего "
-        "автомобиля и поделиться с тобой контактными данными других "
+        "автомобиля и поделиться контактными данными других "
         "автовладельцев.\n\n"
         f"Главное меню бота: /main"
     )
@@ -104,15 +106,9 @@ def autos_msg(autos: list[Auto] | None) -> str:
     text = EMPTY_MSG
     if autos:
         text = "\n".join(map(str, autos))
-    return (
-        "* Мои автомобили *\n"
-        "\n----------\n" + text
-    )
+    return "* Мои автомобили *\n" "\n----------\n" + text
 
 
-def user_msg(user: User | None = None) -> str:
+def user_msg(text: str) -> str:
     """Вернуть сообщение Мои данные."""
-    msg = f"\n{btn.ADD_TXT} свои контактные данные."
-    if user:
-        msg = f"\n{btn.DELETE_TXT} свои контактные данные "
-    return f"* Мои данные *\n{msg}"
+    return f"* Мои данные *\n{text} свои контактные данные."
