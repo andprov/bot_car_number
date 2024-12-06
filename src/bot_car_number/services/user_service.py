@@ -44,7 +44,7 @@ class UserService:
             await dao.add(tg_id=tg_id)
             return False
         count = await dao.get_registrations_count(tg_id=tg_id)
-        if count > MAX_REGISTRATIONS_COUNT:
+        if count and count > MAX_REGISTRATIONS_COUNT:
             return True
         return False
 
@@ -54,8 +54,9 @@ class UserService:
         await dao.set_user_banned_true(tg_id=tg_id)
 
     @classmethod
-    async def get_user_banned(cls, dao: UserDAO, tg_id: int) -> bool | None:
+    async def get_user_banned(cls, dao: UserDAO, tg_id: int) -> bool:
         """Вернуть статус блокировки пользователя."""
         user = await dao.find_one_or_none(tg_id=tg_id)
         if user:
             return user.banned
+        return False

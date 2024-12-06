@@ -6,7 +6,7 @@ from bot_car_number.db.models import User
 
 
 class UserDAO:
-    def __init__(self, model: type[User], session: AsyncSession) -> None:
+    def __init__(self, model: type[User], session: AsyncSession):
         self.model = model
         self.session = session
 

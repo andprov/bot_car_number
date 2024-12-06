@@ -8,7 +8,7 @@ from bot_car_number.db.models import Stats
 
 
 class StatsDAO:
-    def __init__(self, model: type[Stats], session: AsyncSession) -> None:
+    def __init__(self, model: type[Stats], session: AsyncSession):
         self.model = model
         self.session = session
 
@@ -17,7 +17,7 @@ class StatsDAO:
         await self.session.execute(query)
         await self.session.commit()
 
-    async def get_day_search_count(self, user_id: int) -> int:
+    async def get_day_search_count(self, user_id: int) -> int | None:
         query = select(func.count(Stats.id)).where(
             Stats.user_id == user_id,
             Stats.data >= func.now() - timedelta(hours=TIME_LIMIT),

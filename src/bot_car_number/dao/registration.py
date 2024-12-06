@@ -5,9 +5,7 @@ from bot_car_number.db.models import Registration
 
 
 class RegDAO:
-    def __init__(
-        self, model: type[Registration], session: AsyncSession
-    ) -> None:
+    def __init__(self, model: type[Registration], session: AsyncSession):
         self.model = model
         self.session = session
 
@@ -21,7 +19,7 @@ class RegDAO:
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
 
-    async def get_registrations_count(self, tg_id: int) -> int:
+    async def get_registrations_count(self, tg_id: int) -> int | None:
         query = (
             update(Registration)
             .filter_by(tg_id=tg_id)
