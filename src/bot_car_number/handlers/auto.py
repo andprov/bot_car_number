@@ -5,7 +5,7 @@ from aiogram.types import CallbackQuery, Message
 
 from bot_car_number.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
 from bot_car_number.dao.auto import AutoDAO
-from bot_car_number.dao.user import UserDAO
+from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.handlers.menu import get_autos_menu
 from bot_car_number.handlers.states import AddAuto, DeleteAuto
 from bot_car_number.keyboards.inline_keyboard import (
@@ -28,7 +28,7 @@ async def auto_menu(
     call: CallbackQuery,
     state: FSMContext,
     user_service: UserService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
 ) -> None:
     """Обработчик вызова меню управления автомобилями пользователя."""
     await get_autos_menu(call, state, user_service, user_dao)
@@ -38,7 +38,7 @@ async def auto_menu(
 async def add_auto(
     call: CallbackQuery,
     state: FSMContext,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
     user_service: UserService,
 ) -> None:
     """Обработчик перехода к добавлению автомобиля."""
@@ -99,7 +99,7 @@ async def add_auto_confirm(
     state: FSMContext,
     user_service: UserService,
     auto_service: AutoService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
     auto_dao: AutoDAO,
 ) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
@@ -113,7 +113,7 @@ async def add_auto_confirm(
 async def delete_auto(
     call: CallbackQuery,
     state: FSMContext,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
     user_service: UserService,
 ) -> None:
     """Обработчик нажатия кнопки удаления автомобиля."""
@@ -159,7 +159,7 @@ async def delete_auto_confirm(
     state: FSMContext,
     user_service: UserService,
     auto_service: AutoService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
     auto_dao: AutoDAO,
 ) -> None:
     """Обработчик подтверждения удаления автомобиля из БД."""

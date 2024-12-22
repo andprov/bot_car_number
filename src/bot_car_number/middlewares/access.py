@@ -3,7 +3,7 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 
-from bot_car_number.dao.user import UserDAO
+from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.services.user_service import UserService
 
 
@@ -18,7 +18,7 @@ class PrivateMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         tg_id = data["event_from_user"].id
-        user_dao: UserDAO = data["user_dao"]
+        user_dao: DatabaseUserGateway = data["user_dao"]
         user_service: UserService = data["user_service"]
         status = ["creator", "administrator", "member"]
         member = await event.bot.get_chat_member(self.group, tg_id)

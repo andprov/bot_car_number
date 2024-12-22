@@ -6,7 +6,7 @@ from aiogram.types import CallbackQuery, Message
 from bot_car_number.config import SEARCH_COUNT_LIMIT
 from bot_car_number.dao.auto import AutoDAO
 from bot_car_number.dao.stats import StatsDAO
-from bot_car_number.dao.user import UserDAO
+from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.handlers.states import SearchAuto
 from bot_car_number.keyboards.inline_keyboard import back_kb
 from bot_car_number.misc import msg
@@ -26,7 +26,7 @@ async def search(
     state: FSMContext,
     user_service: UserService,
     stats_service: StatsService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
     stats_dao: StatsDAO,
 ) -> None:
     """Обработчик перехода к поиску."""

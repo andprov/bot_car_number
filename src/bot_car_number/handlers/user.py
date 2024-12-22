@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
 from bot_car_number.dao.registration import RegDAO
-from bot_car_number.dao.user import UserDAO
+from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.handlers.states import AddUser
 from bot_car_number.keyboards.inline_keyboard import (
     add_back_kb,
@@ -27,12 +27,12 @@ USER_MENU_DELETE_KEYBOARD = del_back_btn(cmd.USER_DEL, cmd.MAIN)
 async def user_menu(
     call: CallbackQuery,
     user_service: UserService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
 ) -> None:
     """Обработчик вызова меню управления данными пользователя."""
     keyboard = USER_MENU_ADD_KEYBOARD
     text = btn.ADD_TXT
-    if await user_service.check_user(user_dao, call.from_user.id):
+    if await user_service.check_user_exists(user_dao, call.from_user.id):
         keyboard = USER_MENU_DELETE_KEYBOARD
         text = btn.DELETE_TXT
     await call.message.edit_text(msg.user_msg(text), reply_markup=keyboard)
@@ -43,10 +43,10 @@ async def add_user(
     call: CallbackQuery,
     state: FSMContext,
     user_service: UserService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
 ) -> None:
     """Обработчик нажатия кнопки добавления пользователя."""
-    if await user_service.check_user(user_dao, call.from_user.id):
+    if await user_service.check_user_exists(user_dao, call.from_user.id):
         await call.answer(msg.USER_EXIST_MSG, True)
         return
     await call.message.delete()
@@ -59,7 +59,7 @@ async def add_user_contact(
     message: Message,
     state: FSMContext,
     user_service: UserService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
     registration_dao: RegDAO,
 ) -> None:
     """Обработчик ответа пользователя с контактными данными."""
@@ -86,10 +86,10 @@ async def add_user_contact(
 async def delete_user(
     call: CallbackQuery,
     user_service: UserService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
 ) -> None:
     """Обработчик нажатия кнопки удаления пользователя."""
-    if await user_service.check_user(user_dao, call.from_user.id):
+    if await user_service.check_user_exists(user_dao, call.from_user.id):
         await call.message.edit_text(
             msg.USER_DEL_CONFIRM_MSG,
             reply_markup=confirm_del_kb(cmd.USER_DEL_CONFIRM, cmd.USER),
@@ -102,7 +102,7 @@ async def delete_user(
 async def delete_user_confirm(
     call: CallbackQuery,
     user_service: UserService,
-    user_dao: UserDAO,
+    user_dao: DatabaseUserGateway,
 ) -> None:
     """Обработчик подтверждения удаления пользователя и автомобилей из БД."""
     await user_service.delete_user(user_dao, call.from_user.id)
