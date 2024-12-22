@@ -17,7 +17,7 @@ class StatsDAO:
         await self.session.execute(query)
         await self.session.commit()
 
-    async def get_day_search_count(self, user_id: int) -> int | None:
+    async def get_day_search_count(self, user_id: int) -> int:
         query = select(func.count(Stats.id)).where(
             Stats.user_id == user_id,
             Stats.data >= func.now() - timedelta(hours=TIME_LIMIT),
