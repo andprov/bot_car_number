@@ -8,8 +8,8 @@ from bot_car_number.db.models import Stats
 
 
 class StatsDAO:
-    def __init__(self, model: type[Stats], session: AsyncSession):
-        self.model = model
+    def __init__(self, session: AsyncSession):
+        self.model = Stats
         self.session = session
 
     async def add(self, **data) -> None:

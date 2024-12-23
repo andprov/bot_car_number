@@ -5,8 +5,8 @@ from bot_car_number.db.models import Registration
 
 
 class RegDAO:
-    def __init__(self, model: type[Registration], session: AsyncSession):
-        self.model = model
+    def __init__(self, session: AsyncSession):
+        self.model = Registration
         self.session = session
 
     async def add(self, **data) -> None:
@@ -21,10 +21,10 @@ class RegDAO:
 
     async def get_registrations_count(self, tg_id: int) -> int | None:
         query = (
-            update(Registration)
+            update(self.model)
             .filter_by(tg_id=tg_id)
-            .values(count=Registration.count + 1)
-        ).returning(Registration.count)
+            .values(count=self.model.count + 1)
+        ).returning(self.model.count)
         count = await self.session.execute(query)
         await self.session.commit()
         return count.scalar()

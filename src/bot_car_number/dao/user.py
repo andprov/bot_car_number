@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseUserGateway(UserGateway):
-    def __init__(self, model: type[UserDBModel], session: AsyncSession):
-        self.model = model
+    def __init__(self, session: AsyncSession):
+        self.model = UserDBModel
         self.session = session
 
     async def add_user(self, user: User) -> None:

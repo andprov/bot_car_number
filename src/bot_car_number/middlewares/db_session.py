@@ -8,7 +8,6 @@ from bot_car_number.dao.auto import DatabaseAutoGateway
 from bot_car_number.dao.registration import RegDAO
 from bot_car_number.dao.stats import StatsDAO
 from bot_car_number.dao.user import DatabaseUserGateway
-from bot_car_number.db.models import Auto, Registration, Stats, User
 
 
 class SessionMiddleware(BaseMiddleware):
@@ -23,8 +22,8 @@ class SessionMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         async with self.session_pool() as session:
-            data["user_dao"] = DatabaseUserGateway(User, session)
-            data["auto_dao"] = DatabaseAutoGateway(Auto, session)
-            data["stats_dao"] = StatsDAO(Stats, session)
-            data["registration_dao"] = RegDAO(Registration, session)
+            data["user_dao"] = DatabaseUserGateway(session)
+            data["auto_dao"] = DatabaseAutoGateway(session)
+            data["stats_dao"] = StatsDAO(session)
+            data["registration_dao"] = RegDAO(session)
             return await handler(event, data)
