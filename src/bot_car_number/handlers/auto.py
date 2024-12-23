@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from bot_car_number.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
-from bot_car_number.dao.auto import AutoDAO
+from bot_car_number.dao.auto import DatabaseAutoGateway
 from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.handlers.menu import get_autos_menu
 from bot_car_number.handlers.states import AddAuto, DeleteAuto
@@ -29,22 +29,36 @@ async def auto_menu(
     state: FSMContext,
     user_service: UserService,
     user_dao: DatabaseUserGateway,
+    auto_service: AutoService,
+    auto_dao: DatabaseAutoGateway,
 ) -> None:
     """Обработчик вызова меню управления автомобилями пользователя."""
-    await get_autos_menu(call, state, user_service, user_dao)
+    await get_autos_menu(
+        call,
+        state,
+        user_service,
+        user_dao,
+        auto_service,
+        auto_dao,
+    )
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_ADD)
 async def add_auto(
     call: CallbackQuery,
     state: FSMContext,
-    user_dao: DatabaseUserGateway,
     user_service: UserService,
+    auto_service: AutoService,
+    user_dao: DatabaseUserGateway,
+    auto_dao: DatabaseAutoGateway,
 ) -> None:
     """Обработчик перехода к добавлению автомобиля."""
-    user = await user_service.get_user_with_auto(user_dao, call.from_user.id)
+    user = await user_service.get_user_by_telegram_id(
+        user_dao, call.from_user.id
+    )
     if user:
-        if len(user.autos) >= MAX_AUTO_COUNT:
+        autos = await auto_service.get_user_autos(auto_dao, user.id)
+        if len(autos) >= MAX_AUTO_COUNT:
             await call.answer(msg.AUTO_MAX_COUNT_MSG, True)
             return
         await call.message.edit_text(
@@ -58,7 +72,7 @@ async def add_auto(
 async def add_number(
     message: Message,
     state: FSMContext,
-    auto_dao: AutoDAO,
+    auto_dao: DatabaseAutoGateway,
     auto_service: AutoService,
 ) -> None:
     """Обработчик ввода номера автомобиля при добавлении."""
@@ -100,13 +114,20 @@ async def add_auto_confirm(
     user_service: UserService,
     auto_service: AutoService,
     user_dao: DatabaseUserGateway,
-    auto_dao: AutoDAO,
+    auto_dao: DatabaseAutoGateway,
 ) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
     data = await state.get_data()
     if not await auto_service.check_auto(auto_dao, data["number"]):
         await auto_service.add_auto(auto_dao, **data)
-    await get_autos_menu(call, state, user_service, user_dao)
+    await get_autos_menu(
+        call,
+        state,
+        user_service,
+        user_dao,
+        auto_service,
+        auto_dao,
+    )
 
 
 @router.callback_query(StateFilter(None), F.data == cmd.AUTO_DEL)
@@ -114,12 +135,17 @@ async def delete_auto(
     call: CallbackQuery,
     state: FSMContext,
     user_dao: DatabaseUserGateway,
+    auto_dao: DatabaseAutoGateway,
     user_service: UserService,
+    auto_service: AutoService,
 ) -> None:
     """Обработчик нажатия кнопки удаления автомобиля."""
-    user = await user_service.get_user_with_auto(user_dao, call.from_user.id)
+    user = await user_service.get_user_by_telegram_id(
+        user_dao, call.from_user.id
+    )
     if user:
-        if not user.autos:
+        autos = await auto_service.get_user_autos(auto_dao, user.id)
+        if not autos:
             await call.answer(msg.AUTO_NONE_MSG, True)
             return
         await call.message.edit_text(
@@ -132,7 +158,9 @@ async def delete_auto(
 async def enter_number(
     message: Message,
     state: FSMContext,
-    auto_dao: AutoDAO,
+    user_service: UserService,
+    user_dao: DatabaseUserGateway,
+    auto_dao: DatabaseAutoGateway,
     auto_service: AutoService,
 ) -> None:
     """Обработчик ввода номера автомобиля при удалении."""
@@ -140,13 +168,18 @@ async def enter_number(
     if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    auto = await auto_service.get_auto(auto_dao, number)
+    auto = await auto_service.get_auto_by_number(auto_dao, number)
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return
-    if auto.owner.tg_id != message.from_user.id:
+
+    user = await user_service.get_user_by_telegram_id(
+        user_dao, tg_id=message.from_user.id
+    )
+    if user.id != auto.user_id:
         await message.answer(msg.AUTO_NOT_YOURS_MSG, reply_markup=BACK_KB)
         return
+
     keyboard = confirm_del_kb(cmd.AUTO_DEL_CONFIRM, cmd.AUTO_MENU)
     await message.answer(msg.AUTO_DEL_CONFIRM_MSG, reply_markup=keyboard)
     await state.update_data(auto_id=auto.id)
@@ -160,11 +193,18 @@ async def delete_auto_confirm(
     user_service: UserService,
     auto_service: AutoService,
     user_dao: DatabaseUserGateway,
-    auto_dao: AutoDAO,
+    auto_dao: DatabaseAutoGateway,
 ) -> None:
     """Обработчик подтверждения удаления автомобиля из БД."""
     data = await state.get_data()
     auto_id = data.get("auto_id")
     if auto_id:
         await auto_service.delete_auto(auto_dao, auto_id)
-    await get_autos_menu(call, state, user_service, user_dao)
+    await get_autos_menu(
+        call,
+        state,
+        user_service,
+        user_dao,
+        auto_service,
+        auto_dao,
+    )

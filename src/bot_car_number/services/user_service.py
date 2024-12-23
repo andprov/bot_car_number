@@ -3,7 +3,6 @@ from aiogram.types import Contact
 from bot_car_number.config import MAX_REGISTRATIONS_COUNT
 from bot_car_number.dao.registration import RegDAO
 from bot_car_number.dao.user import DatabaseUserGateway
-from bot_car_number.db.models import User as user_db_model
 from bot_car_number.entities.user import User
 
 
@@ -12,9 +11,7 @@ class UserService:
 
     @classmethod
     async def check_user_exists(
-        cls,
-        dao: DatabaseUserGateway,
-        tg_id: int,
+        cls, dao: DatabaseUserGateway, tg_id: int
     ) -> bool:
         """Проверить наличие пользователя в базе."""
         user = await dao.get_user_by_telegram_id(tg_id=tg_id)
@@ -24,9 +21,7 @@ class UserService:
 
     @classmethod
     async def add_user(
-        cls,
-        dao: DatabaseUserGateway,
-        contact: Contact,
+        cls, dao: DatabaseUserGateway, contact: Contact
     ) -> None:
         """Добавить пользователя в базу."""
         user = User(
@@ -38,18 +33,22 @@ class UserService:
         await dao.add_user(user)
 
     @classmethod
-    async def get_user_with_auto(
-        cls,
-        dao: DatabaseUserGateway,
-        tg_id: int,
-    ) -> user_db_model | None:
-        """Вернуть пользователя и его автомобили."""
-        return await dao.find_user_with_autos(tg_id=tg_id)
+    async def get_user(
+        cls, dao: DatabaseUserGateway, user_id: int
+    ) -> User | None:
+        return await dao.get_user(user_id=user_id)
+
+    @classmethod
+    async def get_user_by_telegram_id(
+        cls, dao: DatabaseUserGateway, tg_id: int
+    ) -> User | None:
+        """..."""
+        return await dao.get_user_by_telegram_id(tg_id=tg_id)
 
     @classmethod
     async def delete_user(cls, dao: DatabaseUserGateway, tg_id: int) -> None:
         """Удалить пользователя из базы."""
-        await dao.delete(tg_id=tg_id)
+        await dao.delete_user(tg_id=tg_id)
 
     @classmethod
     async def check_registration_limit(cls, dao: RegDAO, tg_id: int) -> bool:
@@ -71,9 +70,7 @@ class UserService:
 
     @classmethod
     async def get_user_banned(
-        cls,
-        dao: DatabaseUserGateway,
-        tg_id: int,
+        cls, dao: DatabaseUserGateway, tg_id: int
     ) -> bool:
         """Вернуть статус блокировки пользователя."""
         user = await dao.get_user_by_telegram_id(tg_id=tg_id)

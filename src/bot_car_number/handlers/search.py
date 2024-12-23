@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from bot_car_number.config import SEARCH_COUNT_LIMIT
-from bot_car_number.dao.auto import AutoDAO
+from bot_car_number.dao.auto import DatabaseAutoGateway
 from bot_car_number.dao.stats import StatsDAO
 from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.handlers.states import SearchAuto
@@ -25,23 +25,28 @@ async def search(
     call: CallbackQuery,
     state: FSMContext,
     user_service: UserService,
+    auto_service: AutoService,
     stats_service: StatsService,
     user_dao: DatabaseUserGateway,
+    auto_dao: DatabaseAutoGateway,
     stats_dao: StatsDAO,
 ) -> None:
     """Обработчик перехода к поиску."""
-    user = await user_service.get_user_with_auto(
-        user_dao, tg_id=call.from_user.id
+    user = await user_service.get_user_by_telegram_id(
+        user_dao, call.from_user.id
     )
     if not user:
         await call.answer(msg.NO_DATA_MSG, True)
         return
-    if not user.autos:
+
+    if not await auto_service.get_user_autos(auto_dao, user.id):
         await call.answer(msg.NO_AUTO_MSG, True)
         return
+
     if not await stats_service.check_search_access(stats_dao, user.id):
         await call.answer(msg.SEARCH_ACCESS_DENIED, True)
         return
+
     await call.message.edit_text(
         msg.AUTO_ENTER_NUMBER_MSG, reply_markup=BACK_KB
     )
@@ -53,9 +58,11 @@ async def search(
 async def enter_search_number(
     message: Message,
     state: FSMContext,
-    auto_dao: AutoDAO,
+    user_dao: DatabaseUserGateway,
+    auto_dao: DatabaseAutoGateway,
     stats_dao: StatsDAO,
     auto_service: AutoService,
+    user_service: UserService,
     stats_service: StatsService,
 ) -> None:
     """Обработчик ввода номера автомобиля при поиске."""
@@ -63,7 +70,7 @@ async def enter_search_number(
     if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    auto = await auto_service.get_auto(auto_dao, number)
+    auto = await auto_service.get_auto_by_number(auto_dao, number)
 
     data = await state.get_data()
     search_count = data["search_count"]
@@ -78,9 +85,17 @@ async def enter_search_number(
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return
-    if auto.owner.tg_id == message.from_user.id:
+
+    user = await user_service.get_user_by_telegram_id(
+        user_dao, tg_id=message.from_user.id
+    )
+
+    if user.id == auto.user_id:
         await message.answer(msg.OWNER_YOUR_MSG)
         await state.clear()
         return
-    await message.answer(msg.OWNER_MSG.format(auto.owner.phone))
-    await state.clear()
+
+    owner = await user_service.get_user(user_dao, auto.user_id)
+    if owner:
+        await message.answer(msg.OWNER_MSG.format(owner.phone))
+        await state.clear()
