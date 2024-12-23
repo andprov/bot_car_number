@@ -6,6 +6,7 @@ from aiogram.types import CallbackQuery, Message
 from bot_car_number.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
 from bot_car_number.dao.auto import DatabaseAutoGateway
 from bot_car_number.dao.user import DatabaseUserGateway
+from bot_car_number.entities.auto import Auto
 from bot_car_number.handlers.menu import get_autos_menu
 from bot_car_number.handlers.states import AddAuto, DeleteAuto
 from bot_car_number.keyboards.inline_keyboard import (
@@ -80,7 +81,7 @@ async def add_number(
     if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    if await auto_service.check_auto(auto_dao, number):
+    if await auto_service.get_auto_by_number(auto_dao, number):
         await message.answer(msg.AUTO_EXIST_MSG, reply_markup=BACK_KB)
         return
     await message.answer(msg.AUTO_ADD_MODEL_MSG, reply_markup=BACK_KB)
@@ -118,8 +119,14 @@ async def add_auto_confirm(
 ) -> None:
     """Обработчик подтверждения добавления автомобиля в БД."""
     data = await state.get_data()
-    if not await auto_service.check_auto(auto_dao, data["number"]):
-        await auto_service.add_auto(auto_dao, **data)
+    if not await auto_service.get_auto_by_number(auto_dao, data["number"]):
+        auto = Auto(
+            id=None,
+            number=data["number"],
+            model=data["model"],
+            user_id=data["user_id"],
+        )
+        await auto_service.add_auto(auto_dao, auto)
     await get_autos_menu(
         call,
         state,
@@ -168,6 +175,7 @@ async def enter_number(
     if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
+
     auto = await auto_service.get_auto_by_number(auto_dao, number)
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)

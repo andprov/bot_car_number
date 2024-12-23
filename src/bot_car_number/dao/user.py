@@ -63,8 +63,10 @@ class DatabaseUserGateway(UserGateway):
         stmt = update(self.model).filter_by(tg_id=tg_id).values(banned=True)
         await self.session.execute(stmt)
         await self.session.commit()
+        logger.info("ban_user - %s", tg_id)
 
     async def delete_user(self, tg_id: int) -> None:
         stmt = delete(self.model).filter_by(tg_id=tg_id)
         await self.session.execute(stmt)
         await self.session.commit()
+        logger.info("delete_user - %s", tg_id)

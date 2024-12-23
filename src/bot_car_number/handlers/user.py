@@ -13,7 +13,6 @@ from bot_car_number.keyboards.inline_keyboard import (
 )
 from bot_car_number.keyboards.reply_keyboard import contact_kb
 from bot_car_number.misc import msg
-from bot_car_number.misc.cmd import Button as btn
 from bot_car_number.misc.cmd import Command as cmd
 from bot_car_number.services.user_service import UserService
 
@@ -31,11 +30,12 @@ async def user_menu(
 ) -> None:
     """Обработчик вызова меню управления данными пользователя."""
     keyboard = USER_MENU_ADD_KEYBOARD
-    text = btn.ADD_TXT
-    if await user_service.check_user_exists(user_dao, call.from_user.id):
+    user = await user_service.get_user_by_telegram_id(
+        user_dao, call.from_user.id
+    )
+    if user:
         keyboard = USER_MENU_DELETE_KEYBOARD
-        text = btn.DELETE_TXT
-    await call.message.edit_text(msg.user_msg(text), reply_markup=keyboard)
+    await call.message.edit_text(msg.user_msg(user), reply_markup=keyboard)
 
 
 @router.callback_query(F.data == cmd.USER_ADD)
@@ -46,7 +46,7 @@ async def add_user(
     user_dao: DatabaseUserGateway,
 ) -> None:
     """Обработчик нажатия кнопки добавления пользователя."""
-    if await user_service.check_user_exists(user_dao, call.from_user.id):
+    if await user_service.get_user_by_telegram_id(user_dao, call.from_user.id):
         await call.answer(msg.USER_EXIST_MSG, True)
         return
     await call.message.delete()
@@ -89,7 +89,7 @@ async def delete_user(
     user_dao: DatabaseUserGateway,
 ) -> None:
     """Обработчик нажатия кнопки удаления пользователя."""
-    if await user_service.check_user_exists(user_dao, call.from_user.id):
+    if await user_service.get_user_by_telegram_id(user_dao, call.from_user.id):
         await call.message.edit_text(
             msg.USER_DEL_CONFIRM_MSG,
             reply_markup=confirm_del_kb(cmd.USER_DEL_CONFIRM, cmd.USER),

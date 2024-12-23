@@ -10,21 +10,12 @@ class UserService:
     """Сервис для работы с пользователями."""
 
     @classmethod
-    async def check_user_exists(
-        cls, dao: DatabaseUserGateway, tg_id: int
-    ) -> bool:
-        """Проверить наличие пользователя в базе."""
-        user = await dao.get_user_by_telegram_id(tg_id=tg_id)
-        if user:
-            return True
-        return False
-
-    @classmethod
     async def add_user(
         cls, dao: DatabaseUserGateway, contact: Contact
     ) -> None:
         """Добавить пользователя в базу."""
         user = User(
+            id=None,
             tg_id=contact.user_id,
             first_name=contact.first_name,
             phone=contact.phone_number,

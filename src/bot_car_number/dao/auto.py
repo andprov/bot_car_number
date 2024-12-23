@@ -11,23 +11,22 @@ class DatabaseAutoGateway(AutoGateway):
         self.model = model
         self.session = session
 
-    async def add_auto(self, **data) -> None:
-        query = insert(self.model).values(**data)
+    async def add_auto(self, auto: Auto) -> None:
+        query = insert(self.model).values(
+            number=auto.number,
+            model=auto.model,
+            user_id=auto.user_id,
+        )
         await self.session.execute(query)
         await self.session.commit()
 
-    async def find_one_or_none(self, **data) -> Auto | None:
-        query = select(self.model).filter_by(**data)
+
+    async def get_auto_by_number(self, number: str) -> Auto | None:
+        query = select(self.model).filter_by(number=number)
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
 
-    async def delete(self, **data) -> None:
-        query = delete(self.model).filter_by(**data)
-        await self.session.execute(query)
-        await self.session.commit()
-
-    # ----->
-    async def get_user_autos(self, user_id: int) -> list[Auto | None]:
+    async def get_autos_by_user_id(self, user_id: int) -> list[Auto | None]:
         query = select(self.model).filter_by(user_id=user_id)
         result = await self.session.execute(query)
         autos_data = result.scalars().all()
@@ -42,7 +41,7 @@ class DatabaseAutoGateway(AutoGateway):
         ]
         return autos
 
-    async def get_auto_by_number(self, number: str) -> Auto | None:
-        query = select(self.model).filter_by(number=number)
-        result = await self.session.execute(query)
-        return result.scalar_one_or_none()
+    async def delete_auto(self, id: int) -> None:
+        query = delete(self.model).filter_by(id=id)
+        await self.session.execute(query)
+        await self.session.commit()
