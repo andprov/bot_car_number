@@ -7,7 +7,6 @@ from bot_car_number.entities.auto import Auto
 
 
 class DatabaseAutoGateway(AutoGateway):
-    # def __init__(self, model: type[AutoDBModel], session: AsyncSession):
     def __init__(self, session: AsyncSession):
         self.model = AutoDBModel
         self.session = session
