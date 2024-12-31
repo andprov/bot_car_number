@@ -29,11 +29,11 @@ class DatabaseUserGateway(UserGateway):
         result = await self.session.execute(stmt)
         await self.session.commit()
         user_id = result.scalar_one()
-        logger.info("add_user %s", user_id)
+        logger.info("add_user - %s", user_id)
 
     async def get_user(self, user_id: int) -> User | None:
-        query = select(self.model).filter_by(id=user_id)
-        result = await self.session.execute(query)
+        stmt = select(self.model).filter_by(id=user_id)
+        result = await self.session.execute(stmt)
         user = result.scalar_one_or_none()
         logger.info("get_user - %s", user)
         if user:
@@ -46,8 +46,8 @@ class DatabaseUserGateway(UserGateway):
             )
 
     async def get_user_by_telegram_id(self, tg_id: int) -> User | None:
-        query = select(self.model).filter_by(tg_id=tg_id)
-        result = await self.session.execute(query)
+        stmt = select(self.model).filter_by(tg_id=tg_id)
+        result = await self.session.execute(stmt)
         user = result.scalar_one_or_none()
         logger.info("get_user_by_telegram_id - %s", user)
         if user:
