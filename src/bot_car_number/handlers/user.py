@@ -4,6 +4,7 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
 from bot_car_number.dao.registration import RegDAO
 from bot_car_number.dao.user import DatabaseUserGateway
+from bot_car_number.entities.user import User
 from bot_car_number.handlers.states import AddUser
 from bot_car_number.keyboards.inline_keyboard import (
     add_back_kb,
@@ -68,7 +69,14 @@ async def add_user_contact(
     if contact.user_id != tg_id:
         await message.answer(msg.USER_WRONG_MSG)
         return
-    await user_service.add_user(user_dao, contact)
+    user = User(
+        id=None,
+        tg_id=contact.user_id,
+        first_name=contact.first_name,
+        phone=contact.phone_number,
+        banned=False,
+    )
+    await user_service.add_user(user_dao, user)
     if await user_service.check_registration_limit(registration_dao, tg_id):
         await message.answer(
             msg.USER_MAX_COUNT_REGISTRATIONS_MSG,

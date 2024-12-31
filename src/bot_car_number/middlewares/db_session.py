@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from bot_car_number.dao.auto import DatabaseAutoGateway
 from bot_car_number.dao.registration import RegDAO
-from bot_car_number.dao.stats import StatsDAO
+from bot_car_number.dao.stats import DatabaseStatsGateway
 from bot_car_number.dao.user import DatabaseUserGateway
 
 
@@ -24,6 +24,6 @@ class SessionMiddleware(BaseMiddleware):
         async with self.session_pool() as session:
             data["user_dao"] = DatabaseUserGateway(session)
             data["auto_dao"] = DatabaseAutoGateway(session)
-            data["stats_dao"] = StatsDAO(session)
+            data["stats_dao"] = DatabaseStatsGateway(session)
             data["registration_dao"] = RegDAO(session)
             return await handler(event, data)

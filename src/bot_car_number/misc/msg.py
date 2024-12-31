@@ -93,7 +93,6 @@ SEARCH_ACCESS_DENIED = (
 
 
 def start_msg(first_name: str) -> str:
-    """Вернуть приветственное сообщение."""
     return (
         f"Привет {hbold(first_name)}! Я могу записать данные твоего "
         "автомобиля и поделиться контактными данными других "
@@ -103,7 +102,6 @@ def start_msg(first_name: str) -> str:
 
 
 def autos_msg(autos: list[Auto] | list[None]) -> str:
-    """Вернуть сообщение Мои автомобили."""
     text = EMPTY_MSG
     if autos:
         text = "\n".join(map(str, autos))
@@ -111,7 +109,6 @@ def autos_msg(autos: list[Auto] | list[None]) -> str:
 
 
 def user_msg(user: User) -> str:
-    """Вернуть сообщение Мои данные."""
     text = EMPTY_MSG
     if user:
         text = f"first name: {user.first_name}\n" f"phone: {user.phone}"

@@ -5,8 +5,9 @@ from aiogram.types import CallbackQuery, Message
 
 from bot_car_number.config import SEARCH_COUNT_LIMIT
 from bot_car_number.dao.auto import DatabaseAutoGateway
-from bot_car_number.dao.stats import StatsDAO
+from bot_car_number.dao.stats import DatabaseStatsGateway
 from bot_car_number.dao.user import DatabaseUserGateway
+from bot_car_number.entities.stats import Stats
 from bot_car_number.handlers.states import SearchAuto
 from bot_car_number.keyboards.inline_keyboard import back_kb
 from bot_car_number.misc import msg
@@ -29,7 +30,7 @@ async def search(
     stats_service: StatsService,
     user_dao: DatabaseUserGateway,
     auto_dao: DatabaseAutoGateway,
-    stats_dao: StatsDAO,
+    stats_dao: DatabaseStatsGateway,
 ) -> None:
     """Обработчик перехода к поиску."""
     user = await user_service.get_user_by_telegram_id(
@@ -60,7 +61,7 @@ async def enter_search_number(
     state: FSMContext,
     user_dao: DatabaseUserGateway,
     auto_dao: DatabaseAutoGateway,
-    stats_dao: StatsDAO,
+    stats_dao: DatabaseStatsGateway,
     auto_service: AutoService,
     user_service: UserService,
     stats_service: StatsService,
@@ -78,7 +79,9 @@ async def enter_search_number(
         await message.answer(msg.SEARCH_ACCESS_DENIED)
         await state.clear()
         return
-    await stats_service.add_search_try(stats_dao, data["user_id"], number)
+
+    stats = Stats(user_id=data["user_id"], number=number)
+    await stats_service.add_search_try(stats_dao, stats)
     search_count += 1
     await state.update_data(search_count=search_count)
 
