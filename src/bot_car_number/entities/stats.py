@@ -2,6 +2,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Stats:
+class StatsData:
     user_id: int
     number: str

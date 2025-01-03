@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from sqlalchemy import func, insert, select
@@ -6,7 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bot_car_number.application.gateways.stats_gateway import StatsGateway
 from bot_car_number.config import TIME_LIMIT
 from bot_car_number.db.models import Stats as StatsDNModel
-from bot_car_number.entities.stats import Stats
+from bot_car_number.entities.stats import StatsData
+
+logger = logging.getLogger(__name__)
 
 
 class DatabaseStatsGateway(StatsGateway):
@@ -14,13 +17,14 @@ class DatabaseStatsGateway(StatsGateway):
         self.model = StatsDNModel
         self.session = session
 
-    async def add_search_try(self, stats: Stats) -> None:
+    async def add_search_try(self, stats: StatsData) -> None:
         query = insert(self.model).values(
             user_id=stats.user_id,
             number=stats.number,
         )
         await self.session.execute(query)
         await self.session.commit()
+        logger.info("add_search_try from user_id -%s", stats.user_id)
 
     async def get_search_count(self, user_id: int) -> int:
         query = select(func.count(self.model.id)).where(
@@ -28,4 +32,5 @@ class DatabaseStatsGateway(StatsGateway):
             self.model.date >= func.now() - timedelta(hours=TIME_LIMIT),
         )
         result = await self.session.execute(query)
+        logger.info("get_search_count for user_id - %s", user_id)
         return result.scalar()

@@ -7,7 +7,7 @@ from bot_car_number.config import SEARCH_COUNT_LIMIT
 from bot_car_number.dao.auto import DatabaseAutoGateway
 from bot_car_number.dao.stats import DatabaseStatsGateway
 from bot_car_number.dao.user import DatabaseUserGateway
-from bot_car_number.entities.stats import Stats
+from bot_car_number.entities.stats import StatsData
 from bot_car_number.handlers.states import SearchAuto
 from bot_car_number.keyboards.inline_keyboard import back_kb
 from bot_car_number.misc import msg
@@ -40,12 +40,12 @@ async def search(
         await call.answer(msg.NO_DATA_MSG, True)
         return
 
-    if not await auto_service.get_user_autos(auto_dao, user.id):
-        await call.answer(msg.NO_AUTO_MSG, True)
-        return
-
     if not await stats_service.check_search_access(stats_dao, user.id):
         await call.answer(msg.SEARCH_ACCESS_DENIED, True)
+        return
+
+    if not await auto_service.get_user_autos(auto_dao, user.id):
+        await call.answer(msg.NO_AUTO_MSG, True)
         return
 
     await call.message.edit_text(
@@ -71,7 +71,6 @@ async def enter_search_number(
     if not auto_service.validate_number(number):
         await message.answer(msg.AUTO_FORMAT_ERR_MSG, reply_markup=BACK_KB)
         return
-    auto = await auto_service.get_auto_by_number(auto_dao, number)
 
     data = await state.get_data()
     search_count = data["search_count"]
@@ -80,11 +79,12 @@ async def enter_search_number(
         await state.clear()
         return
 
-    stats = Stats(user_id=data["user_id"], number=number)
+    stats = StatsData(user_id=data["user_id"], number=number)
     await stats_service.add_search_try(stats_dao, stats)
     search_count += 1
     await state.update_data(search_count=search_count)
 
+    auto = await auto_service.get_auto_by_number(auto_dao, number)
     if auto is None:
         await message.answer(msg.AUTO_NOT_EXIST_MSG, reply_markup=BACK_KB)
         return
