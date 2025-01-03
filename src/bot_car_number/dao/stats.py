@@ -25,7 +25,7 @@ class DatabaseStatsGateway(StatsGateway):
     async def get_search_count(self, user_id: int) -> int:
         query = select(func.count(self.model.id)).where(
             self.model.user_id == user_id,
-            self.model.data >= func.now() - timedelta(hours=TIME_LIMIT),
+            self.model.date >= func.now() - timedelta(hours=TIME_LIMIT),
         )
         result = await self.session.execute(query)
         return result.scalar()
