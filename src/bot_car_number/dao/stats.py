@@ -18,19 +18,19 @@ class DatabaseStatsGateway(StatsGateway):
         self.session = session
 
     async def add_search_try(self, stats: StatsData) -> None:
-        query = insert(self.model).values(
+        stmt = insert(self.model).values(
             user_id=stats.user_id,
             number=stats.number,
         )
-        await self.session.execute(query)
+        await self.session.execute(stmt)
         await self.session.commit()
-        logger.info("add_search_try from user_id -%s", stats.user_id)
+        logger.info(f"add_search_try - [user.id: {stats.user_id}]")
 
     async def get_search_count(self, user_id: int) -> int:
-        query = select(func.count(self.model.id)).where(
+        stmt = select(func.count(self.model.id)).where(
             self.model.user_id == user_id,
             self.model.date >= func.now() - timedelta(hours=TIME_LIMIT),
         )
-        result = await self.session.execute(query)
-        logger.info("get_search_count for user_id - %s", user_id)
+        result = await self.session.execute(stmt)
+        logger.info(f"get_search_count - [user.id: {user_id}]")
         return result.scalar()

@@ -28,14 +28,14 @@ class DatabaseUserGateway(UserGateway):
         )
         result = await self.session.execute(stmt)
         await self.session.commit()
-        user_id = result.scalar_one()
-        logger.info("add_user - %s", user_id)
+        db_obj = result.scalar_one()
+        logger.info(f"add_user - [user.id: {db_obj}]")
 
     async def get_user(self, user_id: int) -> User | None:
         stmt = select(self.model).filter_by(id=user_id)
         result = await self.session.execute(stmt)
         user = result.scalar_one_or_none()
-        logger.info("get_user - %s", user)
+        logger.info(f"get_user - [user: {user}]")
         if user:
             return User(
                 id=user.id,
@@ -49,7 +49,7 @@ class DatabaseUserGateway(UserGateway):
         stmt = select(self.model).filter_by(tg_id=tg_id)
         result = await self.session.execute(stmt)
         user = result.scalar_one_or_none()
-        logger.info("get_user_by_telegram_id - %s", user)
+        logger.info(f"get_user_by_telegram_id - [user: {user}]")
         if user:
             return User(
                 id=user.id,
@@ -63,10 +63,10 @@ class DatabaseUserGateway(UserGateway):
         stmt = update(self.model).filter_by(tg_id=tg_id).values(banned=True)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info("ban_user - %s", tg_id)
+        logger.info(f"ban_user - [tg_id: {tg_id}]")
 
     async def delete_user(self, tg_id: int) -> None:
         stmt = delete(self.model).filter_by(tg_id=tg_id)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info("delete_user - %s", tg_id)
+        logger.info(f"delete_user - [tg_id: {tg_id}]")

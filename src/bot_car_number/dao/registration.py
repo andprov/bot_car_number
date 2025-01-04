@@ -20,22 +20,23 @@ class DatabaseRegistrationGateway(RegistrationGateway):
         stmt = insert(self.model).values(tg_id=tg_id)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info("add_registration tg_id - %s", tg_id)
+        logger.info(f"add_registration - [tg_id: {tg_id}]")
 
-    async def find_one_or_none(self, **data):
-        query = select(self.model).filter_by(**data)
-        result = await self.session.execute(query)
-        return result.scalar_one_or_none()
+    async def get_registrations_count(self, tg_id: int) -> int:
+        stmt = select(self.model.count).filter_by(tg_id=tg_id)
+        result = await self.session.execute(stmt)
+        count = result.scalar_one_or_none() or 0
+        logger.info(
+            f"get_registrations_count - [tg_id: {tg_id}, count: {count}]"
+        )
+        return count
 
-    async def get_registrations_count(self, tg_id: int) -> int | None:
-        query = (
+    async def increase_registrations_count(self, tg_id: int) -> None:
+        stmt = (
             update(self.model)
             .filter_by(tg_id=tg_id)
             .values(count=self.model.count + 1)
-        ).returning(self.model.count)
-        count = await self.session.execute(query)
+        )
+        await self.session.execute(stmt)
         await self.session.commit()
-        return count.scalar()
-
-    async def increase_registrations_count(self, tg_id: int):
-        pass
+        logger.info(f"increase_registrations_count - [tg_id: {tg_id}]")

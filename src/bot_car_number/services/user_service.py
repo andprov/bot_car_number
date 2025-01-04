@@ -31,12 +31,13 @@ class UserService:
         dao: DatabaseRegistrationGateway,
         tg_id: int,
     ) -> bool:
-        if not await dao.find_one_or_none(tg_id=tg_id):
+        registration_count = await dao.get_registrations_count(tg_id=tg_id)
+        if registration_count > MAX_REGISTRATIONS_COUNT:
+            return True
+        if registration_count == 0:
             await dao.add_registration(tg_id=tg_id)
             return False
-        count = await dao.get_registrations_count(tg_id=tg_id)
-        if count and count > MAX_REGISTRATIONS_COUNT:
-            return True
+        await dao.increase_registrations_count(tg_id=tg_id)
         return False
 
     @classmethod
