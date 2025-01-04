@@ -1,6 +1,6 @@
 import re
 
-from bot_car_number.db.gateways.auto import DatabaseAutoGateway
+from bot_car_number.adapters.db.gateways.auto import DatabaseAutoGateway
 from bot_car_number.entities.auto import Auto
 
 

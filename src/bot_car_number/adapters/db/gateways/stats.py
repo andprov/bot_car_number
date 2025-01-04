@@ -4,9 +4,9 @@ from datetime import timedelta
 from sqlalchemy import func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bot_car_number.application.gateways.stats_gateway import StatsGateway
+from bot_car_number.adapters.db.models import Stats as StatsDNModel
+from bot_car_number.application.gateways.stats import StatsGateway
 from bot_car_number.config import TIME_LIMIT
-from bot_car_number.db.models import Stats as StatsDNModel
 from bot_car_number.entities.stats import StatsData
 
 logger = logging.getLogger(__name__)

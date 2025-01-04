@@ -3,7 +3,7 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 
-from bot_car_number.db.gateways.user import DatabaseUserGateway
+from bot_car_number.adapters.db.gateways.user import DatabaseUserGateway
 from bot_car_number.services.user_service import UserService
 
 

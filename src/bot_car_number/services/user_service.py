@@ -1,6 +1,8 @@
+from bot_car_number.adapters.db.gateways.registration import (
+    DatabaseRegistrationGateway,
+)
+from bot_car_number.adapters.db.gateways.user import DatabaseUserGateway
 from bot_car_number.config import MAX_REGISTRATIONS_COUNT
-from bot_car_number.db.gateways.registration import DatabaseRegistrationGateway
-from bot_car_number.db.gateways.user import DatabaseUserGateway
 from bot_car_number.entities.user import User
 
 

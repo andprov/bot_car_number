@@ -3,10 +3,10 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
+from bot_car_number.adapters.db.gateways.auto import DatabaseAutoGateway
+from bot_car_number.adapters.db.gateways.stats import DatabaseStatsGateway
+from bot_car_number.adapters.db.gateways.user import DatabaseUserGateway
 from bot_car_number.config import SEARCH_COUNT_LIMIT
-from bot_car_number.db.gateways.auto import DatabaseAutoGateway
-from bot_car_number.db.gateways.stats import DatabaseStatsGateway
-from bot_car_number.db.gateways.user import DatabaseUserGateway
 from bot_car_number.entities.stats import StatsData
 from bot_car_number.handlers.states import SearchAuto
 from bot_car_number.keyboards.inline_keyboard import back_kb

@@ -3,10 +3,12 @@ import logging
 from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bot_car_number.application.gateways.registration_gateway import (
+from bot_car_number.adapters.db.models import (
+    Registration as RegistrationDBModel,
+)
+from bot_car_number.application.gateways.registration import (
     RegistrationGateway,
 )
-from bot_car_number.db.models import Registration as RegistrationDBModel
 
 logger = logging.getLogger(__name__)
 
