@@ -1,5 +1,5 @@
 from bot_car_number.config import MAX_REGISTRATIONS_COUNT
-from bot_car_number.dao.registration import RegDAO
+from bot_car_number.dao.registration import DatabaseRegistrationGateway
 from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.entities.user import User
 
@@ -26,9 +26,13 @@ class UserService:
         await dao.delete_user(tg_id=tg_id)
 
     @classmethod
-    async def check_registration_limit(cls, dao: RegDAO, tg_id: int) -> bool:
+    async def check_registration_limit(
+        cls,
+        dao: DatabaseRegistrationGateway,
+        tg_id: int,
+    ) -> bool:
         if not await dao.find_one_or_none(tg_id=tg_id):
-            await dao.add(tg_id=tg_id)
+            await dao.add_registration(tg_id=tg_id)
             return False
         count = await dao.get_registrations_count(tg_id=tg_id)
         if count and count > MAX_REGISTRATIONS_COUNT:

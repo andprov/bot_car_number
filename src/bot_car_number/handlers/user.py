@@ -2,7 +2,7 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
-from bot_car_number.dao.registration import RegDAO
+from bot_car_number.dao.registration import DatabaseRegistrationGateway
 from bot_car_number.dao.user import DatabaseUserGateway
 from bot_car_number.entities.user import User
 from bot_car_number.handlers.states import AddUser
@@ -61,7 +61,7 @@ async def add_user_contact(
     state: FSMContext,
     user_service: UserService,
     user_dao: DatabaseUserGateway,
-    registration_dao: RegDAO,
+    registration_dao: DatabaseRegistrationGateway,
 ) -> None:
     """Обработчик ответа пользователя с контактными данными."""
     tg_id = message.from_user.id
