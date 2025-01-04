@@ -2,7 +2,7 @@ from aiogram.utils.markdown import hbold
 
 from bot_car_number.entities.auto import Auto
 from bot_car_number.entities.user import User
-from bot_car_number.misc.cmd import Button as btn
+from bot_car_number.presentation.misc.cmd import Button as btn
 
 CANCEL_MSG = "Действие отменено."
 STATE_CLEAR = "Нет активных команд для отмены."

@@ -9,10 +9,12 @@ from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from bot_car_number.config import load_config
-from bot_car_number.handlers import auto, menu, search, user
-from bot_car_number.middlewares.access import PrivateMiddleware
-from bot_car_number.middlewares.db_session import SessionMiddleware
-from bot_car_number.misc.ui_commands import set_ui_commands
+from bot_car_number.presentation.handlers import auto, menu, search, user
+from bot_car_number.presentation.middlewares.access import PrivateMiddleware
+from bot_car_number.presentation.middlewares.db_session import (
+    SessionMiddleware,
+)
+from bot_car_number.presentation.misc.ui_commands import set_ui_commands
 from bot_car_number.services.auto_service import AutoService
 from bot_car_number.services.stats_service import StatsService
 from bot_car_number.services.user_service import UserService

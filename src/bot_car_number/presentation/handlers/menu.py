@@ -5,10 +5,13 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
 from bot_car_number.adapters.db.gateways.auto import DatabaseAutoGateway
 from bot_car_number.adapters.db.gateways.user import DatabaseUserGateway
-from bot_car_number.keyboards.inline_keyboard import add_del_back_kb, main_kb
-from bot_car_number.misc import msg
-from bot_car_number.misc.cmd import Button as btn
-from bot_car_number.misc.cmd import Command as cmd
+from bot_car_number.presentation.keyboards.inline_keyboard import (
+    add_del_back_kb,
+    main_kb,
+)
+from bot_car_number.presentation.misc import msg
+from bot_car_number.presentation.misc.cmd import Button as btn
+from bot_car_number.presentation.misc.cmd import Command as cmd
 from bot_car_number.services.auto_service import AutoService
 from bot_car_number.services.user_service import UserService
 

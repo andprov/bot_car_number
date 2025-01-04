@@ -1,8 +1,8 @@
 from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeAllPrivateChats
 
-from bot_car_number.misc.cmd import Button as btn
-from bot_car_number.misc.cmd import Command as cmd
+from bot_car_number.presentation.misc.cmd import Button as btn
+from bot_car_number.presentation.misc.cmd import Command as cmd
 
 
 async def set_ui_commands(bot: Bot):
