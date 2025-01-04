@@ -1,5 +1,5 @@
 from bot_car_number.config import SEARCH_COUNT_LIMIT
-from bot_car_number.dao.stats import DatabaseStatsGateway
+from bot_car_number.db.gateways.stats import DatabaseStatsGateway
 from bot_car_number.entities.stats import StatsData
 
 

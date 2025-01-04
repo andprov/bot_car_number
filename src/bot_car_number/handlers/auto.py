@@ -4,8 +4,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from bot_car_number.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
-from bot_car_number.dao.auto import DatabaseAutoGateway
-from bot_car_number.dao.user import DatabaseUserGateway
+from bot_car_number.db.gateways.auto import DatabaseAutoGateway
+from bot_car_number.db.gateways.user import DatabaseUserGateway
 from bot_car_number.entities.auto import Auto
 from bot_car_number.handlers.menu import get_autos_menu
 from bot_car_number.handlers.states import AddAuto, DeleteAuto

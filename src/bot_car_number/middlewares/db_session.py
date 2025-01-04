@@ -4,10 +4,10 @@ from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-from bot_car_number.dao.auto import DatabaseAutoGateway
-from bot_car_number.dao.registration import DatabaseRegistrationGateway
-from bot_car_number.dao.stats import DatabaseStatsGateway
-from bot_car_number.dao.user import DatabaseUserGateway
+from bot_car_number.db.gateways.auto import DatabaseAutoGateway
+from bot_car_number.db.gateways.registration import DatabaseRegistrationGateway
+from bot_car_number.db.gateways.stats import DatabaseStatsGateway
+from bot_car_number.db.gateways.user import DatabaseUserGateway
 
 
 class SessionMiddleware(BaseMiddleware):

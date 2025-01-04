@@ -3,8 +3,8 @@ from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
-from bot_car_number.dao.auto import DatabaseAutoGateway
-from bot_car_number.dao.user import DatabaseUserGateway
+from bot_car_number.db.gateways.auto import DatabaseAutoGateway
+from bot_car_number.db.gateways.user import DatabaseUserGateway
 from bot_car_number.keyboards.inline_keyboard import add_del_back_kb, main_kb
 from bot_car_number.misc import msg
 from bot_car_number.misc.cmd import Button as btn
