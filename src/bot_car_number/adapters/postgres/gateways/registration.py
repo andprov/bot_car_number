@@ -3,7 +3,7 @@ import logging
 from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bot_car_number.adapters.db.models import (
+from bot_car_number.adapters.postgres.tables import (
     Registration as RegistrationDBModel,
 )
 from bot_car_number.application.gateways.registration import (

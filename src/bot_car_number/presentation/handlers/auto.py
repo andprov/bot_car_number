@@ -3,9 +3,9 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
-from bot_car_number.adapters.db.gateways.auto import DatabaseAutoGateway
-from bot_car_number.adapters.db.gateways.user import DatabaseUserGateway
-from bot_car_number.config import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
+from bot_car_number.adapters.postgres.gateways.auto import DatabaseAutoGateway
+from bot_car_number.adapters.postgres.gateways.user import DatabaseUserGateway
+from bot_car_number.config_loader import MAX_AUTO_COUNT, MAX_AUTO_NAME_LEN
 from bot_car_number.entities.auto import Auto
 from bot_car_number.presentation.handlers.menu import get_autos_menu
 from bot_car_number.presentation.handlers.states import AddAuto, DeleteAuto

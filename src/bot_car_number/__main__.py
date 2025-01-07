@@ -8,7 +8,9 @@ from aiogram.fsm.storage.redis import RedisStorage
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from bot_car_number.config import load_config
+from bot_car_number.adapters.postgres.config import load_postgres_config
+from bot_car_number.adapters.redis.config import load_redis_config
+from bot_car_number.presentation.config import load_bot_config
 from bot_car_number.presentation.handlers import auto, menu, search, user
 from bot_car_number.presentation.middlewares.access import PrivateMiddleware
 from bot_car_number.presentation.middlewares.db_session import (
@@ -29,14 +31,20 @@ async def main():
     )
     logger.info("Bot start")
 
-    config = load_config()
-
-    redis = Redis(host=config.redis.host, port=config.redis.port)
+    #
+    redis_config = load_redis_config()
+    redis = Redis(
+        host=redis_config.host,
+        port=redis_config.port,
+    )
     storage = RedisStorage(redis=redis)
-
-    engine = create_async_engine(config.db.ulr, echo=False)
+    #
+    db_config = load_postgres_config()
+    engine = create_async_engine(db_config.url, echo=True)
     sessionmaker = async_sessionmaker(engine, expire_on_commit=False)
+    #
 
+    bot_config = load_bot_config()
     dp = Dispatcher(
         storage=storage,
         user_service=UserService,
@@ -44,11 +52,11 @@ async def main():
         stats_service=StatsService,
     )
     dp.update.middleware(SessionMiddleware(sessionmaker))
-    dp.update.middleware(PrivateMiddleware(config.bot.group))
+    dp.update.middleware(PrivateMiddleware(bot_config.group))
     dp.include_routers(menu.router, user.router, auto.router, search.router)
 
     bot = Bot(
-        token=config.bot.token,
+        token=bot_config.token,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
 

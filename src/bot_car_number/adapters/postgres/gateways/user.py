@@ -3,7 +3,7 @@ import logging
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bot_car_number.adapters.db.models import User as UserDBModel
+from bot_car_number.adapters.postgres.tables import User as UserDBModel
 from bot_car_number.application.gateways.user import UserGateway
 from bot_car_number.entities.user import User
 

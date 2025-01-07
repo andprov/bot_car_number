@@ -2,8 +2,10 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
-from bot_car_number.adapters.db.gateways.registration import DatabaseRegistrationGateway
-from bot_car_number.adapters.db.gateways.user import DatabaseUserGateway
+from bot_car_number.adapters.postgres.gateways.registration import (
+    DatabaseRegistrationGateway,
+)
+from bot_car_number.adapters.postgres.gateways.user import DatabaseUserGateway
 from bot_car_number.entities.user import User
 from bot_car_number.presentation.handlers.states import AddUser
 from bot_car_number.presentation.keyboards.inline_keyboard import (

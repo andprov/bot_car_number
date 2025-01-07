@@ -3,20 +3,20 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from bot_car_number.config import load_config
-from bot_car_number.adapters.db.models import Base
+from bot_car_number.adapters.postgres.config import load_postgres_config
+from bot_car_number.adapters.postgres.tables import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-db_config = load_config()
-
 config = context.config
-config.set_main_option("sqlalchemy.url", db_config.db.ulr)
+db_config = load_postgres_config()
+config.set_main_option("sqlalchemy.url", db_config.url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
 
 # add your model's MetaData object here
 # for 'autogenerate' support
