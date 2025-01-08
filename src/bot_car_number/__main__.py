@@ -6,9 +6,9 @@ from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.redis import RedisStorage
 from redis.asyncio import Redis
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from bot_car_number.adapters.postgres.config import load_postgres_config
+from bot_car_number.adapters.postgres.main import get_async_sesionmaker
 from bot_car_number.adapters.redis.config import load_redis_config
 from bot_car_number.presentation.config import load_bot_config
 from bot_car_number.presentation.handlers import auto, menu, search, user
@@ -39,19 +39,19 @@ async def main():
     )
     storage = RedisStorage(redis=redis)
     #
-    db_config = load_postgres_config()
-    engine = create_async_engine(db_config.url, echo=True)
-    sessionmaker = async_sessionmaker(engine, expire_on_commit=False)
-    #
 
-    bot_config = load_bot_config()
     dp = Dispatcher(
         storage=storage,
         user_service=UserService,
         auto_service=AutoService,
         stats_service=StatsService,
     )
+
+    db_config = load_postgres_config()
+    sessionmaker = get_async_sesionmaker(db_config)
     dp.update.middleware(SessionMiddleware(sessionmaker))
+
+    bot_config = load_bot_config()
     dp.update.middleware(PrivateMiddleware(bot_config.group))
     dp.include_routers(menu.router, user.router, auto.router, search.router)
 

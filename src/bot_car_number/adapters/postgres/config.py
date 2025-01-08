@@ -10,6 +10,7 @@ class PostgresConfig:
     host: str = field(default="localhost")
     port: int = field(default=5432)
     database: str = field(default="bot_car_number")
+    echo: bool = field(default=True)
 
     @property
     def url(self) -> str:
@@ -26,4 +27,5 @@ def load_postgres_config():
         host=get_env_value("DB_HOST"),
         port=get_env_value("DB_PORT"),
         database=get_env_value("POSTGRES_DB"),
+        echo=get_env_value("ECHO") == "True",
     )
