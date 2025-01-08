@@ -16,7 +16,7 @@ from bot_car_number.services.auto_service import AutoService
 from bot_car_number.services.stats_service import StatsService
 from bot_car_number.services.user_service import UserService
 
-router = Router(name="search_commands-router")
+router = Router()
 
 BACK_KB = back_kb(cmd.MAIN)
 

@@ -19,7 +19,7 @@ from bot_car_number.presentation.misc import msg
 from bot_car_number.presentation.misc.cmd import Command as cmd
 from bot_car_number.services.user_service import UserService
 
-router = Router(name="user_commands-router")
+router = Router()
 
 USER_MENU_ADD_KEYBOARD = add_back_kb(cmd.USER_ADD, cmd.MAIN)
 USER_MENU_DELETE_KEYBOARD = del_back_btn(cmd.USER_DEL, cmd.MAIN)

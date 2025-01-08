@@ -19,7 +19,7 @@ from bot_car_number.presentation.misc.cmd import Command as cmd
 from bot_car_number.services.auto_service import AutoService
 from bot_car_number.services.user_service import UserService
 
-router = Router(name="auto_commands-router")
+router = Router()
 
 BACK_KB = back_kb(cmd.AUTO_MENU)
 

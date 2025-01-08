@@ -15,7 +15,7 @@ from bot_car_number.presentation.misc.cmd import Command as cmd
 from bot_car_number.services.auto_service import AutoService
 from bot_car_number.services.user_service import UserService
 
-router = Router(name="main_menu-router")
+router = Router()
 
 AUTO_KB = add_del_back_kb(cmd.AUTO_ADD, cmd.AUTO_DEL, cmd.MAIN)
 
