@@ -20,7 +20,7 @@ class PostgresConfig:
         )
 
 
-def load_postgres_config():
+def load_postgres_config() -> PostgresConfig:
     return PostgresConfig(
         user=get_env_value("POSTGRES_USER"),
         password=get_env_value("POSTGRES_PASSWORD"),
