@@ -1,12 +1,12 @@
 from bot_car_number.adapters.postgres.gateways.stats import DatabaseStatsGateway
+from bot_car_number.application.dto.stats import StatsDTO
 from bot_car_number.config_loader import SEARCH_COUNT_LIMIT
-from bot_car_number.entities.stats import StatsData
 
 
 class StatsService:
     @classmethod
     async def add_search_try(
-        cls, dao: DatabaseStatsGateway, stats: StatsData
+        cls, dao: DatabaseStatsGateway, stats: StatsDTO
     ) -> None:
         await dao.add_search_try(stats)
 

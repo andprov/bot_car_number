@@ -1,5 +1,3 @@
-from asyncio.log import logger
-
 from dishka import AsyncContainer, Provider, Scope, make_async_container
 from dishka.integrations.aiogram import AiogramProvider
 from sqlalchemy.ext.asyncio import (
@@ -17,7 +15,7 @@ from bot_car_number.adapters.postgres.gateways.stats import (
 )
 from bot_car_number.adapters.postgres.gateways.user import DatabaseUserGateway
 from bot_car_number.adapters.postgres.main import (
-    get_async_engine,
+    get_async_sessionmaker,
     get_session,
 )
 from bot_car_number.application.gateways.auto import AutoGateway
@@ -26,6 +24,13 @@ from bot_car_number.application.gateways.registration import (
 )
 from bot_car_number.application.gateways.stats import StatsGateway
 from bot_car_number.application.gateways.user import UserGateway
+from bot_car_number.application.use_case.get_auto_owner_phone import (
+    GetAutoOwnerPhone,
+)
+from bot_car_number.application.use_case.get_user_by_id import GetUserById
+from bot_car_number.application.use_case.get_user_by_telegram_id import (
+    GetUserByTelegramId,
+)
 
 
 def setup_async_container(postgres_config: PostgresConfig) -> AsyncContainer:
@@ -40,18 +45,22 @@ def setup_async_container(postgres_config: PostgresConfig) -> AsyncContainer:
 
 
 def setup_provider(provider: Provider) -> None:
-    provider_config(provider=provider)
+    provide_config(provider=provider)
     provide_db(provider=provider)
     provide_db_gateways(provider=provider)
+    provide_handlers_command(provider=provider)
 
 
-def provider_config(provider: Provider) -> None:
-    provider.from_context(scope=Scope.APP, provides=PostgresConfig)
+def provide_config(provider: Provider) -> None:
+    provider.from_context(
+        scope=Scope.APP,
+        provides=PostgresConfig,
+    )
 
 
 def provide_db(provider: Provider) -> None:
     provider.provide(
-        source=get_async_engine,
+        source=get_async_sessionmaker,
         scope=Scope.APP,
         provides=async_sessionmaker,
     )
@@ -63,7 +72,6 @@ def provide_db(provider: Provider) -> None:
 
 
 def provide_db_gateways(provider: Provider) -> None:
-    logger.info("Registering DatabaseUserGateway...")
     provider.provide(
         source=DatabaseUserGateway,
         scope=Scope.REQUEST,
@@ -83,4 +91,19 @@ def provide_db_gateways(provider: Provider) -> None:
         source=DatabaseRegistrationGateway,
         scope=Scope.REQUEST,
         provides=RegistrationGateway,
+    )
+
+
+def provide_handlers_command(provider: Provider) -> None:
+    provider.provide(
+        source=GetUserById,
+        scope=Scope.REQUEST,
+    )
+    provider.provide(
+        source=GetUserByTelegramId,
+        scope=Scope.REQUEST,
+    )
+    provider.provide(
+        source=GetAutoOwnerPhone,
+        scope=Scope.REQUEST,
     )

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Auto:
+class AutoDTO:
     id: int | None
     number: str
     model: str

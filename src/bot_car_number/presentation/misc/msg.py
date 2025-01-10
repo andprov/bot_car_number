@@ -1,7 +1,7 @@
 from aiogram.utils.markdown import hbold
 
-from bot_car_number.entities.auto import Auto
-from bot_car_number.entities.user import User
+from bot_car_number.application.dto.auto import AutoDTO
+from bot_car_number.application.dto.user import UserDTO
 from bot_car_number.presentation.misc.cmd import Button as btn
 
 CANCEL_MSG = "Действие отменено."
@@ -101,14 +101,14 @@ def start_msg(first_name: str) -> str:
     )
 
 
-def autos_msg(autos: list[Auto] | list[None]) -> str:
+def autos_msg(autos: list[AutoDTO] | list[None]) -> str:
     text = EMPTY_MSG
     if autos:
         text = "\n".join(map(str, autos))
     return "* Мои автомобили *\n" "\n----------\n" + text
 
 
-def user_msg(user: User) -> str:
+def user_msg(user: UserDTO) -> str:
     text = EMPTY_MSG
     if user:
         text = f"first name: {user.first_name}\n" f"phone: {user.phone}"

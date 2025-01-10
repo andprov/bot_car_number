@@ -5,9 +5,9 @@ from sqlalchemy import func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot_car_number.adapters.postgres.tables import Stats as StatsDNModel
+from bot_car_number.application.dto.stats import StatsDTO
 from bot_car_number.application.gateways.stats import StatsGateway
 from bot_car_number.config_loader import TIME_LIMIT
-from bot_car_number.entities.stats import StatsData
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ class DatabaseStatsGateway(StatsGateway):
         self.model = StatsDNModel
         self.session = session
 
-    async def add_search_try(self, stats: StatsData) -> None:
+    async def add_search_try(self, stats: StatsDTO) -> None:
         stmt = insert(self.model).values(
             user_id=stats.user_id,
             number=stats.number,

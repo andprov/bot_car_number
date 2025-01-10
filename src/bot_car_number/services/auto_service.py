@@ -1,7 +1,7 @@
 import re
 
 from bot_car_number.adapters.postgres.gateways.auto import DatabaseAutoGateway
-from bot_car_number.entities.auto import Auto
+from bot_car_number.application.dto.auto import AutoDTO
 
 
 class AutoService:
@@ -13,19 +13,19 @@ class AutoService:
         return False
 
     @classmethod
-    async def add_auto(cls, dao: DatabaseAutoGateway, auto: Auto) -> None:
+    async def add_auto(cls, dao: DatabaseAutoGateway, auto: AutoDTO) -> None:
         await dao.add_auto(auto)
 
     @classmethod
     async def get_auto_by_number(
         cls, dao: DatabaseAutoGateway, number: str
-    ) -> Auto | None:
+    ) -> AutoDTO | None:
         return await dao.get_auto_by_number(number=number)
 
     @classmethod
     async def get_user_autos(
         cls, dao: DatabaseAutoGateway, user_id: int
-    ) -> list[Auto | None]:
+    ) -> list[AutoDTO | None]:
         return await dao.get_autos_by_user_id(user_id=user_id)
 
     @classmethod

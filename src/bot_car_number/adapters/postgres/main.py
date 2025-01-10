@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import (
 from bot_car_number.adapters.postgres.config import PostgresConfig
 
 
-def get_async_engine(config: PostgresConfig) -> async_sessionmaker:
+def get_async_sessionmaker(config: PostgresConfig) -> async_sessionmaker:
     engine = create_async_engine(url=config.url, echo=config.echo)
     return async_sessionmaker(engine, expire_on_commit=False)
 

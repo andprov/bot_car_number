@@ -1,12 +1,12 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from bot_car_number.entities.stats import StatsData
+from bot_car_number.application.dto.stats import StatsDTO
 
 
 class StatsGateway(Protocol):
     @abstractmethod
-    async def add_search_try(self, stats: StatsData) -> None:
+    async def add_search_try(self, stats: StatsDTO) -> None:
         raise NotImplementedError
 
     @abstractmethod
