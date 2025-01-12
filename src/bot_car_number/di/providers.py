@@ -24,9 +24,12 @@ from bot_car_number.application.gateways.registration import (
 )
 from bot_car_number.application.gateways.stats import StatsGateway
 from bot_car_number.application.gateways.user import UserGateway
-from bot_car_number.application.use_case.get_auto_owner_phone import (
-    GetAutoOwnerPhone,
+from bot_car_number.application.use_case.add_registration_count import (
+    AddRegistrationCount,
 )
+from bot_car_number.application.use_case.block_user import BlockUser
+from bot_car_number.application.use_case.create_user import CreateUser
+from bot_car_number.application.use_case.delete_user import DeleteUser
 from bot_car_number.application.use_case.get_user_by_id import GetUserById
 from bot_car_number.application.use_case.get_user_by_telegram_id import (
     GetUserByTelegramId,
@@ -104,6 +107,18 @@ def provide_handlers_command(provider: Provider) -> None:
         scope=Scope.REQUEST,
     )
     provider.provide(
-        source=GetAutoOwnerPhone,
+        source=CreateUser,
+        scope=Scope.REQUEST,
+    )
+    provider.provide(
+        source=AddRegistrationCount,
+        scope=Scope.REQUEST,
+    )
+    provider.provide(
+        source=BlockUser,
+        scope=Scope.REQUEST,
+    )
+    provider.provide(
+        source=DeleteUser,
         scope=Scope.REQUEST,
     )

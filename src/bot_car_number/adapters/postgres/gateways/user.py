@@ -59,7 +59,7 @@ class DatabaseUserGateway(UserGateway):
                 banned=user.banned,
             )
 
-    async def ban_user(self, tg_id: int) -> None:
+    async def block_user(self, tg_id: int) -> None:
         stmt = update(self.model).filter_by(tg_id=tg_id).values(banned=True)
         await self.session.execute(stmt)
         await self.session.commit()

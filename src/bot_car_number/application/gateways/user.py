@@ -18,7 +18,7 @@ class UserGateway(Protocol):
         raise NotImplementedError
 
     @abstractmethod
-    async def ban_user(self, tg_id: int) -> None:
+    async def block_user(self, tg_id: int) -> None:
         raise NotImplementedError
 
     @abstractmethod
