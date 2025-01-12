@@ -11,7 +11,7 @@ class AddAuto(StatesGroup):
     confirm = State()
 
 
-class DeleteAuto(StatesGroup):
+class RemoveAuto(StatesGroup):
     enter_number = State()
     confirm = State()
 
