@@ -111,5 +111,5 @@ def autos_msg(autos: list[AutoDTO] | list[None]) -> str:
 def user_msg(user: UserDTO) -> str:
     text = EMPTY_MSG
     if user:
-        text = f"first name: {user.first_name}\n" f"phone: {user.phone}"
+        text = f"Имя: {user.first_name}\n" f"Телефон: {user.phone}"
     return "* Мои данные *\n" "\n----------\n" + text
