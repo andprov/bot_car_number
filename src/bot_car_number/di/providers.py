@@ -63,10 +63,7 @@ def setup_provider(provider: Provider) -> None:
 
 
 def provide_config(provider: Provider) -> None:
-    provider.from_context(
-        scope=Scope.APP,
-        provides=PostgresConfig,
-    )
+    provider.from_context(scope=Scope.APP, provides=PostgresConfig)
 
 
 def provide_db(provider: Provider) -> None:
@@ -106,43 +103,13 @@ def provide_db_gateways(provider: Provider) -> None:
 
 
 def provide_handlers_command(provider: Provider) -> None:
-    provider.provide(
-        source=GetUserById,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=GetUserByTelegramId,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=CreateUser,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=AddRegistrationCount,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=BlockUser,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=DeleteUser,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=GetAutoByNumber,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=GetAutosByUserId,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=CreateAuto,
-        scope=Scope.REQUEST,
-    )
-    provider.provide(
-        source=DeleteAuto,
-        scope=Scope.REQUEST,
-    )
+    provider.provide(source=CreateUser, scope=Scope.REQUEST)
+    provider.provide(source=GetUserById, scope=Scope.REQUEST)
+    provider.provide(source=GetUserByTelegramId, scope=Scope.REQUEST)
+    provider.provide(source=BlockUser, scope=Scope.REQUEST)
+    provider.provide(source=DeleteUser, scope=Scope.REQUEST)
+    provider.provide(source=AddRegistrationCount, scope=Scope.REQUEST)
+    provider.provide(source=CreateAuto, scope=Scope.REQUEST)
+    provider.provide(source=GetAutoByNumber, scope=Scope.REQUEST)
+    provider.provide(source=GetAutosByUserId, scope=Scope.REQUEST)
+    provider.provide(source=DeleteAuto, scope=Scope.REQUEST)
