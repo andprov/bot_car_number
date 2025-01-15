@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseStatsGateway(StatsGateway):
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession) -> None:
         self.model = StatsDNModel
         self.session = session
 
@@ -33,4 +33,4 @@ class DatabaseStatsGateway(StatsGateway):
         )
         result = await self.session.execute(stmt)
         logger.info(f"get_search_count - [user.id: {user_id}]")
-        return result.scalar()
+        return result.scalar_one()

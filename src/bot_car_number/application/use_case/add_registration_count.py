@@ -5,7 +5,7 @@ from bot_car_number.config_loader import MAX_REGISTRATIONS_COUNT
 
 
 class AddRegistrationCount:
-    def __init__(self, gateway: RegistrationGateway):
+    def __init__(self, gateway: RegistrationGateway) -> None:
         self.gateway = gateway
 
     async def __call__(self, tg_id: int) -> bool:

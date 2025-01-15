@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseAutoGateway(AutoGateway):
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession) -> None:
         self.model = AutoDBModel
         self.session = session
 
@@ -43,7 +43,7 @@ class DatabaseAutoGateway(AutoGateway):
                 user_id=auto.user_id,
             )
 
-    async def get_autos_by_user_id(self, user_id: int) -> list[AutoDTO | None]:
+    async def get_autos_by_user_id(self, user_id: int) -> list[AutoDTO]:
         stmt = select(self.model).filter_by(user_id=user_id)
         result = await self.session.execute(stmt)
         autos_data = result.scalars().all()

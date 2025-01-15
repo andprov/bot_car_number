@@ -14,7 +14,7 @@ class AutoGateway(Protocol):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_autos_by_user_id(self, user_id: int) -> list[AutoDTO | None]:
+    async def get_autos_by_user_id(self, user_id: int) -> list[AutoDTO]:
         raise NotImplementedError
 
     @abstractmethod

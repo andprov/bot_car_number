@@ -2,7 +2,7 @@ from bot_car_number.application.gateways.user import UserGateway
 
 
 class BlockUser:
-    def __init__(self, gateway: UserGateway):
+    def __init__(self, gateway: UserGateway) -> None:
         self.gateway = gateway
 
     async def __call__(self, tg_id: int) -> None:

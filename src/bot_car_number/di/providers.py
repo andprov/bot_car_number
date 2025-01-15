@@ -28,7 +28,13 @@ from bot_car_number.application.use_case.add_registration_count import (
     AddRegistrationCount,
 )
 from bot_car_number.application.use_case.block_user import BlockUser
+from bot_car_number.application.use_case.check_search_access import (
+    CheckSearchAccess,
+)
 from bot_car_number.application.use_case.create_auto import CreateAuto
+from bot_car_number.application.use_case.create_search_try import (
+    CreateSearchTry,
+)
 from bot_car_number.application.use_case.create_user import CreateUser
 from bot_car_number.application.use_case.delete_auto import DeleteAuto
 from bot_car_number.application.use_case.delete_user import DeleteUser
@@ -113,3 +119,5 @@ def provide_handlers_command(provider: Provider) -> None:
     provider.provide(source=GetAutoByNumber, scope=Scope.REQUEST)
     provider.provide(source=GetAutosByUserId, scope=Scope.REQUEST)
     provider.provide(source=DeleteAuto, scope=Scope.REQUEST)
+    provider.provide(source=CheckSearchAccess, scope=Scope.REQUEST)
+    provider.provide(source=CreateSearchTry, scope=Scope.REQUEST)

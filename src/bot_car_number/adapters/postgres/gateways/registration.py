@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseRegistrationGateway(RegistrationGateway):
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession) -> None:
         self.model = RegistrationDBModel
         self.session = session
 
