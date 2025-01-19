@@ -10,7 +10,7 @@ class PostgresConfig:
     host: str = field(default="localhost")
     port: int = field(default=5432)
     database: str = field(default="bot_car_number")
-    echo: bool = field(default=True)
+    echo: bool = field(default=False)
 
     @property
     def url(self) -> str:
