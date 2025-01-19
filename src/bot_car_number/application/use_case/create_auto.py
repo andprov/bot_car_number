@@ -7,4 +7,5 @@ class CreateAuto:
         self.gateway = gateway
 
     async def __call__(self, auto: AutoDTO) -> None:
-        await self.gateway.add_auto(auto=auto)
+        if not await self.gateway.get_auto_by_number(number=auto.number):
+            await self.gateway.add_auto(auto=auto)

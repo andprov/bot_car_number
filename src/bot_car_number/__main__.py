@@ -14,7 +14,6 @@ from bot_car_number.di.providers import setup_async_container
 from bot_car_number.presentation.config import load_bot_config
 from bot_car_number.presentation.handlers import auto, menu, search, user
 from bot_car_number.presentation.misc.ui_commands import set_ui_commands
-from bot_car_number.services.auto_service import AutoService
 from bot_car_number.services.user_service import UserService
 
 logger = logging.getLogger(__name__)
@@ -39,7 +38,6 @@ async def main():
     dp = Dispatcher(
         storage=storage,
         user_service=UserService,
-        auto_service=AutoService,
     )
 
     bot_config = load_bot_config()
