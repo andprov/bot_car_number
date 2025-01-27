@@ -4,12 +4,10 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.fsm.storage.redis import RedisStorage
 from dishka.integrations.aiogram import setup_dishka
-from redis.asyncio import Redis
 
 from bot_car_number.adapters.postgres.config import load_postgres_config
-from bot_car_number.adapters.redis.config import load_redis_config
+from bot_car_number.adapters.redis.config import get_redis_storage
 from bot_car_number.di.providers import setup_async_container
 from bot_car_number.presentation.config import load_bot_config
 from bot_car_number.presentation.handlers.auto import router as auto_router
@@ -29,16 +27,11 @@ async def main():
     )
     logger.info("Bot start")
 
-    #
-    redis_config = load_redis_config()
-    redis = Redis(
-        host=redis_config.host,
-        port=redis_config.port,
-    )
-    storage = RedisStorage(redis=redis)
-    #
-
     bot_config = load_bot_config()
+
+    #
+    storage = get_redis_storage()
+    #
 
     dp = Dispatcher(storage=storage)
     dp.update.middleware(PrivateMiddleware(bot_config.group))
