@@ -30,6 +30,7 @@ from bot_car_number.application.use_case.add_registration_count import (
     AddRegistrationCount,
 )
 from bot_car_number.application.use_case.block_user import BlockUser
+from bot_car_number.application.use_case.check_add_auto import CheckUserAutosCount
 from bot_car_number.application.use_case.check_search_access import (
     CheckSearchAccess,
 )
@@ -40,16 +41,12 @@ from bot_car_number.application.use_case.create_auto import CreateAuto
 from bot_car_number.application.use_case.create_user import CreateUser
 from bot_car_number.application.use_case.delete_auto import DeleteAuto
 from bot_car_number.application.use_case.delete_user import DeleteUser
-from bot_car_number.application.use_case.get_auto_by_number import (
-    GetAutoByNumber,
-)
 from bot_car_number.application.use_case.get_auto_for_delete import (
     GetAutoForDelete,
 )
 from bot_car_number.application.use_case.get_autos_by_user_id import (
     GetAutosByUserId,
 )
-from bot_car_number.application.use_case.get_user_by_id import GetUserById
 from bot_car_number.application.use_case.get_user_by_telegram_id import (
     GetUserByTelegramId,
 )
@@ -117,16 +114,15 @@ def provide_db_gateways(provider: Provider) -> None:
 def provide_handlers_command(provider: Provider) -> None:
     provider.provide(source=CheckUserAccess, scope=Scope.REQUEST)
     provider.provide(source=CreateUser, scope=Scope.REQUEST)
-    provider.provide(source=GetUserById, scope=Scope.REQUEST)
     provider.provide(source=GetUserByTelegramId, scope=Scope.REQUEST)
     provider.provide(source=BlockUser, scope=Scope.REQUEST)
     provider.provide(source=DeleteUser, scope=Scope.REQUEST)
     provider.provide(source=AddRegistrationCount, scope=Scope.REQUEST)
+    provider.provide(source=CheckUserAutosCount, scope=Scope.REQUEST)
     provider.provide(source=AddAutoNumber, scope=Scope.REQUEST)
     provider.provide(source=AddAutoModel, scope=Scope.REQUEST)
     provider.provide(source=GetAutoForDelete, scope=Scope.REQUEST)
     provider.provide(source=CreateAuto, scope=Scope.REQUEST)
-    provider.provide(source=GetAutoByNumber, scope=Scope.REQUEST)
     provider.provide(source=GetAutosByUserId, scope=Scope.REQUEST)
     provider.provide(source=DeleteAuto, scope=Scope.REQUEST)
     provider.provide(source=GetAutoOwnerData, scope=Scope.REQUEST)

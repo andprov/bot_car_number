@@ -1,11 +1,12 @@
 import re
 from dataclasses import dataclass
 
-from bot_car_number.config_loader import MAX_AUTO_NAME_LEN
 from bot_car_number.domain.exceptions import (
     AutoModelValidationError,
     AutoNumberValidationError,
 )
+
+MAX_AUTO_NAME_LEN = 50
 
 
 @dataclass(frozen=True)

@@ -1,7 +1,7 @@
+from bot_car_number.application.config import MAX_REGISTRATIONS_COUNT
 from bot_car_number.application.gateways.registration import (
     RegistrationGateway,
 )
-from bot_car_number.config_loader import MAX_REGISTRATIONS_COUNT
 
 
 class AddRegistrationCount:

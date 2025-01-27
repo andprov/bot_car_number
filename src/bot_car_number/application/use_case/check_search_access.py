@@ -1,5 +1,5 @@
+from bot_car_number.application.config import SEARCH_COUNT_LIMIT
 from bot_car_number.application.gateways.stats import StatsGateway
-from bot_car_number.config_loader import SEARCH_COUNT_LIMIT
 
 
 class CheckSearchAccess:

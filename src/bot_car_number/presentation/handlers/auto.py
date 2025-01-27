@@ -7,6 +7,9 @@ from dishka.integrations.aiogram import FromDishka, inject
 from bot_car_number.application.dto.auto import AutoDTO
 from bot_car_number.application.use_case.add_auto_model import AddAutoModel
 from bot_car_number.application.use_case.add_auto_number import AddAutoNumber
+from bot_car_number.application.use_case.check_add_auto import (
+    CheckUserAutosCount,
+)
 from bot_car_number.application.use_case.create_auto import CreateAuto
 from bot_car_number.application.use_case.delete_auto import DeleteAuto
 from bot_car_number.application.use_case.get_auto_for_delete import (
@@ -18,7 +21,6 @@ from bot_car_number.application.use_case.get_autos_by_user_id import (
 from bot_car_number.application.use_case.get_user_by_telegram_id import (
     GetUserByTelegramId,
 )
-from bot_car_number.config_loader import MAX_AUTO_COUNT
 from bot_car_number.presentation.handlers.states import AddAuto, RemoveAuto
 from bot_car_number.presentation.keyboards.inline_keyboard import (
     add_del_back_kb,
@@ -64,24 +66,21 @@ async def auto_menu(
 async def add_auto(
     call: CallbackQuery,
     state: FSMContext,
-    get_user_by_telegram_id: FromDishka[GetUserByTelegramId],
-    get_autos_by_user_id: FromDishka[GetAutosByUserId],
+    check_user_autos_count: FromDishka[CheckUserAutosCount],
 ) -> None:
     """Переход к добавлению автомобиля."""
-    user = await get_user_by_telegram_id(tg_id=call.from_user.id)
-    if user:
-        autos = await get_autos_by_user_id(user_id=user.id)
-        if len(autos) >= MAX_AUTO_COUNT:
-            await call.answer(text=msg.AUTO_MAX_COUNT_MSG, show_alert=True)
-            return
+    user, err_msg = await check_user_autos_count(tg_id=call.from_user.id)
+    if err_msg:
+        await call.answer(text=err_msg, show_alert=True)
+        return
 
-        await call.message.edit_text(
-            text=msg.AUTO_ENTER_NUMBER_MSG,
-            reply_markup=BACK_KB,
-        )
+    await call.message.edit_text(
+        text=msg.AUTO_ENTER_NUMBER_MSG,
+        reply_markup=BACK_KB,
+    )
 
-        await state.update_data(user_id=user.id)
-        await state.set_state(state=AddAuto.enter_number)
+    await state.update_data(user_id=user.id)
+    await state.set_state(state=AddAuto.enter_number)
 
 
 @router.message(AddAuto.enter_number)

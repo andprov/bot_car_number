@@ -5,9 +5,9 @@ from sqlalchemy import func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot_car_number.adapters.postgres.tables import Stats as StatsDNModel
+from bot_car_number.application.config import TIME_LIMIT
 from bot_car_number.application.dto.stats import StatsDTO
 from bot_car_number.application.gateways.stats import StatsGateway
-from bot_car_number.config_loader import TIME_LIMIT
 
 logger = logging.getLogger(__name__)
 
