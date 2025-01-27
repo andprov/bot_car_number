@@ -12,7 +12,11 @@ from bot_car_number.adapters.postgres.config import load_postgres_config
 from bot_car_number.adapters.redis.config import load_redis_config
 from bot_car_number.di.providers import setup_async_container
 from bot_car_number.presentation.config import load_bot_config
-from bot_car_number.presentation.handlers import auto, menu, search, user
+from bot_car_number.presentation.handlers.auto import router as auto_router
+from bot_car_number.presentation.handlers.menu import router as menu_router
+from bot_car_number.presentation.handlers.search import router as search_router
+from bot_car_number.presentation.handlers.user import router as user_router
+from bot_car_number.presentation.middlewares.access import PrivateMiddleware
 from bot_car_number.presentation.misc.ui_commands import set_ui_commands
 
 logger = logging.getLogger(__name__)
@@ -34,24 +38,20 @@ async def main():
     storage = RedisStorage(redis=redis)
     #
 
-    dp = Dispatcher(storage=storage)
-
     bot_config = load_bot_config()
-    # TODO: fix
-    # dp.update.middleware(PrivateMiddleware(bot_config.group))
-    # dp.update.middleware(SessionMiddleware(sessionmaker))
-    dp.include_routers(menu.router, user.router, auto.router, search.router)
+
+    dp = Dispatcher(storage=storage)
+    dp.update.middleware(PrivateMiddleware(bot_config.group))
+    dp.include_routers(auto_router, menu_router, search_router, user_router)
 
     bot = Bot(
         token=bot_config.token,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
 
-    #
     db_config = load_postgres_config()
     container = setup_async_container(db_config)
     setup_dishka(container=container, router=dp)
-    #
 
     await set_ui_commands(bot)
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

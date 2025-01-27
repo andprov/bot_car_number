@@ -13,7 +13,7 @@ class User(Base):
     tg_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     first_name: Mapped[str]
     phone: Mapped[str]
-    banned: Mapped[bool] = mapped_column(default=False)
+    active: Mapped[bool] = mapped_column(default=True)
 
     autos: Mapped[list["Auto"]] = relationship(
         back_populates="owner", cascade="all, delete"

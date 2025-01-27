@@ -22,7 +22,7 @@ class DatabaseUserGateway(UserGateway):
                 tg_id=user.tg_id,
                 first_name=user.first_name,
                 phone=user.phone,
-                banned=user.banned,
+                active=user.active,
             )
             .returning(self.model.id)
         )
@@ -42,7 +42,7 @@ class DatabaseUserGateway(UserGateway):
                 tg_id=user.tg_id,
                 first_name=user.first_name,
                 phone=user.phone,
-                banned=user.banned,
+                active=user.active,
             )
 
     async def get_user_by_telegram_id(self, tg_id: int) -> UserDTO | None:
@@ -56,11 +56,11 @@ class DatabaseUserGateway(UserGateway):
                 tg_id=user.tg_id,
                 first_name=user.first_name,
                 phone=user.phone,
-                banned=user.banned,
+                active=user.active,
             )
 
     async def block_user(self, tg_id: int) -> None:
-        stmt = update(self.model).filter_by(tg_id=tg_id).values(banned=True)
+        stmt = update(self.model).filter_by(tg_id=tg_id).values(active=False)
         await self.session.execute(stmt)
         await self.session.commit()
         logger.info(f"ban_user - [tg_id: {tg_id}]")

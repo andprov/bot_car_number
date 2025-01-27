@@ -7,4 +7,4 @@ class UserDTO:
     tg_id: int
     first_name: str
     phone: str
-    banned: bool
+    active: bool

@@ -89,7 +89,7 @@ async def add_user_contact(
         tg_id=contact.user_id,
         first_name=contact.first_name,
         phone=contact.phone_number,
-        banned=False,
+        active=True,
     )
     await create_user(user=user)
 
