@@ -33,6 +33,9 @@ from bot_car_number.application.use_case.block_user import BlockUser
 from bot_car_number.application.use_case.check_search_access import (
     CheckSearchAccess,
 )
+from bot_car_number.application.use_case.check_user_access import (
+    CheckUserAccess,
+)
 from bot_car_number.application.use_case.create_auto import CreateAuto
 from bot_car_number.application.use_case.create_user import CreateUser
 from bot_car_number.application.use_case.delete_auto import DeleteAuto
@@ -112,6 +115,7 @@ def provide_db_gateways(provider: Provider) -> None:
 
 
 def provide_handlers_command(provider: Provider) -> None:
+    provider.provide(source=CheckUserAccess, scope=Scope.REQUEST)
     provider.provide(source=CreateUser, scope=Scope.REQUEST)
     provider.provide(source=GetUserById, scope=Scope.REQUEST)
     provider.provide(source=GetUserByTelegramId, scope=Scope.REQUEST)

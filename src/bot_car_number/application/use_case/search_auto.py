@@ -1,3 +1,5 @@
+import logging
+
 from bot_car_number.application.dto.stats import StatsDTO
 from bot_car_number.application.gateways.auto import AutoGateway
 from bot_car_number.application.gateways.stats import StatsGateway
@@ -6,6 +8,8 @@ from bot_car_number.config_loader import SEARCH_COUNT_LIMIT
 from bot_car_number.domain.exceptions import AutoNumberValidationError
 from bot_car_number.domain.value_objects import Auto
 from bot_car_number.presentation.misc import msg
+
+logger = logging.getLogger(__name__)
 
 
 class GetAutoOwnerData:
@@ -22,7 +26,8 @@ class GetAutoOwnerData:
     async def __call__(self, number: str, tg_id: int) -> tuple[str, bool]:
         try:
             auto = Auto(number=number, model=None)
-        except AutoNumberValidationError:
+        except AutoNumberValidationError as err:
+            logger.warning(err.message)
             return msg.AUTO_FORMAT_ERR_MSG, False
 
         user = await self.user_gateway.get_user_by_telegram_id(tg_id=tg_id)

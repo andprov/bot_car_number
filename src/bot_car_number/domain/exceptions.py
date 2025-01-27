@@ -12,3 +12,7 @@ class AutoNumberValidationError(DomainError):
 
 class AutoModelValidationError(DomainError):
     pass
+
+
+class UserNotFoundError(DomainError):
+    pass

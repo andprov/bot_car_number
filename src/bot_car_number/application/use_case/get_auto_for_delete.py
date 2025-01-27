@@ -1,9 +1,13 @@
+import logging
+
 from bot_car_number.application.dto.auto import AutoDTO
 from bot_car_number.application.gateways.auto import AutoGateway
 from bot_car_number.application.gateways.user import UserGateway
 from bot_car_number.domain.exceptions import AutoNumberValidationError
 from bot_car_number.domain.value_objects import Auto
 from bot_car_number.presentation.misc import msg
+
+logger = logging.getLogger(__name__)
 
 
 class GetAutoForDelete:
@@ -22,7 +26,8 @@ class GetAutoForDelete:
     ) -> tuple[AutoDTO | None, None | str]:
         try:
             auto = Auto(number=number, model=None)
-        except AutoNumberValidationError:
+        except AutoNumberValidationError as err:
+            logger.warning(err.message)
             return None, msg.AUTO_FORMAT_ERR_MSG
 
         auto_data = await self.auto_gateway.get_auto_by_number(
