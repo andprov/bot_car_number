@@ -15,7 +15,7 @@ class RedisConfig:
 def load_redis_config() -> RedisConfig:
     return RedisConfig(
         host=get_env_value("REDIS_HOST"),
-        port=get_env_value("REDIS_PORT"),
+        port=int(get_env_value("REDIS_PORT")),
     )
 
 

@@ -104,7 +104,7 @@ def start_msg(first_name: str) -> str:
 def autos_msg(autos: list[AutoDTO] | list[None]) -> str:
     text = EMPTY_MSG
     if autos:
-        text = "\n".join(map(str, autos))
+        text = "\n".join(f"{auto.number} - {auto.model}" for auto in autos)
     return "* Мои автомобили *\n" "\n----------\n" + text
 
 

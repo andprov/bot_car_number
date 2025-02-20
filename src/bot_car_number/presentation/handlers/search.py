@@ -14,10 +14,10 @@ from bot_car_number.application.use_case.get_user_by_telegram_id import (
     GetUserByTelegramId,
 )
 from bot_car_number.application.use_case.search_auto import GetAutoOwnerData
-from bot_car_number.presentation.handlers.states import SearchAuto
 from bot_car_number.presentation.keyboards.inline_keyboard import back_kb
 from bot_car_number.presentation.misc import msg
 from bot_car_number.presentation.misc.cmd import Command as cmd
+from bot_car_number.presentation.states import SearchAuto
 
 router = Router()
 

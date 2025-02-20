@@ -22,10 +22,10 @@ class PostgresConfig:
 
 def load_postgres_config() -> PostgresConfig:
     return PostgresConfig(
-        user=get_env_value("POSTGRES_USER"),
-        password=get_env_value("POSTGRES_PASSWORD"),
-        host=get_env_value("DB_HOST"),
-        port=get_env_value("DB_PORT"),
-        database=get_env_value("POSTGRES_DB"),
+        user=get_env_value("POSTGRES_USER") or None,
+        password=get_env_value("POSTGRES_PASSWORD") or None,
+        host=get_env_value("DB_HOST") or None,
+        port=int(get_env_value("DB_PORT")) or None,
+        database=get_env_value("POSTGRES_DB") or None,
         echo=get_env_value("ECHO") == "True",
     )

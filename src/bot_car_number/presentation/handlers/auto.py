@@ -21,7 +21,6 @@ from bot_car_number.application.use_case.get_autos_by_user_id import (
 from bot_car_number.application.use_case.get_user_by_telegram_id import (
     GetUserByTelegramId,
 )
-from bot_car_number.presentation.handlers.states import AddAuto, RemoveAuto
 from bot_car_number.presentation.keyboards.inline_keyboard import (
     add_del_back_kb,
     back_kb,
@@ -30,6 +29,7 @@ from bot_car_number.presentation.keyboards.inline_keyboard import (
 )
 from bot_car_number.presentation.misc import msg
 from bot_car_number.presentation.misc.cmd import Command as cmd
+from bot_car_number.presentation.states import AddAuto, RemoveAuto
 
 router = Router()
 
@@ -52,9 +52,8 @@ async def auto_menu(
         return
 
     user_autos = await get_autos_by_user_id(user_id=user.id)
-    auto_print_list = [f"{auto.number} - {auto.model}" for auto in user_autos]
     await call.message.edit_text(
-        text=msg.autos_msg(autos=auto_print_list),
+        text=msg.autos_msg(autos=user_autos),
         reply_markup=AUTO_KB,
     )
 
@@ -144,9 +143,8 @@ async def add_auto_confirm(
     await create_auto(auto=auto)
 
     user_autos = await get_autos_by_user_id(user_id=data["user_id"])
-    auto_print_list = [f"{auto.number} - {auto.model}" for auto in user_autos]
     await call.message.edit_text(
-        text=msg.autos_msg(autos=auto_print_list),
+        text=msg.autos_msg(autos=user_autos),
         reply_markup=AUTO_KB,
     )
 
@@ -215,9 +213,8 @@ async def delete_auto_confirm(
         await delete_auto(id=auto_id)
 
     user_autos = await get_autos_by_user_id(user_id=data["user_id"])
-    auto_print_list = [f"{auto.number} - {auto.model}" for auto in user_autos]
     await call.message.edit_text(
-        text=msg.autos_msg(auto_print_list),
+        text=msg.autos_msg(autos=user_autos),
         reply_markup=AUTO_KB,
     )
 
