@@ -4,15 +4,18 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.fsm.storage.redis import RedisStorage
-from redis.asyncio import Redis
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from dishka.integrations.aiogram import setup_dishka
 
-from bot_car_number.config import load_config
-from bot_car_number.handlers import auto, menu, search, user
-from bot_car_number.middlewares.access import PrivateMiddleware
-from bot_car_number.middlewares.db_session import DbMiddleware
-from bot_car_number.misc.ui_commands import set_ui_commands
+from bot_car_number.adapters.postgres.config import load_postgres_config
+from bot_car_number.adapters.redis.config import get_redis_storage
+from bot_car_number.di.providers import setup_async_container
+from bot_car_number.presentation.config import load_bot_config
+from bot_car_number.presentation.handlers.auto import router as auto_router
+from bot_car_number.presentation.handlers.menu import router as menu_router
+from bot_car_number.presentation.handlers.search import router as search_router
+from bot_car_number.presentation.handlers.user import router as user_router
+from bot_car_number.presentation.middlewares.access import PrivateMiddleware
+from bot_car_number.presentation.misc.ui_commands import set_ui_commands
 
 logger = logging.getLogger(__name__)
 
@@ -24,23 +27,24 @@ async def main():
     )
     logger.info("Bot start")
 
-    config = load_config()
+    bot_config = load_bot_config()
 
-    redis = Redis(host=config.redis.host, port=config.redis.port)
-    storage = RedisStorage(redis=redis)
-
-    engine = create_async_engine(config.db.ulr, echo=False)
-    sessionmaker = async_sessionmaker(engine, expire_on_commit=False)
+    #
+    storage = get_redis_storage()
+    #
 
     dp = Dispatcher(storage=storage)
-    dp.update.middleware(DbMiddleware(sessionmaker))
-    dp.update.middleware(PrivateMiddleware(config.bot.group))
-    dp.include_routers(menu.router, user.router, auto.router, search.router)
+    dp.update.middleware(PrivateMiddleware(bot_config.group))
+    dp.include_routers(auto_router, menu_router, search_router, user_router)
 
     bot = Bot(
-        token=config.bot.token,
+        token=bot_config.token,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
+
+    db_config = load_postgres_config()
+    container = setup_async_container(db_config)
+    setup_dishka(container=container, router=dp)
 
     await set_ui_commands(bot)
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

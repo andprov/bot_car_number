@@ -7,70 +7,56 @@
 [![Aiogram version](https://img.shields.io/badge/Aiogram-3.1.1-blue)](https://aiogram.dev/)
 [![Main bot_car_number workflow](https://github.com/andprov/bot_car_number/actions/workflows/main.yml/badge.svg)](https://github.com/andprov/bot_car_number/actions/workflows/main.yml)
 
-# Описание
+# Description
 
-Телеграм бот для сохранения и поиска контактных данных автовладельцев-участников
-группы.
-
-Перед запуском, бот должен быть добавлен в группу и иметь права администратора для проверки
-является ли пользователь ее участником.
-
-ID группы необходимо указать в переменной окружения `GROUP_ID` в `.env` файле.
-Бот поддерживает только личную переписку с пользователем, обращения в группах
-отключены в `PrivateMiddleware`.
+A Telegram bot for saving and searching contact information of car owners
 
 ![Pic](https://github.com/andprov/bot_car_number/blob/main/img/pic.png?raw=true "Pic")
 
-# Установка
+# Quickstart
 
-[Создать бота и получить](https://core.telegram.org/bots#how-do-i-create-a-bot) `BOT_TOKEN`
+1. [Create a bot and get a token](https://core.telegram.org/bots#how-do-i-create-a-bot) `BOT_TOKEN`
 
-Клонировать репозиторий:
+2. Clone the repository:
 
 ```shell
 git clone <https or SSH URL>
 ```
 
-Перейти в каталог проекта:
+3. In the project root, create a `.env` file. Example: [.env.example](.env.example)
 
-```shell
-cd bot_car_number
-```
-
-В корне проекта создать файл `.env` пример - [.env.example](.env.example)
-
-Создать базу данных PostgreSQL с именем `bot_car_number`.
+4. Create a PostgreSQL database with the name `bot_car_number`.
 
 ```shell
 createdb -U postgres -h localhost -p 5432 bot_car_number
 ```
 
-Создать и активировать виртуальное окружение:
+5. Create and activate a virtual environment:
 
 ```shell
 python3.11 -m venv .venv
 source .venv/bin/activate
 ```
 
-Обновить pip:
-
-```shell
-pip install --upgrade pip
-```
-
-Установить зависимости:
+6. Install dependencies:
 
 ```shell
 pip install -e .
 ```
 
-Выполнить миграции:
+7. Export environment variables:
+
+```shell
+export $(grep -v '^#' .env | xargs)
+```
+
+8. Run migrations:
 
 ```shell
 alembic upgrade head
 ```
 
-Запустить приложение:
+9. Run the app:
 
 ```shell
 python -m bot_car_number
