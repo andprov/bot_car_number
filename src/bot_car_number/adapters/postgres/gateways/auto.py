@@ -28,13 +28,13 @@ class DatabaseAutoGateway(AutoGateway):
         result = await self.session.execute(stmt)
         await self.session.commit()
         auto_id = result.scalar_one()
-        logger.info(f"add_auto - [auto.id: {auto_id}]")
+        logger.info(f"[DB] Add auto | [auto.id: {auto_id}]")
 
     async def get_auto_by_number(self, number: str) -> AutoDTO | None:
         stmt = select(self.model).filter_by(number=number)
         result = await self.session.execute(stmt)
         auto = result.scalar_one_or_none()
-        logger.info(f"get_auto_by_number - [auto: {auto}]")
+        logger.info(f"[DB] Get auto by number | [auto: {auto}]")
         if auto:
             return AutoDTO(
                 id=auto.id,
@@ -57,7 +57,7 @@ class DatabaseAutoGateway(AutoGateway):
             for auto in autos_data
         ]
         logger.info(
-            f"get_autos_by_user_id - [user.id: {user_id}, "
+            f"[DB] Get autos by user id | [user.id: {user_id}, "
             f"len_auto_list: {len(autos)}]"
         )
         return autos
@@ -66,4 +66,4 @@ class DatabaseAutoGateway(AutoGateway):
         stmt = delete(self.model).filter_by(id=id)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info(f"delete_auto - [auto.id: {id}]")
+        logger.info(f"[DB] Delete auto | [auto.id: {id}]")

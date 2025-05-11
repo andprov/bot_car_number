@@ -13,6 +13,9 @@ class Command:
     AUTO_DEL = "auto_delete"
     AUTO_DEL_CONFIRM = "auto_delete_confirm"
 
+    BLOCK_AUTO = "block_auto"
+    BLOCK_AUTO_CONFIRM = "block_auto_confirm"
+
     SEARCH = "search"
 
 
@@ -30,5 +33,8 @@ class Button:
     ADD_TXT = "Добавить"
     DELETE_TXT = "Удалить"
     DEL_CONFIRM_TXT = "Подтвердить Удаление"
+
+    BLOCK_AUTO_TXT = "Перекрыть"
+    BLOCK_AUTO_CONFIRM_TXT = "Уведомить владельца"
 
     SEARCH_TXT = "Поиск"

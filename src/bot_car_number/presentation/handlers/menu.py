@@ -18,7 +18,6 @@ AUTO_KB = add_del_back_kb(cmd.AUTO_ADD, cmd.AUTO_DEL, cmd.MAIN)
 
 @router.message(CommandStart())
 async def cmd_start(message: Message) -> None:
-    """Обработчик запуска бота."""
     text = msg.start_msg(first_name=message.from_user.first_name)
     await message.answer(text=text)
 
@@ -29,7 +28,6 @@ async def cmd_menu(
     call_or_message: CallbackQuery | Message,
     state: FSMContext,
 ) -> None:
-    """Обработчик вызова главного меню."""
     await state.clear()
     if isinstance(call_or_message, Message):
         await call_or_message.answer(text=msg.MAIN_MSG, reply_markup=main_kb())
@@ -47,9 +45,9 @@ async def cmd_cancel(
     call_or_message: CallbackQuery | Message,
     state: FSMContext,
 ) -> None:
-    """Обработчик команды отмены."""
     if await state.get_state():
         await state.clear()
+
         if isinstance(call_or_message, Message):
             await call_or_message.answer(
                 text=msg.CANCEL_MSG,

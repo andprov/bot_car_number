@@ -1,11 +1,15 @@
-from bot_car_number.application.config import SEARCH_COUNT_LIMIT
-from bot_car_number.application.gateways.stats import StatsGateway
+from bot_car_number.application.config import SEARCH_ATTEMPT_COUNT_LIMIT
+from bot_car_number.application.gateways.search import SearchAttemptGateway
 
 
 class CheckSearchAccess:
-    def __init__(self, gateway: StatsGateway) -> None:
-        self.gateway = gateway
+    def __init__(self, search_attempt_gateway: SearchAttemptGateway) -> None:
+        self.search_attempt_gateway = search_attempt_gateway
 
-    async def __call__(self, user_id: int) -> bool:
-        search_count = await self.gateway.get_search_count(user_id=user_id)
-        return search_count < SEARCH_COUNT_LIMIT
+    async def __call__(self, tg_id: int) -> bool:
+        search_attempt_count = (
+            await self.search_attempt_gateway.get_search_attempt_count(
+                tg_id=tg_id
+            )
+        )
+        return search_attempt_count < SEARCH_ATTEMPT_COUNT_LIMIT

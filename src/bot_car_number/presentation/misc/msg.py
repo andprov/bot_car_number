@@ -16,11 +16,11 @@ MAIN_MSG = (
     f"\n{hbold(btn.AUTO_MENU_TXT)}: управление данными автомобилей."
     f"\n{hbold(btn.SEARCH_TXT)}: поиск владельца по номеру автомобиля."
 )
-NO_DATA_MSG = (
+MAIN_NO_DATA_MSG = (
     f"Для получения доступа, добавьте свои данные в меню - "
     f"{btn.USER_MENU_TXT}."
 )
-NO_AUTO_MSG = f"Добавьте свой автомобиль в меню - '{btn.AUTO_MENU_TXT}'."
+MAIN_NO_AUTO_MSG = f"Добавьте свой автомобиль в меню - '{btn.AUTO_MENU_TXT}'."
 
 
 # USER_MENU
@@ -32,7 +32,7 @@ USER_WRONG_MSG = "Вы отправили данные другого польз
 USER_ADD_MSG = "Ваши контактные данные добавлены."
 USER_DELETE_MSG = "Ваши данные удалены."
 USER_EXIST_MSG = "Ваши данные уже были добавлены ранее!"
-USER_NOT_EXIST_MSG = "Пользователь не найден."
+USER_NOT_FOUND_MSG = "Пользователь не найден."
 USER_DEL_CONFIRM_MSG = (
     "После нажатия кнопки подтверждения, ваши контактные данные и данные "
     "всех ваших автомобилей будут удалены.\n"
@@ -63,7 +63,7 @@ AUTO_ADD_MODEL_MSG = (
     "Например Моя ласточка или Lamborghini Diablo.\n"
     "Марка и модель будут доступны только вам, в вашем списке автомобилей."
 )
-AUTO_MODEL_LONG_MSG = (
+AUTO_MODEL_ERR_MSG = (
     "Количество символов в названии автомобиля превышает допустимое!\n\n"
     f"{AUTO_ADD_MODEL_MSG}"
 )
@@ -76,7 +76,7 @@ AUTO_DEL_CONFIRM_MSG = (
     "После нажатия кнопки подтверждения, данные автомобиля будут удалены.\n"
     "Это действие невозможно отменить!"
 )
-AUTO_NOT_EXIST_MSG = (
+AUTO_NOT_FOUND_MSG = (
     "Автомобиль с таким номером не найден!" f"\n\n{AUTO_ENTER_NUMBER_MSG}"
 )
 AUTO_NOT_YOURS_MSG = (
@@ -87,9 +87,23 @@ AUTO_NOT_YOURS_MSG = (
 # SEARCH
 OWNER_YOUR_MSG = "Этот автомобильный номер принадлежит вам."
 OWNER_MSG = "Телефон владельца:\n{}"
-SEARCH_ACCESS_DENIED = (
+SEARCH_ACCESS_DENIED_MSG = (
     "Вы превысили количество запросов, повторите попытку позднее."
 )
+
+
+# BLOCK_AUTO
+OWNER_NOT_FOUND_MSG = "Владелец автомобиля не найден."
+AUTO_CHECK_NUMBER_MSG = (
+    "Проверьте номер автомобиля.\n"
+    "Номер: {}\n\n"
+    "После нажатия кнопки подтверждения, ваши контактные данные будут "
+    "отправлены владельцу перекрытого автомобиля."
+)
+OWNER_HAS_BEEN_NOTIFIED = (
+    "Владельцу отправлено сообщение с вашими контактными данными."
+)
+AUTO_IS_BLOCKED_MSG = "Ваш автомобиль перекрыли."
 
 
 def start_msg(first_name: str) -> str:
