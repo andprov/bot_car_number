@@ -1,10 +1,8 @@
 # bot_car_number
 
+[![Python versions](https://img.shields.io/badge/python-3.12-blue)](#)
 [![License MIT](https://img.shields.io/badge/licence-MIT-green)](https://opensource.org/license/mit/)
 [![Code style black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
-[![Python versions](https://img.shields.io/badge/python-3.11-blue)](#)
-[![Telegram API](https://img.shields.io/badge/Telegram%20Bot%20API-6.9-blue?logo=telegram)](https://core.telegram.org/bots/api)
-[![Aiogram version](https://img.shields.io/badge/Aiogram-3.1.1-blue)](https://aiogram.dev/)
 [![Main bot_car_number workflow](https://github.com/andprov/bot_car_number/actions/workflows/main.yml/badge.svg)](https://github.com/andprov/bot_car_number/actions/workflows/main.yml)
 
 # Description
@@ -46,7 +44,7 @@ createdb -U postgres -h localhost -p 5432 bot_car_number
 
 ```shell
 # Create and activate virtual environment
-python3.11 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 
 # Install dependencies
@@ -62,7 +60,7 @@ alembic upgrade head
 python -m bot_car_number
 ```
 
-## uv
+### uv
 
 ```shell
 # Create and activate virtual environment
