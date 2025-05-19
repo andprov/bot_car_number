@@ -5,7 +5,6 @@ from bot_car_number.presentation.misc.cmd import Button as btn
 
 
 def contact_kb() -> ReplyKeyboardMarkup:
-    """Клавиатура получения контактных данных пользователя."""
     builder = ReplyKeyboardBuilder()
     builder.row(
         KeyboardButton(text=btn.CANCEL_TXT),

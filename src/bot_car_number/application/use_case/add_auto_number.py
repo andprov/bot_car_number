@@ -1,28 +1,22 @@
 import logging
 
+from bot_car_number.application.exceptions import AutoAlreadyExistsError
 from bot_car_number.application.gateways.auto import AutoGateway
-from bot_car_number.domain.exceptions import AutoNumberValidationError
-from bot_car_number.domain.value_objects import Auto
-from bot_car_number.presentation.misc.msg import (
-    AUTO_EXIST_MSG,
-    AUTO_FORMAT_ERR_MSG,
-)
+from bot_car_number.value_objects.auto_number import AutoNumber
 
 logger = logging.getLogger(__name__)
 
 
 class AddAutoNumber:
-    def __init__(self, gateway: AutoGateway) -> None:
-        self.gateway = gateway
+    def __init__(self, auto_gateway: AutoGateway) -> None:
+        self.auto_gateway = auto_gateway
 
-    async def __call__(self, number: str) -> tuple[str | None, None | str]:
-        try:
-            auto = Auto(number=number, model=None)
-        except AutoNumberValidationError as err:
-            logger.warning(err.message)
-            return None, AUTO_FORMAT_ERR_MSG
+    async def __call__(self, number: str) -> str:
+        auto_number = AutoNumber(value=number)
+        if await self.auto_gateway.get_auto_by_number(number=auto_number.value):
+            logger.warning(
+                f"[UC] Auto already exists | [auto: {auto_number.value}]"
+            )
+            raise AutoAlreadyExistsError()
 
-        if await self.gateway.get_auto_by_number(number=auto.number):
-            return None, AUTO_EXIST_MSG
-
-        return auto.number, None
+        return auto_number.value

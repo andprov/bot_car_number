@@ -10,7 +10,7 @@ class UserGateway(Protocol):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_user(self, user_id: int) -> UserDTO | None:
+    async def get_user(self, id: int) -> UserDTO | None:
         raise NotImplementedError
 
     @abstractmethod
@@ -22,5 +22,5 @@ class UserGateway(Protocol):
         raise NotImplementedError
 
     @abstractmethod
-    async def delete_user(self, tg_id: int) -> None:
+    async def delete_user(self, id: int) -> None:
         raise NotImplementedError

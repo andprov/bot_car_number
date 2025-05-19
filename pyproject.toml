@@ -15,17 +15,22 @@ classifiers = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "aiogram==3.17.0",
-    "alembic==1.14.0",
-    "dishka==1.4.2",
-    "psycopg[binary]==3.2.3",
-    "redis==5.2.1",
-    "SQLAlchemy==2.0.36",
+    "aiogram==3.20.0.post0",
+    "alembic>=1.15.2",
+    "dishka>=1.5.3",
+    "psycopg[binary]>=3.2.9",
+    "redis>=6.1.0",
+    "sqlalchemy>=2.0.41",
 ]
 
-[project.optional-dependencies]
-test = ["pytest", "pytest-asyncio", "httpx"]
-lint = ["black", "ruff"]
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "httpx>=0.28.1",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.26.0",
+    "ruff>=0.11.10",
+]
 
 [tool.black]
 line-length = 79

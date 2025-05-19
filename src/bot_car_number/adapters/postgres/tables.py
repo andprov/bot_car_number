@@ -50,13 +50,11 @@ class Registration(Base):
         return f"{self.tg_id} count={self.count}"
 
 
-class Stats(Base):
-    __tablename__ = "app_stats"
+class SearchAttempt(Base):
+    __tablename__ = "app_search_attempt"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(
-        ForeignKey("app_user.id", ondelete="SET NULL"), nullable=True
-    )
+    tg_id: Mapped[int] = mapped_column(BigInteger, index=True)
     number: Mapped[str]
     date: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

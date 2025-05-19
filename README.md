@@ -15,49 +15,69 @@ A Telegram bot for saving and searching contact information of car owners
 
 # Quickstart
 
-1. [Create a bot and get a token](https://core.telegram.org/bots#how-do-i-create-a-bot) `BOT_TOKEN`
+## Create bot and get token
 
-2. Clone the repository:
+<https://core.telegram.org/bots#how-do-i-create-a-bot>
+
+## Clone the repository
 
 ```shell
 git clone <https or SSH URL>
+cd <repository_name>
 ```
 
-3. In the project root, create a `.env` file. Example: [.env.example](.env.example)
+## Configure environment
 
-4. Create a PostgreSQL database with the name `bot_car_number`.
+Create and edit `.env` file from the [.env.example](.env.example)
+
+```shell
+cp .env.example .env
+```
+
+## Create PostgreSQL database
 
 ```shell
 createdb -U postgres -h localhost -p 5432 bot_car_number
 ```
 
-5. Create and activate a virtual environment:
+## Installation and run (Choose one method)
+
+### pip
 
 ```shell
+# Create and activate virtual environment
 python3.11 -m venv .venv
 source .venv/bin/activate
-```
 
-6. Install dependencies:
-
-```shell
+# Install dependencies
 pip install -e .
-```
 
-7. Export environment variables:
-
-```shell
+# Export environment variables
 export $(grep -v '^#' .env | xargs)
-```
 
-8. Run migrations:
-
-```shell
+# Run migrations
 alembic upgrade head
+
+# Run app
+python -m bot_car_number
 ```
 
-9. Run the app:
+## uv
 
 ```shell
-python -m bot_car_number
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate
+
+# Install dependencies
+uv sync
+
+# Export environment variables
+export $(grep -v '^#' .env | xargs)
+
+# Run migrations
+alembic upgrade head
+
+# Run app
+uv run python -m bot_car_number
 ```

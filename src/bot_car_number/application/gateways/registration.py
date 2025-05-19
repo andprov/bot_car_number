@@ -8,7 +8,7 @@ class RegistrationGateway(Protocol):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_registrations_count(self, tg_id: int) -> int:
+    async def get_registrations_count(self, tg_id: int) -> int | None:
         raise NotImplementedError
 
     @abstractmethod
