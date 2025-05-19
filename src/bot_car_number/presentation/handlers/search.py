@@ -69,7 +69,9 @@ async def enter_number(
     add_search_attempt: FromDishka[AddSearchAttempt],
 ) -> None:
     if not await check_search_access(tg_id=user.tg_id):
-        await message.answer(text=msg.SEARCH_ACCESS_DENIED_MSG, show_alert=True)
+        await message.answer(
+            text=msg.SEARCH_ACCESS_DENIED_MSG, show_alert=True
+        )
         await state.clear()
         return
 
@@ -91,6 +93,7 @@ async def enter_number(
             reply_markup=BACK_KB,
         )
     else:
+        await message.answer(text=msg.OWNER_DATA_MSG)
         await message.answer_contact(
             phone_number=owner.phone,
             first_name=owner.first_name,
