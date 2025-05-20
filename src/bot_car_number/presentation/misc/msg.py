@@ -14,6 +14,7 @@ MAIN_MSG = (
     "* Главное меню *\n"
     f"\n{hbold(btn.USER_MENU_TXT)}: управление данными пользователя."
     f"\n{hbold(btn.AUTO_MENU_TXT)}: управление данными автомобилей."
+    f"\n{hbold(btn.BLOCK_AUTO_TXT)}: уведомить владельца о перекрытии."
     f"\n{hbold(btn.SEARCH_TXT)}: поиск владельца по номеру автомобиля."
 )
 MAIN_NO_DATA_MSG = (
