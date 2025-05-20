@@ -1,3 +1,4 @@
+import logging
 from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
@@ -9,6 +10,8 @@ from bot_car_number.application.use_case.get_user_by_telegram_id import (
 )
 from bot_car_number.di.middleware_inject import aiogram_middleware_inject
 
+logger = logging.getLogger(__name__)
+
 
 class UserMiddleware(BaseMiddleware):
     @aiogram_middleware_inject
@@ -19,8 +22,10 @@ class UserMiddleware(BaseMiddleware):
         data: Dict[str, Any],
         get_user_by_telegram_id: FromDishka[GetUserByTelegramId],
     ) -> Any:
-        if "user" not in data:
-            tg_id = data["event_from_user"].id
-            data["user"] = await get_user_by_telegram_id(tg_id=tg_id)
+        tg_id = data["event_from_user"].id
+        user = await get_user_by_telegram_id(tg_id=tg_id)
+        data["user"] = user
+        if user is None or user.active:
+            return await handler(event, data)
 
-        return await handler(event, data)
+        logger.warning(f"Attempt to access by an block user tg_id={tg_id}")
