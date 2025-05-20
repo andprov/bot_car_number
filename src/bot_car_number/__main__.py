@@ -21,9 +21,6 @@ from bot_car_number.presentation.middlewares.private_check import (
     PrivateCheckMiddleware,
 )
 from bot_car_number.presentation.middlewares.user import UserMiddleware
-from bot_car_number.presentation.middlewares.user_access import (
-    UserAccessMiddleware,
-)
 from bot_car_number.presentation.misc.ui_commands import set_ui_commands
 
 logger = logging.getLogger(__name__)
@@ -43,7 +40,6 @@ async def main():
 
     dp = Dispatcher(storage=storage)
     dp.update.middleware(PrivateCheckMiddleware(bot_config.group))
-    dp.update.middleware(UserAccessMiddleware())
     dp.update.middleware(UserMiddleware())
     dp.include_routers(
         menu_router,
