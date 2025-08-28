@@ -1,4 +1,4 @@
-from bot_car_number.application.gateways.auto import AutoGateway
+from bot_car_number.application.interfaces.auto import AutoGateway
 
 
 class DeleteAuto:

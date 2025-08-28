@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot_car_number.adapters.postgres.tables import Auto as AutoDBModel
 from bot_car_number.application.dto.auto import AutoDTO
-from bot_car_number.application.gateways.auto import AutoGateway
+from bot_car_number.application.interfaces.auto import AutoGateway
 
 logger = logging.getLogger(__name__)
 

@@ -18,12 +18,12 @@ from bot_car_number.adapters.postgres.main import (
     get_async_sessionmaker,
     get_session,
 )
-from bot_car_number.application.gateways.auto import AutoGateway
-from bot_car_number.application.gateways.registration import (
+from bot_car_number.application.interfaces.auto import AutoGateway
+from bot_car_number.application.interfaces.registration import (
     RegistrationGateway,
 )
-from bot_car_number.application.gateways.search import SearchAttemptGateway
-from bot_car_number.application.gateways.user import UserGateway
+from bot_car_number.application.interfaces.search import SearchAttemptGateway
+from bot_car_number.application.interfaces.user import UserGateway
 from bot_car_number.application.use_case.add_auto import AddAuto
 from bot_car_number.application.use_case.add_auto_model import AddAutoModel
 from bot_car_number.application.use_case.add_auto_number import AddAutoNumber

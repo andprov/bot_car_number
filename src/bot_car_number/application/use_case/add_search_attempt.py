@@ -1,5 +1,5 @@
 from bot_car_number.application.dto.search import SearchAttemptDTO
-from bot_car_number.application.gateways.search import SearchAttemptGateway
+from bot_car_number.application.interfaces.search import SearchAttemptGateway
 
 
 class AddSearchAttempt:

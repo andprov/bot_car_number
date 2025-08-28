@@ -1,5 +1,5 @@
 from bot_car_number.application.config import SEARCH_ATTEMPT_COUNT_LIMIT
-from bot_car_number.application.gateways.search import SearchAttemptGateway
+from bot_car_number.application.interfaces.search import SearchAttemptGateway
 
 
 class CheckSearchAccess:

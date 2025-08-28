@@ -1,5 +1,5 @@
 from bot_car_number.application.dto.user import UserDTO
-from bot_car_number.application.gateways.user import UserGateway
+from bot_car_number.application.interfaces.user import UserGateway
 
 
 class AddUser:

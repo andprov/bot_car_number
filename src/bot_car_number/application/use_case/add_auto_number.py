@@ -1,7 +1,7 @@
 import logging
 
 from bot_car_number.application.exceptions import AutoAlreadyExistsError
-from bot_car_number.application.gateways.auto import AutoGateway
+from bot_car_number.application.interfaces.auto import AutoGateway
 from bot_car_number.value_objects.auto_number import AutoNumber
 
 logger = logging.getLogger(__name__)

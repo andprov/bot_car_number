@@ -5,8 +5,8 @@ from bot_car_number.application.exceptions import (
     AutoNotFoundError,
     UserNotFoundError,
 )
-from bot_car_number.application.gateways.auto import AutoGateway
-from bot_car_number.application.gateways.user import UserGateway
+from bot_car_number.application.interfaces.auto import AutoGateway
+from bot_car_number.application.interfaces.user import UserGateway
 from bot_car_number.value_objects.auto_number import AutoNumber
 
 logger = logging.getLogger(__name__)

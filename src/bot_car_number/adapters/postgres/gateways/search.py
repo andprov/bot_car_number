@@ -9,7 +9,7 @@ from bot_car_number.adapters.postgres.tables import (
 )
 from bot_car_number.application.config import TIME_LIMIT
 from bot_car_number.application.dto.search import SearchAttemptDTO
-from bot_car_number.application.gateways.search import SearchAttemptGateway
+from bot_car_number.application.interfaces.search import SearchAttemptGateway
 
 logger = logging.getLogger(__name__)
 
