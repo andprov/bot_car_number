@@ -22,14 +22,14 @@ class DatabaseRegistrationGateway(RegistrationGateway):
         stmt = insert(self.model).values(tg_id=tg_id)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info(f"[DB] Add registration | [tg_id: {tg_id}]")
+        logger.info(f"[bot] Add registration | [tg_id: {tg_id}]")
 
     async def get_registrations_count(self, tg_id: int) -> int | None:
         stmt = select(self.model.count).filter_by(tg_id=tg_id)
         result = await self.session.execute(stmt)
         count = result.scalar_one_or_none()
         logger.info(
-            f"[DB] Get registrations count | [tg_id: {tg_id}, count: {count}]"
+            f"[bot] Get registrations count | [tg_id: {tg_id}, count: {count}]"
         )
         return count
 
@@ -41,4 +41,4 @@ class DatabaseRegistrationGateway(RegistrationGateway):
         )
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info(f"[DB] Increase registrations count | [tg_id: {tg_id}]")
+        logger.info(f"[bot] Increase registrations count | [tg_id: {tg_id}]")

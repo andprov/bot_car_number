@@ -31,7 +31,7 @@ async def main():
         format="%(asctime)-19s - %(levelname)-8s - %(message)-100s - %(name)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-    logger.info("Bot start")
+    logger.info("[bot] Bot start")
 
     bot_config = load_bot_config()
 
@@ -64,4 +64,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        logger.error("Bot stop")
+        logger.error("[bot] Bot stop")

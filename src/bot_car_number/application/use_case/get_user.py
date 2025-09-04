@@ -14,7 +14,7 @@ class GetUser:
     async def __call__(self, user_id: int) -> UserDTO:
         user = await self.user_gateway.get_user(user_id)
         if user is None:
-            logger.warning(f"[UC] User not found | [user_id: {user_id}]")
+            logger.warning(f"[bot] User not found | [user_id: {user_id}]")
             raise UserNotFoundError()
 
         return user

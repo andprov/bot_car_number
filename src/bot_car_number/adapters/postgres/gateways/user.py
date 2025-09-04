@@ -29,13 +29,13 @@ class DatabaseUserGateway(UserGateway):
         result = await self.session.execute(stmt)
         await self.session.commit()
         db_obj = result.scalar_one()
-        logger.info(f"[DB] Add user | [user_id: {db_obj}]")
+        logger.info(f"[bot] Add user | [user_id: {db_obj}]")
 
     async def get_user(self, id: int) -> UserDTO | None:
         stmt = select(self.model).filter_by(id=id)
         result = await self.session.execute(stmt)
         user = result.scalar_one_or_none()
-        logger.info(f"[DB] Get user | [user: {user}]")
+        logger.info(f"[bot] Get user | [user: {user}]")
         if user:
             return UserDTO(
                 id=user.id,
@@ -49,7 +49,7 @@ class DatabaseUserGateway(UserGateway):
         stmt = select(self.model).filter_by(tg_id=tg_id)
         result = await self.session.execute(stmt)
         user = result.scalar_one_or_none()
-        logger.info(f"[DB] Get user by telegram id | [user: {user}]")
+        logger.info(f"[bot] Get user by telegram id | [user: {user}]")
         if user:
             return UserDTO(
                 id=user.id,
@@ -63,10 +63,10 @@ class DatabaseUserGateway(UserGateway):
         stmt = update(self.model).filter_by(tg_id=tg_id).values(active=False)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info(f"[DB] Ban user | [tg_id: {tg_id}]")
+        logger.info(f"[bot] Ban user | [tg_id: {tg_id}]")
 
     async def delete_user(self, id: int) -> None:
         stmt = delete(self.model).filter_by(id=id)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info(f"[DB] Delete user | [user_id: {id}]")
+        logger.info(f"[bot] Delete user | [user_id: {id}]")

@@ -17,7 +17,7 @@ class AddAutoNumber:
             number=auto_number.value
         ):
             logger.warning(
-                f"[UC] Auto already exists | [auto_number: {auto_number.value}]"
+                f"[bot] Auto already exists | [auto_number: {auto_number.value}]"
             )
             raise AutoAlreadyExistsError()
 

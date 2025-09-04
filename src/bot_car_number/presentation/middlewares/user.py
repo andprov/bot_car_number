@@ -29,5 +29,5 @@ class UserMiddleware(BaseMiddleware):
             return await handler(event, data)
 
         logger.warning(
-            f"Attempt to access by an block user | [tg_id: {tg_id}]"
+            f"[bot] Attempt to access by an block user | [tg_id: {tg_id}]"
         )

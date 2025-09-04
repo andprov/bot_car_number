@@ -26,7 +26,7 @@ class DatabaseSearchAttemptGateway(SearchAttemptGateway):
         )
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info(f"[DB] Add search attempt | [tg_id: {search_data.tg_id}]")
+        logger.info(f"[bot] Add search attempt | [tg_id: {search_data.tg_id}]")
 
     async def get_search_attempt_count(self, tg_id: int) -> int:
         stmt = select(func.count(self.model.id)).where(
@@ -34,5 +34,5 @@ class DatabaseSearchAttemptGateway(SearchAttemptGateway):
             self.model.date >= func.now() - timedelta(hours=TIME_LIMIT),
         )
         result = await self.session.execute(stmt)
-        logger.info(f"[DB] Get search attempt count | [tg_id: {tg_id}]")
+        logger.info(f"[bot] Get search attempt count | [tg_id: {tg_id}]")
         return result.scalar_one()

@@ -23,13 +23,13 @@ class GetAutoForDelete:
         )
         if auto is None:
             logger.warning(
-                f"[UC] Auto not found | [auto_number: {auto_number.value}]"
+                f"[bot] Auto not found | [auto_number: {auto_number.value}]"
             )
             raise AutoNotFoundError()
 
         if user.id != auto.user_id:
             logger.warning(
-                f"[UC] Access denied. Auto owner is not the current user | "
+                f"[bot] Access denied. Auto owner is not the current user | "
                 f"[user_id: {user.id}, auto_id: {auto.id}] "
             )
             raise AutoOwnerError()

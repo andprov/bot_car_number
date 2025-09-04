@@ -19,7 +19,7 @@ class AutoNumber:
         pattern = re.compile(r"^[А-Я]\d{3}[А-Я]{2}\d{2,3}$", re.UNICODE)
         if not pattern.match(normalized_value):
             logger.warning(
-                f"[VO] Auto Number Validation Error | [auto_number: {value}]"
+                f"[bot] Auto Number Validation Error | [auto_number: {value}]"
             )
             raise AutoNumberValidationError()
         object.__setattr__(self, "value", normalized_value)

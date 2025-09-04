@@ -19,7 +19,7 @@ class GetAuto:
         )
         if auto is None:
             logger.warning(
-                f"[UC] Auto not found | [auto_number: {auto_number.value}]"
+                f"[bot] Auto not found | [auto_number: {auto_number.value}]"
             )
             raise AutoNotFoundError()
 

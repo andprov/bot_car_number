@@ -18,6 +18,6 @@ class AutoModel:
     def __post_init__(self) -> None:
         if self.value and len(self.value) > MAX_AUTO_NAME_LEN:
             logger.warning(
-                f"[VO] Auto Model Validation Error | [auto_model: {self.value}]"
+                f"[bot] Auto Model Validation Error | [auto_model: {self.value}]"
             )
             raise AutoModelValidationError()
