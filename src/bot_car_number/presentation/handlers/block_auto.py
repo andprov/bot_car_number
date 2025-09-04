@@ -1,4 +1,7 @@
+import logging
+
 from aiogram import F, Router
+from aiogram.exceptions import AiogramError
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from dishka.integrations.aiogram import FromDishka
@@ -26,6 +29,9 @@ from bot_car_number.presentation.misc.cmd import Button as btn
 from bot_car_number.presentation.misc.cmd import Command as cmd
 from bot_car_number.presentation.states import BlockAutoState
 from bot_car_number.value_objects.auto_number import AutoNumberValidationError
+
+logger = logging.getLogger(__name__)
+
 
 router = Router()
 
@@ -120,16 +126,20 @@ async def block_auto_confirm(
     data = await state.get_data()
     owner_tg_id = data.get("owner_tg_id")
 
-    await call.bot.send_message(
-        chat_id=owner_tg_id,
-        text=msg.AUTO_IS_BLOCKED_MSG,
-    )
-    await call.bot.send_contact(
-        chat_id=owner_tg_id,
-        phone_number=user.phone,
-        first_name=user.first_name,
-    )
-
-    await call.message.edit_text(text=msg.OWNER_HAS_BEEN_NOTIFIED)
+    try:
+        await call.bot.send_message(
+            chat_id=owner_tg_id,
+            text=msg.AUTO_IS_BLOCKED_MSG,
+        )
+        await call.bot.send_contact(
+            chat_id=owner_tg_id,
+            phone_number=user.phone,
+            first_name=user.first_name,
+        )
+    except AiogramError as e:
+        logger.error(f"[bot] Aiogram ERRO: {e}")
+        await call.message.edit_text(text=msg.OWNER_HAS_NOT_BEEN_NOTIFIED)
+    else:
+        await call.message.edit_text(text=msg.OWNER_HAS_BEEN_NOTIFIED)
 
     await state.clear()
