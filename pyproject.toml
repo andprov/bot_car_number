@@ -15,7 +15,7 @@ classifiers = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "aiogram==v3.22.0",
+    "aiogram==3.22.0",
     "alembic==1.16.5",
     "dishka==1.6.0",
     "psycopg[binary]==3.2.9",
