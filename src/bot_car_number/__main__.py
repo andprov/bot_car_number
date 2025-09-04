@@ -15,7 +15,6 @@ from bot_car_number.presentation.handlers.block_auto import (
     router as block_router,
 )
 from bot_car_number.presentation.handlers.menu import router as menu_router
-from bot_car_number.presentation.handlers.search import router as search_router
 from bot_car_number.presentation.handlers.user import router as user_router
 from bot_car_number.presentation.middlewares.private_check import (
     PrivateCheckMiddleware,
@@ -45,7 +44,6 @@ async def main():
         menu_router,
         user_router,
         auto_router,
-        search_router,
         block_router,
     )
 

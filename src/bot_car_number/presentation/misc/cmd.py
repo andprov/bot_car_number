@@ -16,8 +16,6 @@ class Command:
     BLOCK_AUTO = "block_auto"
     BLOCK_AUTO_CONFIRM = "block_auto_confirm"
 
-    SEARCH = "search"
-
 
 class Button:
     MAIN_MENU_TXT = "Главное меню"
@@ -36,5 +34,3 @@ class Button:
 
     BLOCK_AUTO_TXT = "Перекрыть"
     BLOCK_AUTO_CONFIRM_TXT = "Уведомить владельца"
-
-    SEARCH_TXT = "Поиск"

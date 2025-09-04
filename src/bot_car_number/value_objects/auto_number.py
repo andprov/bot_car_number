@@ -15,9 +15,11 @@ class AutoNumber:
     value: str = field(init=False)
 
     def __init__(self, value: str) -> None:
+        normalized_value = value.upper().replace(" ", "")
         pattern = re.compile(r"^[А-Я]\d{3}[А-Я]{2}\d{2,3}$", re.UNICODE)
-        normalized_value = value.upper()
         if not pattern.match(normalized_value):
-            logger.warning(f"[VO] Auto Number Validation Error | [{value}]")
+            logger.warning(
+                f"[VO] Auto Number Validation Error | [auto_number: {value}]"
+            )
             raise AutoNumberValidationError()
         object.__setattr__(self, "value", normalized_value)

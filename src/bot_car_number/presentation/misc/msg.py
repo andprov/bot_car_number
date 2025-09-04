@@ -15,7 +15,6 @@ MAIN_MSG = (
     f"\n{hbold(btn.USER_MENU_TXT)}: управление данными пользователя."
     f"\n{hbold(btn.AUTO_MENU_TXT)}: управление данными автомобилей."
     f"\n{hbold(btn.BLOCK_AUTO_TXT)}: уведомить владельца о перекрытии."
-    f"\n{hbold(btn.SEARCH_TXT)}: поиск владельца по номеру автомобиля."
 )
 MAIN_NO_DATA_MSG = (
     f"Для получения доступа, добавьте свои данные в меню - "
@@ -32,7 +31,6 @@ USER_CONTACT_MSG = (
 USER_WRONG_MSG = "Вы отправили данные другого пользователя!"
 USER_ADD_MSG = "Ваши контактные данные добавлены."
 USER_DELETE_MSG = "Ваши данные удалены."
-USER_NOT_FOUND_MSG = "Пользователь не найден."
 USER_DEL_CONFIRM_MSG = (
     "После нажатия кнопки подтверждения, ваши контактные данные и данные "
     "всех ваших автомобилей будут удалены.\n"
@@ -52,7 +50,7 @@ AUTO_ENTER_NUMBER_MSG = (
     "Буквы русского алфавита без учёта регистра и цифры."
 )
 AUTO_EXIST_MSG = (
-    "Автомобиль с таким номером уже существует!" f"\n\n{AUTO_ENTER_NUMBER_MSG}"
+    "Невозможно добавить автомобиль с таким номером!" f"\n\n{AUTO_ENTER_NUMBER_MSG}"
 )
 AUTO_FORMAT_ERR_MSG = (
     f"Формат номера не соответствует шаблону!\n\n{AUTO_ENTER_NUMBER_MSG}"
@@ -80,12 +78,11 @@ AUTO_NOT_FOUND_MSG = (
     "Автомобиль с таким номером не найден!" f"\n\n{AUTO_ENTER_NUMBER_MSG}"
 )
 AUTO_NOT_YOURS_MSG = (
-    "Невозможно удалить данный номер.\n" f"\n{AUTO_ENTER_NUMBER_MSG}"
+    "Невозможно удалить данный автомобиль.\n" f"\n{AUTO_ENTER_NUMBER_MSG}"
 )
 
 
 # SEARCH
-OWNER_DATA_MSG = "Контактные данные владельца."
 SEARCH_ACCESS_DENIED_MSG = (
     "Вы превысили количество запросов, повторите попытку позднее."
 )

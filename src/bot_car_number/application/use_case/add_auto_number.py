@@ -13,9 +13,11 @@ class AddAutoNumber:
 
     async def __call__(self, number: str) -> str:
         auto_number = AutoNumber(value=number)
-        if await self.auto_gateway.get_auto_by_number(number=auto_number.value):
+        if await self.auto_gateway.get_auto_by_number(
+            number=auto_number.value
+        ):
             logger.warning(
-                f"[UC] Auto already exists | [auto: {auto_number.value}]"
+                f"[UC] Auto already exists | [auto_number: {auto_number.value}]"
             )
             raise AutoAlreadyExistsError()
 

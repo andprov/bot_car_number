@@ -7,7 +7,7 @@
 
 # Description
 
-A Telegram bot for saving and searching contact information of car owners
+Telegram bot for notifying car owners
 
 ![Pic](https://github.com/andprov/bot_car_number/blob/main/img/pic.png?raw=true "Pic")
 

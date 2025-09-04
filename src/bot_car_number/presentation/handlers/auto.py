@@ -199,12 +199,7 @@ async def enter_number_for_delete(
             text=msg.AUTO_FORMAT_ERR_MSG,
             reply_markup=BACK_KB,
         )
-    except AutoNotFoundError:
-        await message.answer(
-            text=msg.AUTO_NOT_FOUND_MSG,
-            reply_markup=BACK_KB,
-        )
-    except AutoOwnerError:
+    except (AutoOwnerError, AutoNotFoundError):
         await message.answer(
             text=msg.AUTO_NOT_YOURS_MSG,
             reply_markup=BACK_KB,

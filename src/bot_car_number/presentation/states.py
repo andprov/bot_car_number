@@ -16,10 +16,6 @@ class RemoveAutoState(StatesGroup):
     confirm = State()
 
 
-class SearchAutoState(StatesGroup):
-    enter_number = State()
-
-
 class BlockAutoState(StatesGroup):
     enter_number = State()
     confirm = State()
