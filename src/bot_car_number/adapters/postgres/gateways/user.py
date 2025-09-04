@@ -29,7 +29,7 @@ class DatabaseUserGateway(UserGateway):
         result = await self.session.execute(stmt)
         await self.session.commit()
         db_obj = result.scalar_one()
-        logger.info(f"[DB] Add user | [user.id: {db_obj}]")
+        logger.info(f"[DB] Add user | [user_id: {db_obj}]")
 
     async def get_user(self, id: int) -> UserDTO | None:
         stmt = select(self.model).filter_by(id=id)
@@ -69,4 +69,4 @@ class DatabaseUserGateway(UserGateway):
         stmt = delete(self.model).filter_by(id=id)
         await self.session.execute(stmt)
         await self.session.commit()
-        logger.info(f"[DB] Delete user | [id: {id}]")
+        logger.info(f"[DB] Delete user | [user_id: {id}]")

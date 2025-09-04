@@ -26,4 +26,4 @@ class PrivateCheckMiddleware(BaseMiddleware):
         if data["event_chat"].type == "private" and member.status in status:
             return await handler(event, data)
 
-        logger.warning(f"Group access denied for user tg_id={tg_id}")
+        logger.warning(f"Group access denied for user | [tg_id: {tg_id}]")

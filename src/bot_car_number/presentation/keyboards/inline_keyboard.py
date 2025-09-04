@@ -17,12 +17,10 @@ def main_kb() -> InlineKeyboardMarkup:
     user_menu_btn = get_btn(btn.USER_MENU_TXT, cmd.USER)
     auto_menu_btn = get_btn(btn.AUTO_MENU_TXT, cmd.AUTO_MENU)
     block_auto_btn = get_btn(btn.BLOCK_AUTO_TXT, cmd.BLOCK_AUTO)
-    search_btn = get_btn(btn.SEARCH_TXT, cmd.SEARCH)
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [user_menu_btn, auto_menu_btn],
             [block_auto_btn],
-            [search_btn],
         ]
     )
 

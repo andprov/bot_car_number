@@ -15,7 +15,8 @@ from bot_car_number.application.use_case.add_search_attempt import (
 from bot_car_number.application.use_case.check_search_access import (
     CheckSearchAccess,
 )
-from bot_car_number.application.use_case.get_auto_owner import GetAutoOwner
+from bot_car_number.application.use_case.get_auto import GetAuto
+from bot_car_number.application.use_case.get_user import GetUser
 from bot_car_number.presentation.keyboards.inline_keyboard import (
     back_kb,
     confirm_kb,
@@ -60,7 +61,8 @@ async def enter_number(
     state: FSMContext,
     user: UserDTO,
     check_search_access: FromDishka[CheckSearchAccess],
-    get_auto_owner: FromDishka[GetAutoOwner],
+    get_auto_by_number: FromDishka[GetAuto],
+    get_auto_owner: FromDishka[GetUser],
     add_search_attempt: FromDishka[AddSearchAttempt],
 ) -> None:
     if not await check_search_access(tg_id=user.tg_id):
@@ -72,7 +74,8 @@ async def enter_number(
         return
 
     try:
-        owner = await get_auto_owner(number=message.text)
+        auto = await get_auto_by_number(number=message.text)
+        owner = await get_auto_owner(user_id=auto.user_id)
     except AutoNumberValidationError:
         await message.answer(
             text=msg.AUTO_FORMAT_ERR_MSG,
@@ -90,7 +93,7 @@ async def enter_number(
         )
     else:
         await message.answer(
-            text=msg.AUTO_CHECK_NUMBER_MSG.format(message.text.upper()),
+            text=msg.AUTO_CHECK_NUMBER_MSG.format(auto.number),
             reply_markup=confirm_kb(
                 btn.BLOCK_AUTO_CONFIRM_TXT,
                 cmd.BLOCK_AUTO_CONFIRM,

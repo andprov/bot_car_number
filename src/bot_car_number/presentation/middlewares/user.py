@@ -28,4 +28,6 @@ class UserMiddleware(BaseMiddleware):
         if user is None or user.active:
             return await handler(event, data)
 
-        logger.warning(f"Attempt to access by an block user tg_id={tg_id}")
+        logger.warning(
+            f"Attempt to access by an block user | [tg_id: {tg_id}]"
+        )

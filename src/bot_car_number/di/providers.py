@@ -43,13 +43,14 @@ from bot_car_number.application.use_case.check_search_access import (
 )
 from bot_car_number.application.use_case.delete_auto import DeleteAuto
 from bot_car_number.application.use_case.delete_user import DeleteUser
+from bot_car_number.application.use_case.get_auto import GetAuto
 from bot_car_number.application.use_case.get_auto_for_delete import (
     GetAutoForDelete,
 )
-from bot_car_number.application.use_case.get_auto_owner import GetAutoOwner
 from bot_car_number.application.use_case.get_autos_by_user_id import (
     GetAutosByUserId,
 )
+from bot_car_number.application.use_case.get_user import GetUser
 from bot_car_number.application.use_case.get_user_by_telegram_id import (
     GetUserByTelegramId,
 )
@@ -115,6 +116,7 @@ def provide_db_gateways(provider: Provider) -> None:
 
 def provide_handlers_command(provider: Provider) -> None:
     provider.provide(source=AddUser, scope=Scope.REQUEST)
+    provider.provide(source=GetUser, scope=Scope.REQUEST)
     provider.provide(source=GetUserByTelegramId, scope=Scope.REQUEST)
     provider.provide(source=BlockUser, scope=Scope.REQUEST)
     provider.provide(source=DeleteUser, scope=Scope.REQUEST)
@@ -123,9 +125,9 @@ def provide_handlers_command(provider: Provider) -> None:
     provider.provide(source=CheckUserAutosCount, scope=Scope.REQUEST)
     provider.provide(source=AddAutoNumber, scope=Scope.REQUEST)
     provider.provide(source=AddAutoModel, scope=Scope.REQUEST)
+    provider.provide(source=GetAuto, scope=Scope.REQUEST)
     provider.provide(source=GetAutoForDelete, scope=Scope.REQUEST)
     provider.provide(source=AddAuto, scope=Scope.REQUEST)
     provider.provide(source=GetAutosByUserId, scope=Scope.REQUEST)
     provider.provide(source=DeleteAuto, scope=Scope.REQUEST)
-    provider.provide(source=GetAutoOwner, scope=Scope.REQUEST)
     provider.provide(source=CheckSearchAccess, scope=Scope.REQUEST)
