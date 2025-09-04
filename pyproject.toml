@@ -15,12 +15,12 @@ classifiers = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "aiogram==3.20.0.post0",
-    "alembic>=1.15.2",
-    "dishka>=1.5.3",
-    "psycopg[binary]>=3.2.9",
-    "redis>=6.1.0",
-    "sqlalchemy>=2.0.41",
+    "aiogram==v3.22.0",
+    "alembic==1.16.5",
+    "dishka==1.6.0",
+    "psycopg[binary]==3.2.9",
+    "redis==6.4.0",
+    "sqlalchemy==2.0.43",
 ]
 
 [dependency-groups]
