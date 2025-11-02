@@ -5,7 +5,7 @@ from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 from dishka.integrations.aiogram import FromDishka
 
-from bot_car_number.application.use_case.get_user_by_telegram_id import (
+from bot_car_number.application.usecases.get_user_by_telegram_id import (
     GetUserByTelegramId,
 )
 from bot_car_number.di.middleware_inject import aiogram_middleware_inject

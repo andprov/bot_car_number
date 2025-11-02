@@ -4,12 +4,12 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from dishka.integrations.aiogram import FromDishka
 
 from bot_car_number.application.dto.user import UserDTO
-from bot_car_number.application.use_case.add_registration_count import (
+from bot_car_number.application.usecases.add_registration_count import (
     AddRegistrationCount,
 )
-from bot_car_number.application.use_case.add_user import AddUser
-from bot_car_number.application.use_case.block_user import BlockUser
-from bot_car_number.application.use_case.delete_user import DeleteUser
+from bot_car_number.application.usecases.add_user import AddUser
+from bot_car_number.application.usecases.block_user import BlockUser
+from bot_car_number.application.usecases.delete_user import DeleteUser
 from bot_car_number.presentation.keyboards.inline_keyboard import (
     confirm_kb,
     main_kb,

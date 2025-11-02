@@ -10,14 +10,14 @@ from bot_car_number.application.exceptions import (
     AutoNotFoundError,
     UserNotFoundError,
 )
-from bot_car_number.application.use_case.add_search_attempt import (
+from bot_car_number.application.usecases.add_search_attempt import (
     AddSearchAttempt,
 )
-from bot_car_number.application.use_case.check_search_access import (
+from bot_car_number.application.usecases.check_search_access import (
     CheckSearchAccess,
 )
-from bot_car_number.application.use_case.get_auto_owner import GetAutoOwner
-from bot_car_number.application.use_case.get_autos_by_user_id import (
+from bot_car_number.application.usecases.get_auto_owner import GetAutoOwner
+from bot_car_number.application.usecases.get_autos_by_user_id import (
     GetAutosByUserId,
 )
 from bot_car_number.presentation.keyboards.inline_keyboard import back_kb

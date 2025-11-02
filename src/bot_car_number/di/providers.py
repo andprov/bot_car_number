@@ -24,33 +24,33 @@ from bot_car_number.application.interfaces.registration import (
 )
 from bot_car_number.application.interfaces.search import SearchAttemptGateway
 from bot_car_number.application.interfaces.user import UserGateway
-from bot_car_number.application.use_case.add_auto import AddAuto
-from bot_car_number.application.use_case.add_auto_model import AddAutoModel
-from bot_car_number.application.use_case.add_auto_number import AddAutoNumber
-from bot_car_number.application.use_case.add_registration_count import (
+from bot_car_number.application.usecases.add_auto import AddAuto
+from bot_car_number.application.usecases.add_auto_model import AddAutoModel
+from bot_car_number.application.usecases.add_auto_number import AddAutoNumber
+from bot_car_number.application.usecases.add_registration_count import (
     AddRegistrationCount,
 )
-from bot_car_number.application.use_case.add_search_attempt import (
+from bot_car_number.application.usecases.add_search_attempt import (
     AddSearchAttempt,
 )
-from bot_car_number.application.use_case.add_user import AddUser
-from bot_car_number.application.use_case.block_user import BlockUser
-from bot_car_number.application.use_case.check_add_auto import (
+from bot_car_number.application.usecases.add_user import AddUser
+from bot_car_number.application.usecases.block_user import BlockUser
+from bot_car_number.application.usecases.check_add_auto import (
     CheckUserAutosCount,
 )
-from bot_car_number.application.use_case.check_search_access import (
+from bot_car_number.application.usecases.check_search_access import (
     CheckSearchAccess,
 )
-from bot_car_number.application.use_case.delete_auto import DeleteAuto
-from bot_car_number.application.use_case.delete_user import DeleteUser
-from bot_car_number.application.use_case.get_auto_for_delete import (
+from bot_car_number.application.usecases.delete_auto import DeleteAuto
+from bot_car_number.application.usecases.delete_user import DeleteUser
+from bot_car_number.application.usecases.get_auto_for_delete import (
     GetAutoForDelete,
 )
-from bot_car_number.application.use_case.get_auto_owner import GetAutoOwner
-from bot_car_number.application.use_case.get_autos_by_user_id import (
+from bot_car_number.application.usecases.get_auto_owner import GetAutoOwner
+from bot_car_number.application.usecases.get_autos_by_user_id import (
     GetAutosByUserId,
 )
-from bot_car_number.application.use_case.get_user_by_telegram_id import (
+from bot_car_number.application.usecases.get_user_by_telegram_id import (
     GetUserByTelegramId,
 )
 
