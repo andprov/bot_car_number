@@ -11,17 +11,17 @@ from bot_car_number.application.exceptions import (
     AutoNotFoundError,
     AutoOwnerError,
 )
-from bot_car_number.application.use_case.add_auto import AddAuto
-from bot_car_number.application.use_case.add_auto_model import AddAutoModel
-from bot_car_number.application.use_case.add_auto_number import AddAutoNumber
-from bot_car_number.application.use_case.check_add_auto import (
+from bot_car_number.application.usecases.add_auto import AddAuto
+from bot_car_number.application.usecases.add_auto_model import AddAutoModel
+from bot_car_number.application.usecases.add_auto_number import AddAutoNumber
+from bot_car_number.application.usecases.check_add_auto import (
     CheckUserAutosCount,
 )
-from bot_car_number.application.use_case.delete_auto import DeleteAuto
-from bot_car_number.application.use_case.get_auto_for_delete import (
+from bot_car_number.application.usecases.delete_auto import DeleteAuto
+from bot_car_number.application.usecases.get_auto_for_delete import (
     GetAutoForDelete,
 )
-from bot_car_number.application.use_case.get_autos_by_user_id import (
+from bot_car_number.application.usecases.get_autos_by_user_id import (
     GetAutosByUserId,
 )
 from bot_car_number.presentation.keyboards.inline_keyboard import (
